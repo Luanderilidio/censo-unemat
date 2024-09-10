@@ -4,7 +4,7 @@ import { ptBR } from "@mui/material/locale";
 export const theme = createTheme(
   {
     palette: {
-      mode: "dark",
+      mode: "light",
       primary: { main: "#1976d2" },
     },
     typography: {

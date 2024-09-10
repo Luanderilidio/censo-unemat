@@ -1,6 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../services/api";
 import { useEffect } from "react";
+import { Container } from "@mui/material";
+import Filters from "../components/filters";
 
 interface Microdados {
   id: string;
@@ -159,17 +161,19 @@ const fecthData = async () => {
 };
 
 export default function Home() {
-//   useEffect(() => {
-//     fecthData();
-//   }, []);
-    const { data, error, isLoading } = useQuery({
-      queryKey: ["posts"],
-      queryFn: fecthData,
-      staleTime: 999999, // 5 segundos antes de marcar como stale
-    });
+  // const { data, error, isLoading } = useQuery({
+  //   queryKey: ["posts"],
+  //   queryFn: fecthData,
+  //   staleTime: 999999, // 5 segundos antes de marcar como stale
+  // });
 
-    console.log("API Response:", data);
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Something went wrong!</div>;
-  return <div>Luander</div>;
+  // if (isLoading) return <div>Loading...</div>;
+  // if (error) return <div>Something went wrong!</div>;
+  return (
+    <div className="grid grid-cols-13 border">
+      <div className="col-span-2">
+        <Filters />
+      </div>
+    </div>
+  );
 }
