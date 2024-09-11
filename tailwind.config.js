@@ -15,6 +15,10 @@ module.exports = {
         // Aqui você define 13 colunas para usar grid-cols-13
         '13': 'repeat(13, minmax(0, 1fr))',
       },
+      gridTemplateRows: {
+        // Aqui você define 13 colunas para usar grid-cols-13
+        '13': 'repeat(13, minmax(0, 1fr))',
+      },
     },
   },
   plugins: [],

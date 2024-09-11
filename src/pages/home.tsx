@@ -1,8 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../services/api";
 import { useEffect } from "react";
-import { Container } from "@mui/material";
+import { Container, IconButton } from "@mui/material";
 import Filters from "../components/filters";
+import PersonIcon from "@mui/icons-material/Person";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 
 interface Microdados {
   id: string;
@@ -170,9 +173,72 @@ export default function Home() {
   // if (isLoading) return <div>Loading...</div>;
   // if (error) return <div>Something went wrong!</div>;
   return (
-    <div className="grid grid-cols-13 border">
+    <div className="grid grid-cols-12 gap-5 border bg-gray-100/20">
+      <div className="col-span-12 row-span-1 text-center font-bold text-2xl flex items-center justify-center border-green-500">
+          DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT
+        </div>
       <div className="col-span-2">
         <Filters />
+      </div>
+      <div className="col-span-10  grid grid-cols-12 grid-rows-12 gap-3  border-red-500 ">
+        <div className="col-span-8 row-span-3 grid grid-cols-4 grid-rows-5 gap-3 border-1 border p-4 rounded-3xl bg-white shadow-md shadow-black/10 ">
+          <div className="col-span-4 row-span-1">Quantitativos</div>
+          <div className="col-span-1 row-span-4 text-white bg-[#222222] rounded-3xl flex flex-col gap-1 items-center justify-evenly leading-none relative drop-shadow-md shadow-black">
+            <div className="flex items-center gap-1">
+              <div className="bg-white text-black py-1 px-1 rounded-full">
+                <PersonIcon fontSize="large" />
+              </div>
+              <div>
+                <p className="text-left  font-bold text-xs">Qtd ingressantes</p>
+                <p className="text-left font-bold text-4xl">12344</p>
+              </div>
+            </div>
+            {/* <div className="absolute top-0 right-1 ">
+              <IconButton>
+                <HelpOutlineIcon
+                  fontSize="small"
+                  className="text-white opacity-20"
+                />
+              </IconButton>
+            </div> */}
+            <div />
+
+            <div className="w-full flex items-center justify-center absolute bottom-1 ">
+              <SparkLineChart
+                height={45}
+                data={[1, 10000, 51, 500, 784, 2222, 401, 6]}
+                showHighlight
+                showTooltip
+              />
+            </div>
+          </div>
+          <div className="col-span-1 row-span-4 border border-green-500">
+            grafico 1
+          </div>
+          <div className="col-span-1 row-span-4 border border-green-500">
+            grafico 1
+          </div>
+          <div className="col-span-1 row-span-4 border border-green-500">
+            grafico 1
+          </div>
+        </div>
+        <div className="col-span-4 row-span-3 border border-green-500">
+          grafico 1
+        </div>
+        <div className="col-span-8 row-span-4 grid grid-cols-7 gap-3 border border-yellow-600">
+          <div className="col-span-5 border"></div>
+          <div className="col-span-2 border"></div>
+        </div>
+        <div className="col-span-4 row-span-4 border border-rose-600">
+          grafico 1
+        </div>
+        <div className="col-span-8 row-span-4 grid grid-cols-7 gap-3 border border-purple-600">
+          <div className="col-span-5 border"></div>
+          <div className="col-span-2 border"></div>
+        </div>
+        <div className="col-span-4 row-span-4 border border-green-500">
+          grafico 1
+        </div>
       </div>
     </div>
   );

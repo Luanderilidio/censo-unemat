@@ -15,6 +15,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { useState } from "react";
 
 const cities = [
+  "",
   "ALTA FLORESTA",
   "ALTO ARAGUAIA",
   "ARIPUANA",
@@ -62,6 +63,7 @@ const cities = [
 ];
 
 const courses = [
+  "",
   "AGRONOMIA",
   "CIENCIAS BIOLOGICAS",
   "ENGENHARIA FLORESTAL",
@@ -120,9 +122,13 @@ export default function Filters() {
     setYear(newValue as number[]);
   };
   return (
-    <div className="flex flex-col gap-4 p-4 rounded-md border ">
+    <div className="flex flex-col gap-4 p-4 rounded-md border font-Roboto font-medium">
+      <p>
+        Filtros
+      </p>
       <Autocomplete
         className="col-span-3"
+        
         fullWidth
         value={course}
         options={courses}
@@ -133,6 +139,7 @@ export default function Filters() {
       />
       <Autocomplete
         className="col-span-3"
+        
         fullWidth
         value={city}
         options={cities}
@@ -144,6 +151,7 @@ export default function Filters() {
       <FormControl fullWidth>
         <InputLabel>Modalidade</InputLabel>
         <Select
+          
           value={modality}
           label="Modalidade"
           onChange={(event: SelectChangeEvent) => {
@@ -152,9 +160,10 @@ export default function Filters() {
         >
           <MenuItem value={1}>Presencial</MenuItem>
           <MenuItem value={2}>Distância</MenuItem>
-          {modality !== "" && (
+        </Select>
+        {modality !== "" && (
           <IconButton
-            size="small"
+            
             onClick={() => setModality("")}
             style={{
               position: "absolute",
@@ -166,12 +175,12 @@ export default function Filters() {
             <ClearIcon fontSize="small" />
           </IconButton>
         )}
-        </Select>
       </FormControl>
       <FormControl fullWidth>
         <InputLabel>Grau Acadêmico</InputLabel>
         <Select
           value={academicdegree}
+          
           label="Grau Acadêmico"
           onChange={(event: SelectChangeEvent) => {
             setAcademicDegree(event.target.value as string);
@@ -182,7 +191,7 @@ export default function Filters() {
         </Select>
         {academicdegree !== "" && (
           <IconButton
-            size="small"
+            
             onClick={() => setAcademicDegree("")}
             style={{
               position: "absolute",
@@ -191,7 +200,7 @@ export default function Filters() {
               transform: "translateY(-50%)",
             }}
           >
-            <ClearIcon fontSize="small" />
+            <ClearIcon fontSize="small"/>
           </IconButton>
         )}
       </FormControl>
