@@ -2,12 +2,13 @@ import React, { useRef, useState } from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import {
+  Autocomplete,
+  Button,
   Checkbox,
-  FormControl,
   FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
+  Menu,
+  MenuItem,
+  TextField,
 } from "@mui/material";
 import { faker } from "@faker-js/faker";
 
@@ -26,25 +27,11 @@ const initialSeries = [
       faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
     ],
   },
   {
     name: "Matriculados",
     data: [
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
@@ -62,13 +49,6 @@ const initialSeries = [
       faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
     ],
   },
   {
@@ -80,19 +60,24 @@ const initialSeries = [
       faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
       faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
     ],
   },
 ];
 
-const BarChart: React.FC = () => {
+const options = ["Ingressantes", "Matriculados", "Vagas", "Concluintes"];
+
+const ChartBarHorizontal: React.FC = () => {
   const chartRef = useRef<Chart | null>(null);
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const [visibleSeries, setVisibleSeries] = useState<Series[]>([
     initialSeries[0],
@@ -116,7 +101,7 @@ const BarChart: React.FC = () => {
         toolbar: {
           show: false,
         },
-        type: "bar" as const,
+        type: "bar",
         // width: 400,
         zoom: {
           allowMouseWheelZoom: true,
@@ -124,18 +109,32 @@ const BarChart: React.FC = () => {
       },
       plotOptions: {
         bar: {
-          columnWidth: "90%",
+          horizontal: true,
+          columnWidth: 100,
           distributed: false,
           borderRadius: 5,
           borderRadiusApplication: "end",
           borderRadiusWhenStacked: "last",
+          dataLabels: {
+            position: "bottom",
+          },
         },
       },
       dataLabels: {
-        offsetY: 20,
+        // offsetY: 20,
+        offsetX: 40,
         style: {
           fontSize: "14px",
           colors: ["#304758"],
+        },
+        formatter: function (
+          val: string,
+          opt: {
+            w: { globals: { labels: { [x: string]: string } } };
+            dataPointIndex: string | number;
+          }
+        ) {
+          return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val;
         },
         dropShadow: {
           enabled: false,
@@ -173,22 +172,24 @@ const BarChart: React.FC = () => {
         intersect: true,
       },
       xaxis: {
+        show: false,
         categories: [
-          "2010",
-          "2011",
-          "2012",
-          "2013",
-          "2014",
-          "2015",
-          "2016",
-          "2017",
-          "2018",
-          "2019",
-          "2020",
-          "2021",
-          "2022",
+          "Ampla Concorrencia",
+          "Pública",
+          "Étnico",
+          "Social",
+          "Deficientes",
+          "Outros",
         ],
+        axisTicks: {
+          show: false, // oculta as marcas de verificação no eixo X
+        },
+        axisBorder: {
+          show: false, // oculta a borda do eixo X
+        },
+
         labels: {
+          show: false,
           trim: true,
         },
         tickPlacement: "between",
@@ -239,39 +240,46 @@ const BarChart: React.FC = () => {
   };
 
   return (
-    <div id="chart" className=" border-blue-500 h-full">
-      <div className="flex items-center justify-between">
-
-      <p className="font-bold ">Comparação de Dados</p>
-      <div className="flex items-center justify-center">
-        {initialSeries.map((series) => (
-          <FormControlLabel
-            key={series.name}
-            value={series.name}
-            control={
-              <Checkbox
-                size="small"
-                checked={visibleSeries.some((s) => s.name === series.name)}
-                onChange={(e) => handleCheckboxChange(e, series.name)}
-              />
-            }
-            label={series.name}
-            labelPlacement="end"
-          />
-        ))}
-      </div>
+    <div id="chart" className="w-full flex items-end border-blue-500 h-full">
+      <div className="flex items-center justify-end absolute right-3 top-3 z-50">
+        <Button
+          size="small"
+          variant="contained"
+          color="inherit"
+          onClick={handleClick}
+        >
+          Filtrar
+        </Button>
       </div>
       <Chart
         options={chartData.options}
         series={visibleSeries}
         type="bar"
-        height={270}
+        height={320}
+        width={450}
         ref={chartRef}
       />
-
-      
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
+        <div className="flex flex-col items-start justify-start px-2">
+          {initialSeries.map((series) => (
+            <FormControlLabel
+              key={series.name}
+              value={series.name}
+              control={
+                <Checkbox
+                  size="small"
+                  checked={visibleSeries.some((s) => s.name === series.name)}
+                  onChange={(e) => handleCheckboxChange(e, series.name)}
+                />
+              }
+              label={series.name}
+              labelPlacement="end"
+            />
+          ))}
+        </div>
+      </Menu>
     </div>
   );
 };
 
-export default BarChart;
+export default ChartBarHorizontal;

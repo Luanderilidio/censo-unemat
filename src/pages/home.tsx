@@ -7,6 +7,7 @@ import { faker } from "@faker-js/faker";
 import CardQtd from "../components/CardQtd";
 import DownloadIcon from "@mui/icons-material/Download";
 import BarChartTest from "../components/ChartBar";
+import ChartBarHorizontal from "../components/ChartBarHorizontal";
 
 interface Microdados {
   id: string;
@@ -272,14 +273,13 @@ export default function Home() {
           />
         </div>
         <div className="col-span-5 row-span-2 border-1 border rounded-3xl relative bg-white shadow-md shadow-black/10">
-          <BarChartTest />
+          <ChartBarHorizontal />
         </div>
-        <div className="col-span-12 row-span-3 grid grid-cols-7 gap-3 ">
+        <div className="col-span-12 row-span-2 grid grid-cols-7 gap-3 ">
           <div className="col-span-7 border p-4 rounded-3xl bg-white shadow-md shadow-black/10">
             <BarChartTest />
           </div>
         </div>
-
         <div className="col-span-8 row-span-4 grid grid-cols-7 gap-3 border border-purple-600">
           <div className="col-span-5 border"></div>
           <div className="col-span-2 border"></div>
