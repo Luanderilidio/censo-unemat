@@ -5,6 +5,7 @@ import {
   Autocomplete,
   Button,
   Checkbox,
+  Chip,
   FormControlLabel,
   Menu,
   MenuItem,
@@ -107,6 +108,7 @@ const ChartBarHorizontal: React.FC = () => {
           allowMouseWheelZoom: true,
         },
       },
+      colors: ['#26A0FC', '#26E7A6'],
       plotOptions: {
         bar: {
           horizontal: true,
@@ -250,6 +252,12 @@ const ChartBarHorizontal: React.FC = () => {
         >
           Filtrar
         </Button>
+      </div>
+      <div className="flex items-center justify-end absolute left-5 gap-1 top-3 z-50">
+        <Chip size="small" className="!bg-[#26A0FC] !font-semibold !text-white" label="Ingressantes" />
+        <Chip size="small" className="!bg-[#26E7A6] !font-semibold !text-white" label="Matriculadas" />
+        <Chip size="small" className="!bg-[#FEBC3B] !font-semibold !text-white" label="Vagas" />
+        <Chip size="small" className="!bg-[#ff6178] !font-semibold !text-white" label="Concluintes" />
       </div>
       <Chart
         options={chartData.options}
