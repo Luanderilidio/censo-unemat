@@ -3,6 +3,7 @@ import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import {
   Checkbox,
+  Chip,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -13,93 +14,94 @@ import { faker } from "@faker-js/faker";
 
 interface Series {
   name: string;
+  hidden: boolean;
   data: number[];
 }
-
-const initialSeries = [
-  {
-    name: "Ingressantes",
-    data: [
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-    ],
-  },
-  {
-    name: "Matriculados",
-    data: [
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-    ],
-  },
-  {
-    name: "Vagas",
-    data: [
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-    ],
-  },
-  {
-    name: "Concluintes",
-    data: [
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-      faker.number.int({ min: 500, max: 1500 }),
-    ],
-  },
-];
 
 const BarChart: React.FC = () => {
   const chartRef = useRef<Chart | null>(null);
 
-  const [visibleSeries, setVisibleSeries] = useState<Series[]>([
-    initialSeries[0],
+  const [series, setSeries] = useState<Series[]>([
+    {
+      name: "Ingressantes",
+      hidden: false,
+      data: [
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+      ],
+    },
+    {
+      name: "Matriculados",
+      hidden: true,
+      data: [
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+      ],
+    },
+    {
+      name: "Concluintes",
+      hidden: true,
+      data: [
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+      ],
+    },
+    {
+      name: "Vagas",
+      hidden: true,
+      data: [
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+        faker.number.int({ min: 500, max: 1500 }),
+      ],
+    },
   ]);
 
   const [chartData, setChartData] = useState({
-    series: visibleSeries,
+    series: series,
     options: {
       annotations: {},
       chart: {
@@ -132,14 +134,13 @@ const BarChart: React.FC = () => {
         },
       },
       dataLabels: {
-        offsetY: 20,
+        enabled: true, // Habilita os dataLabels
         style: {
-          fontSize: "14px",
-          colors: ["#304758"],
-        },
-        dropShadow: {
-          enabled: false,
-          // blur: 7,
+          fontSize: "12px",
+          colors: ["#fff"], // Define a cor do texto
+          transform: "rotate(90deg)", // Ajuste o ângulo de rotação conforme necessário
+          transformOrigin: "bottom left", // Ajuste o ponto de origem da rotação
+          whiteSpace: "nowrap", // Para evitar que o texto quebre em várias linhas
         },
       },
       grid: {
@@ -150,7 +151,18 @@ const BarChart: React.FC = () => {
         },
       },
       legend: {
-        show: false,
+        show: true, // Habilita as legendas
+        position: "top", // Posiciona as legendas no topo
+        horizontalAlign: "right", // Alinha as legendas à esquerda
+        offsetX: 0, // Ajusta a posição horizontal das legendas
+        offsetY: 0, // Ajusta a posição vertical das legendas
+        fontSize: "14px", // Tamanho da fonte das legendas
+        fontFamily: "Roboto", // Família da fonte das legendas
+        fontWeight: 600, // Peso da fonte das legendas
+        itemMargin: {
+          horizontal: 10, // Margem horizontal entre itens
+          vertical: 0, // Margem vertical entre itens
+        },
       },
       stroke: {
         fill: {
@@ -218,58 +230,39 @@ const BarChart: React.FC = () => {
     } as unknown as ApexOptions,
   });
 
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    seriesName: string
-  ) => {
-    if (event.target.checked) {
-      // Adiciona a série à lista de visíveis se estiver selecionada
-      const seriesToAdd = initialSeries.find(
-        (series) => series.name === seriesName
-      );
-      if (seriesToAdd) {
-        setVisibleSeries((prevSeries) => [...prevSeries, seriesToAdd]);
-      }
-    } else {
-      // Remove a série da lista de visíveis se estiver desmarcada
-      setVisibleSeries((prevSeries) =>
-        prevSeries.filter((series) => series.name !== seriesName)
-      );
-    }
-  };
+  // const handleCheckboxChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>,
+  //   seriesName: string
+  // ) => {
+  //   if (event.target.checked) {
+  //     // Adiciona a série à lista de visíveis se estiver selecionada
+  //     const seriesToAdd = initialSeries.find(
+  //       (series) => series.name === seriesName
+  //     );
+  //     if (seriesToAdd) {
+  //       setVisibleSeries((prevSeries) => [...prevSeries, seriesToAdd]);
+  //     }
+  //   } else {
+  //     // Remove a série da lista de visíveis se estiver desmarcada
+  //     setVisibleSeries((prevSeries) =>
+  //       prevSeries.filter((series) => series.name !== seriesName)
+  //     );
+  //   }
+  // };
 
   return (
-    <div id="chart" className=" border-blue-500 h-full">
+    <div id="chart" className=" border-blue-500 !h-[380px]">
       <div className="flex items-center justify-between">
+        <p className="font-bold ">Comparação de Dados</p>
+      </div>
 
-      <p className="font-bold ">Comparação de Dados</p>
-      <div className="flex items-center justify-center">
-        {initialSeries.map((series) => (
-          <FormControlLabel
-            key={series.name}
-            value={series.name}
-            control={
-              <Checkbox
-                size="small"
-                checked={visibleSeries.some((s) => s.name === series.name)}
-                onChange={(e) => handleCheckboxChange(e, series.name)}
-              />
-            }
-            label={series.name}
-            labelPlacement="end"
-          />
-        ))}
-      </div>
-      </div>
       <Chart
         options={chartData.options}
-        series={visibleSeries}
+        series={series}
         type="bar"
-        height={270}
+        height="100%"
         ref={chartRef}
       />
-
-      
     </div>
   );
 };

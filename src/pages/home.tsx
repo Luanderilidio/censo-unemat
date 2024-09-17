@@ -8,6 +8,10 @@ import CardQtd from "../components/CardQtd";
 import DownloadIcon from "@mui/icons-material/Download";
 import BarChartTest from "../components/ChartBar";
 import ChartBarHorizontal from "../components/ChartBarHorizontal";
+import ChartLine from "../components/ChartLine";
+import CountUp from "react-countup";
+import ChartFunnel from "../components/ChartFunnel";
+
 
 interface Microdados {
   id: string;
@@ -183,7 +187,7 @@ export default function Home() {
         <Filters />
       </div>
       <div className="col-span-10  grid grid-cols-12 grid-rows-12 gap-3  border-red-500 ">
-        <div className="col-span-7 row-span-2 grid grid-cols-4 grid-rows-5 gap-3 border-1 border p-4 rounded-3xl bg-white shadow-md shadow-black/10 ">
+        <div className="col-span-7 row-span-1 grid grid-cols-4 grid-rows-5 gap-3 border-1 border p-4 rounded-3xl bg-white shadow-md shadow-black/10 ">
           <div className="col-span-4 flex items-center justify-between row-span-1">
             <p className="font-bold">Quantitativos</p>
             <Button
@@ -272,20 +276,58 @@ export default function Home() {
             title="Qtd Ingressantes"
           />
         </div>
-        <div className="col-span-5 row-span-2 border-1 border rounded-3xl relative bg-white shadow-md shadow-black/10">
+        <div className="col-span-5 row-span-1 border-1 border rounded-3xl relative bg-white shadow-md shadow-black/10">
           <ChartBarHorizontal />
         </div>
-        <div className="col-span-12 row-span-2 grid grid-cols-7 gap-3 ">
-          <div className="col-span-7 border p-4 rounded-3xl bg-white shadow-md shadow-black/10">
+        <div className="col-span-12 gap-3">
+          <div className=" border px-4 h-full pt-2 rounded-3xl bg-white shadow-md shadow-black/10">
             <BarChartTest />
           </div>
         </div>
-        <div className="col-span-8 row-span-4 grid grid-cols-7 gap-3 border border-purple-600">
-          <div className="col-span-5 border"></div>
-          <div className="col-span-2 border"></div>
+        <div className="col-span-8 row-span-1 gap-3 rounded-3xl bg-white shadow-md shadow-black/10">
+         
+            <ChartLine />
+          {/* <div className="col-span-1 flex flex-col">
+            <div className="font-Bold mt-10">
+              <p className="text-left  font-normal text-xs">Branca</p>
+              <p className="text-left font-bold text-4xl text-[#008FFB]">
+                <CountUp start={0} duration={2.75} end={100} />
+              </p>
+            </div>
+            <div className="font-Bold">
+              <p className="text-left  font-normal text-xs">Negra</p>
+              <p className="text-left font-bold text-4xl text-[#00E396]">
+                <CountUp start={0} duration={2.75} end={100} />
+              </p>
+            </div>
+            <div className="font-Bold">
+              <p className="text-left  font-normal text-xs">Parda</p>
+              <p className="text-left font-bold text-4xl text-[#FEB019]">
+                <CountUp start={0} duration={2.75} end={100} />
+              </p>
+            </div>
+            <div className="font-Bold">
+              <p className="text-left  font-normal text-xs">Amarela</p>
+              <p className="text-left font-bold text-4xl text-[#FF4560]">
+                <CountUp start={0} duration={2.75} end={100} />
+              </p>
+            </div>
+            <div className="font-Bold">
+              <p className="text-left  font-normal text-xs">Indígena</p>
+              <p className="text-left font-bold text-4xl text-[#775DD0]">
+                <CountUp start={0} duration={2.75} end={100} />
+              </p>
+            </div>
+            <div className="font-Bold">
+              <p className="text-left  font-normal text-xs">N/ Declarado</p>
+              <p className="text-left font-bold text-4xl text-[#008FFB]">
+                <CountUp start={0} duration={2.75} end={100} />
+              </p>
+            </div>
+          </div> */}
         </div>
-        <div className="col-span-4 row-span-4 border border-green-500">
-          grafico 1
+        <div className="col-span-4 row-span-1 rounded-3xl bg-white shadow-md shadow-black/10">
+          <ChartFunnel />
         </div>
       </div>
     </div>
