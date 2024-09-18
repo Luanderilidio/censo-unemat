@@ -1,17 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../services/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import Filters from "../components/filters";
 import { faker } from "@faker-js/faker";
-import CardQtd from "../components/CardQtd";
+import CardQtd, { CardsArray } from "../components/CardQtd";
 import DownloadIcon from "@mui/icons-material/Download";
 import BarChartTest from "../components/ChartBar";
 import ChartBarHorizontal from "../components/ChartBarHorizontal";
 import ChartLine from "../components/ChartLine";
-import CountUp from "react-countup";
 import ChartFunnel from "../components/ChartFunnel";
-
 
 interface Microdados {
   id: string;
@@ -150,34 +148,65 @@ interface Microdados {
   qt_mat_apoio_social: string;
   qt_conc_apoio_social: string;
 }
-
 const fecthData = async () => {
   const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
   console.log("apiUrl", apiUrl);
   try {
     const response = await api.get(apiUrl, {
       params: {
-        action: "get",
-        // limit: limit,
+        action: "getFiltered",
+        course: "",
+        city: "",
+        modality: "",
+        degree: "",
       },
     });
 
-    console.log("API Response:", response.data.output);
-    return response.data.output;
+    console.log("API Response:", response.data);
+    // setData(response.data.output);
+    return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
 export default function Home() {
-  // const { data, error, isLoading } = useQuery({
-  //   queryKey: ["posts"],
-  //   queryFn: fecthData,
-  //   staleTime: 999999, // 5 segundos antes de marcar como stale
-  // });
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["posts"],
+    queryFn: fecthData,
+    staleTime: 999999, // 5 segundos antes de marcar como stale
+  });
 
-  // if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>Something went wrong!</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Something went wrong!</div>;
+
+  // const [data, setData] = useState<CardsArray>([]);
+  // const fecthData = async () => {
+  //   const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
+  //   console.log("apiUrl", apiUrl);
+  //   try {
+  //     const response = await api.get(apiUrl, {
+  //       params: {
+  //         action: "getFiltered",
+  //         course: "ADMINISTRACAO",
+  //         city: "",
+  //         modality: "",
+  //         degree: "",
+  //       },
+  //     });
+
+  //     console.log("API Response:", response.data);
+  //     setData(response.data.output);
+  //     return response.data.output;
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fecthData();
+  // }, []);
+
   return (
     <div className="grid grid-cols-12 gap-5 border bg-gray-100/20">
       <div className="col-span-12 row-span-1 text-center font-bold text-2xl flex items-center justify-center border-green-500">
@@ -200,80 +229,24 @@ export default function Home() {
             </Button>
           </div>
           <CardQtd
-            qtd={faker.number.int({ min: 500, max: 55665 })}
-            data={[
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-            ]}
-            title="Qtd Ingressantes"
+            qtd={data[0].qtd}
+            data={data[0].data}
+            title={data[0].title}
           />
           <CardQtd
-            qtd={faker.number.int({ min: 500, max: 55665 })}
-            data={[
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-            ]}
-            title="Qtd Ingressantes"
+           qtd={data[1].qtd}
+           data={data[1].data}
+           title={data[1].title}
           />
           <CardQtd
-            qtd={faker.number.int({ min: 500, max: 55665 })}
-            data={[
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-            ]}
-            title="Qtd Ingressantes"
+           qtd={data[2].qtd}
+           data={data[2].data}
+           title={data[2].title}
           />
           <CardQtd
-            qtd={faker.number.int({ min: 500, max: 55665 })}
-            data={[
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-              faker.number.int({ min: 500, max: 1500 }),
-            ]}
-            title="Qtd Ingressantes"
+            qtd={data[3].qtd}
+            data={data[3].data}
+            title={data[3].title}
           />
         </div>
         <div className="col-span-5 row-span-1 border-1 border rounded-3xl relative bg-white shadow-md shadow-black/10">
@@ -285,8 +258,7 @@ export default function Home() {
           </div>
         </div>
         <div className="col-span-8 row-span-1 gap-3 rounded-3xl bg-white shadow-md shadow-black/10">
-         
-            <ChartLine />
+          <ChartLine />
           {/* <div className="col-span-1 flex flex-col">
             <div className="font-Bold mt-10">
               <p className="text-left  font-normal text-xs">Branca</p>
