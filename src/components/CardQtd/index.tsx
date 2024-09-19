@@ -3,12 +3,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import CountUp from "react-countup";
 import { ApexOptions } from "apexcharts";
 
-interface YearlyData {
+export interface YearlyData {
   ano: number;
   quantidade: number;
 }
 
-interface CardData {
+export interface CardData {
   title: string;
   qtd: number;
   data: YearlyData[];
@@ -110,7 +110,7 @@ const categories = data.map(e => e.ano)
         </div>
       </div>
       {/* <div /> */}
-      <div className="w-full  flex items-center justify-center absolute -bottom-2 ">
+      <div className="w-full  flex items-center justify-center absolute bottom-2 ">
         <Chart
           options={options}
           series={series}

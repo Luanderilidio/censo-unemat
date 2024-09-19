@@ -1,15 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../services/api";
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
-import Filters from "../components/filters";
-import { faker } from "@faker-js/faker";
+import {
+  Autocomplete,
+  Button,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  Slider,
+  TextField,
+} from "@mui/material";
+import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import CardQtd, { CardsArray } from "../components/CardQtd";
 import DownloadIcon from "@mui/icons-material/Download";
+import ClearIcon from "@mui/icons-material/Clear";
 import BarChartTest from "../components/ChartBar";
-import ChartBarHorizontal from "../components/ChartBarHorizontal";
 import ChartLine from "../components/ChartLine";
 import ChartFunnel from "../components/ChartFunnel";
+import {
+  HorizontalBarChart,
+  HorizontalBarProps,
+} from "../components/ChartBarHorizontal";
+import { cities, courses } from "../utils/options";
 
 interface Microdados {
   id: string;
@@ -148,64 +163,54 @@ interface Microdados {
   qt_mat_apoio_social: string;
   qt_conc_apoio_social: string;
 }
-const fecthData = async () => {
-  const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
-  console.log("apiUrl", apiUrl);
-  try {
-    const response = await api.get(apiUrl, {
-      params: {
-        action: "getFiltered",
-        course: "",
-        city: "",
-        modality: "",
-        degree: "",
-      },
-    });
 
-    console.log("API Response:", response.data);
-    // setData(response.data.output);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+export interface DataStructure {
+  cards: CardsArray[];
+  horizontalBar: HorizontalBarProps;
+}
 
 export default function Home() {
-  const { data, error, isLoading } = useQuery({
+  const [course, setCourse] = useState<string | null>("");
+  const [city, setCity] = useState<string | null>("");
+  const [modality, setModality] = useState<string>("");
+  const [degree, setDegree] = useState<string>("");
+  const [isLoading2, setIsLoading2] = useState(true);
+
+  const [year, setYear] = useState<number[]>([2010, 2022]);
+
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    setYear(newValue as number[]);
+  };
+  const fecthData = async () => {
+    const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
+    console.log("apiUrl", apiUrl);
+    try {
+      const response = await api.get(apiUrl, {
+        params: {
+          action: "getFiltered",
+          course: course,
+          city: city,
+          modality: modality,
+          degree: degree,
+        },
+      });
+
+      console.log("API Response:", response.data);
+      setIsLoading2(false);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["posts"],
     queryFn: fecthData,
     staleTime: 999999, // 5 segundos antes de marcar como stale
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <>carregando dados...</>
   if (error) return <div>Something went wrong!</div>;
-
-  // const [data, setData] = useState<CardsArray>([]);
-  // const fecthData = async () => {
-  //   const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
-  //   console.log("apiUrl", apiUrl);
-  //   try {
-  //     const response = await api.get(apiUrl, {
-  //       params: {
-  //         action: "getFiltered",
-  //         course: "ADMINISTRACAO",
-  //         city: "",
-  //         modality: "",
-  //         degree: "",
-  //       },
-  //     });
-
-  //     console.log("API Response:", response.data);
-  //     setData(response.data.output);
-  //     return response.data.output;
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fecthData();
-  // }, []);
 
   return (
     <div className="grid grid-cols-12 gap-5 border bg-gray-100/20">
@@ -213,7 +218,112 @@ export default function Home() {
         DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT
       </div>
       <div className="col-span-2">
-        <Filters />
+        <div className="flex flex-col gap-4 p-4 rounded-md border font-Roboto font-medium">
+          <p>Filtros</p>
+
+          <Autocomplete
+            className="col-span-3"
+            fullWidth
+            value={course}
+            options={courses}
+            onChange={(_event: any, newValue: string | null) => {
+              setCourse(newValue);
+            }}
+            renderInput={(params) => <TextField {...params} label="Curso" />}
+          />
+          <Autocomplete
+            className="col-span-3"
+            fullWidth
+            value={city}
+            options={cities}
+            onChange={(_event: any, newValue: string | null) => {
+              setCity(newValue);
+            }}
+            renderInput={(params) => (
+              <TextField {...params} label="Município" />
+            )}
+          />
+          <FormControl fullWidth>
+            <InputLabel>Modalidade</InputLabel>
+            <Select
+              value={modality}
+              label="Modalidade"
+              onChange={(event: SelectChangeEvent) => {
+                setModality(event.target.value as string);
+              }}
+            >
+              <MenuItem value={1}>Presencial</MenuItem>
+              <MenuItem value={2}>Distância</MenuItem>
+            </Select>
+            {modality !== "" && (
+              <IconButton
+                onClick={() => setModality("")}
+                style={{
+                  position: "absolute",
+                  right: 20,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                }}
+              >
+                <ClearIcon fontSize="small" />
+              </IconButton>
+            )}
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel>Grau Acadêmico</InputLabel>
+            <Select
+              value={degree}
+              label="Grau Acadêmico"
+              onChange={(event: SelectChangeEvent) => {
+                setDegree(event.target.value as string);
+              }}
+            >
+              <MenuItem value={1}>Bacharelado</MenuItem>
+              <MenuItem value={2}>Licenciatura</MenuItem>
+            </Select>
+            {degree !== "" && (
+              <IconButton
+                onClick={() => setDegree("")}
+                style={{
+                  position: "absolute",
+                  right: 20,
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                }}
+              >
+                <ClearIcon fontSize="small" />
+              </IconButton>
+            )}
+          </FormControl>
+
+          <div className="px-1">
+            <p>Ano</p>
+            <Slider
+              getAriaLabel={() => "Temperature range"}
+              value={year}
+              min={2010}
+              max={2022}
+              step={1}
+              onChange={handleChange}
+              valueLabelDisplay="auto"
+              getAriaValueText={() => `${year}`}
+            />
+            <div className="flex justify-between items-center w-full">
+              <p>{year[0]}</p>
+              <p>{year[1]}</p>
+            </div>
+          </div>
+          <Button
+            variant="contained"
+            onClick={() => {
+              setIsLoading2(true);
+              refetch();
+            }}
+          >
+            
+            {isLoading2 ? "Gerando" : "Gerar"}
+          </Button>
+        </div>
       </div>
       <div className="col-span-10  grid grid-cols-12 grid-rows-12 gap-3  border-red-500 ">
         <div className="col-span-7 row-span-1 grid grid-cols-4 grid-rows-5 gap-3 border-1 border p-4 rounded-3xl bg-white shadow-md shadow-black/10 ">
@@ -228,29 +338,30 @@ export default function Home() {
               Export
             </Button>
           </div>
+
           <CardQtd
-            qtd={data[0].qtd}
-            data={data[0].data}
-            title={data[0].title}
+            qtd={data[0].cards[0].qtd}
+            data={data[0].cards[0].data}
+            title={data[0].cards[0].title}
           />
           <CardQtd
-           qtd={data[1].qtd}
-           data={data[1].data}
-           title={data[1].title}
+            qtd={data[0].cards[1].qtd}
+            data={data[0].cards[1].data}
+            title={data[0].cards[1].title}
           />
           <CardQtd
-           qtd={data[2].qtd}
-           data={data[2].data}
-           title={data[2].title}
+            qtd={data[0].cards[2].qtd}
+            data={data[0].cards[2].data}
+            title={data[0].cards[2].title}
           />
           <CardQtd
-            qtd={data[3].qtd}
-            data={data[3].data}
-            title={data[3].title}
+            qtd={data[0].cards[3].qtd}
+            data={data[0].cards[3].data}
+            title={data[0].cards[3].title}
           />
         </div>
         <div className="col-span-5 row-span-1 border-1 border rounded-3xl relative bg-white shadow-md shadow-black/10">
-          <ChartBarHorizontal />
+          <HorizontalBarChart data={data[1].horizontalBar} />
         </div>
         <div className="col-span-12 gap-3">
           <div className=" border px-4 h-full pt-2 rounded-3xl bg-white shadow-md shadow-black/10">

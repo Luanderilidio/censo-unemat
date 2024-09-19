@@ -1,11 +1,17 @@
-
 import { faker } from "@faker-js/faker";
 
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import Chart from "react-apexcharts";
 
-const ChartBarHorizontal: React.FC = () => {
+export interface HorizontalBarProps {
+  data: {
+    name: string;
+    data: number[];
+  };
+}
+
+export const HorizontalBarChart: React.FC<HorizontalBarProps> = ({ data }) => {
   // Configuração das opções do gráfico
   const options = {
     chart: {
@@ -26,11 +32,11 @@ const ChartBarHorizontal: React.FC = () => {
     },
     xaxis: {
       categories: [
-        "Concorrencia",
+        "Concorrência",
         "Pública",
         "Étnico",
         "Social",
-        "Deficientes",
+        "Deficiente",
         "Outros",
       ], // Categorias do eixo X
 
@@ -54,12 +60,23 @@ const ChartBarHorizontal: React.FC = () => {
       },
     },
     dataLabels: {
-      enabled: true, // Ativa os rótulos de dados
-      dropShadow: {
-        enabled: false,
-        left: 2,
-        top: 2,
-        opacity: 0.3,
+      enabled: true,
+      background: {
+        enabled: true,
+        foreColor: '#000',
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: '#000',
+        opacity: 0.0,
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: '#fff',
+          opacity: 1
+        }
       },
     },
     legend: {
@@ -78,55 +95,11 @@ const ChartBarHorizontal: React.FC = () => {
     },
   } as unknown as ApexOptions;
 
-  // Dados do gráfico
   const series = [
     {
-      name: "Ingressantes",
-      hidden: false,
-      data: [
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-      ],
-    },
-    {
-      name: "Matriculados",
-      hidden: true,
-      data: [
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-      ],
-    },
-    {
-      name: "Vagas",
-      hidden: true,
-      data: [
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-      ],
-    },
-    {
-      name: "Concluintes",
-      hidden: true,
-      data: [
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-      ],
+      name: data.name, // Nome da série
+
+      data: data.data, // Dados do gráfico
     },
   ];
 
@@ -141,5 +114,3 @@ const ChartBarHorizontal: React.FC = () => {
     </div>
   );
 };
-
-export default ChartBarHorizontal;
