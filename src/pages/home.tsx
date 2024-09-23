@@ -164,6 +164,49 @@ interface Microdados {
   qt_conc_apoio_social: string;
 }
 
+const race = [
+  {
+    lineChart: [
+      {
+        name: "Branca",
+        hidden: false,
+        data: [50, 39, 40, 43, 80, 93, 104, 123, 129, 111, 59, 133, 205],
+        total: 1209,
+      },
+      {
+        name: "Negra",
+        hidden: false,
+        data: [24, 27, 28, 11, 20, 34, 51, 32, 41, 31, 108, 158, 74],
+        total: 639,
+      },
+      {
+        name: "Parda",
+        hidden: false,
+        data: [50, 38, 42, 53, 103, 138, 122, 166, 151, 145, 2, 4, 30],
+        total: 1044,
+      },
+      {
+        name: "Amarela",
+        hidden: true,
+        data: [0, 1, 2, 0, 6, 5, 8, 9, 5, 3, 1, 60, 26],
+        total: 126,
+      },
+      {
+        name: "Indígena",
+        hidden: true,
+        data: [0, 1, 0, 0, 1, 0, 0, 2, 7, 2, 1, 3, 8],
+        total: 25,
+      },
+      {
+        name: "N/ Declarado",
+        hidden: true,
+        data: [192, 205, 202, 190, 94, 136, 112, 115, 128, 94, 19, 0, 169],
+        total: 1656,
+      },
+    ],
+  },
+];
+
 export interface DataStructure {
   cards: CardsArray[];
   horizontalBar: HorizontalBarProps;
@@ -209,7 +252,7 @@ export default function Home() {
     staleTime: 999999, // 5 segundos antes de marcar como stale
   });
 
-  if (isLoading) return <>carregando dados...</>
+  if (isLoading) return <>carregando dados...</>;
   if (error) return <div>Something went wrong!</div>;
 
   return (
@@ -320,7 +363,6 @@ export default function Home() {
               refetch();
             }}
           >
-            
             {isLoading2 ? "Gerando" : "Gerar"}
           </Button>
         </div>
@@ -363,13 +405,13 @@ export default function Home() {
         <div className="col-span-5 row-span-1 border-1 border rounded-3xl relative bg-white shadow-md shadow-black/10">
           <HorizontalBarChart data={data[1].horizontalBar} />
         </div>
-        <div className="col-span-12 gap-3">
+        {/* <div className="col-span-12 gap-3">
           <div className=" border px-4 h-full pt-2 rounded-3xl bg-white shadow-md shadow-black/10">
             <BarChartTest />
           </div>
-        </div>
+        </div> */}
         <div className="col-span-8 row-span-1 gap-3 rounded-3xl bg-white shadow-md shadow-black/10">
-          <ChartLine />
+          <ChartLine data={data[2]} />
           {/* <div className="col-span-1 flex flex-col">
             <div className="font-Bold mt-10">
               <p className="text-left  font-normal text-xs">Branca</p>
