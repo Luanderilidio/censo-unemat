@@ -34,16 +34,32 @@ export default function ChartLine(data: any) {
     },
 
     grid: {
-      padding: {
-        top: 0, // Padding superior
-        right: 0, // Padding à direita
-        bottom: 0, // Padding inferior
-        left: 0, // Padding à esquerda
+      show: true, // Exibe a grid
+      borderColor: "#ededed", // Cor das linhas da grid
+      strokeDashArray: 4, // Define o estilo pontilhado
+      row: {
+        colors: undefined,
+        opacity: 0.1,
+      },
+      column: {
+        colors: undefined,
+        opacity: 0.1,
+      },
+      xaxis: {
+        lines: {
+          show: true, // Mostra linhas da grid no eixo X
+        },
+      },
+      yaxis: {
+        lines: {
+          show: true, // Mostra linhas da grid no eixo Y
+        },
       },
     },
     markers: {
       size: 5, // Tamanho dos pontos no gráfico
     },
+    colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#d3d3d3'],
     xaxis: {
       categories: [
         "2010",
@@ -78,7 +94,9 @@ export default function ChartLine(data: any) {
   const series = data2;
 
   return (
-    <div className=" w-full h-full grid grid-cols-7">
+    <div className=" w-full h-full grid grid-cols-7 pb-3 pt-8 relative">
+
+      <p className="font-bold absolute top-5 left-8">Raca/Cor dos Ingressantes</p>
       <div className="col-span-6">
         <Chart
           options={options}
@@ -125,7 +143,7 @@ export default function ChartLine(data: any) {
           <p className="text-left  font-normal text-xs leading-none">
             N/ Declarado
           </p>
-          <p className="text-left font-bold text-3xl text-[#008FFB]">
+          <p className="text-left font-bold text-3xl text-[#d3d3d3]">
             <CountUp start={0} duration={2.75} end={data2[5].total} />
           </p>
         </div>

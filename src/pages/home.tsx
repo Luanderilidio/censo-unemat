@@ -12,6 +12,7 @@ import {
   SelectChangeEvent,
   Slider,
   TextField,
+  Tooltip,
 } from "@mui/material";
 import DonutLargeIcon from "@mui/icons-material/DonutLarge";
 import CardQtd, { CardsArray } from "../components/CardQtd";
@@ -164,48 +165,7 @@ interface Microdados {
   qt_conc_apoio_social: string;
 }
 
-const race = [
-  {
-    lineChart: [
-      {
-        name: "Branca",
-        hidden: false,
-        data: [50, 39, 40, 43, 80, 93, 104, 123, 129, 111, 59, 133, 205],
-        total: 1209,
-      },
-      {
-        name: "Negra",
-        hidden: false,
-        data: [24, 27, 28, 11, 20, 34, 51, 32, 41, 31, 108, 158, 74],
-        total: 639,
-      },
-      {
-        name: "Parda",
-        hidden: false,
-        data: [50, 38, 42, 53, 103, 138, 122, 166, 151, 145, 2, 4, 30],
-        total: 1044,
-      },
-      {
-        name: "Amarela",
-        hidden: true,
-        data: [0, 1, 2, 0, 6, 5, 8, 9, 5, 3, 1, 60, 26],
-        total: 126,
-      },
-      {
-        name: "Indígena",
-        hidden: true,
-        data: [0, 1, 0, 0, 1, 0, 0, 2, 7, 2, 1, 3, 8],
-        total: 25,
-      },
-      {
-        name: "N/ Declarado",
-        hidden: true,
-        data: [192, 205, 202, 190, 94, 136, 112, 115, 128, 94, 19, 0, 169],
-        total: 1656,
-      },
-    ],
-  },
-];
+
 
 export interface DataStructure {
   cards: CardsArray[];
@@ -213,6 +173,7 @@ export interface DataStructure {
 }
 
 export default function Home() {
+
   const [course, setCourse] = useState<string | null>("");
   const [city, setCity] = useState<string | null>("");
   const [modality, setModality] = useState<string>("");
@@ -256,7 +217,7 @@ export default function Home() {
   if (error) return <div>Something went wrong!</div>;
 
   return (
-    <div className="grid grid-cols-12 gap-5 border bg-gray-100/20">
+    <div className="grid grid-cols-12 gap-5 border bg-gray-100/20 px-4">
       <div className="col-span-12 row-span-1 text-center font-bold text-2xl flex items-center justify-center border-green-500">
         DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT
       </div>
@@ -341,7 +302,9 @@ export default function Home() {
 
           <div className="px-1">
             <p>Ano</p>
+
             <Slider
+              disabled
               getAriaLabel={() => "Temperature range"}
               value={year}
               min={2010}
@@ -369,18 +332,7 @@ export default function Home() {
       </div>
       <div className="col-span-10  grid grid-cols-12 grid-rows-12 gap-3  border-red-500 ">
         <div className="col-span-7 row-span-1 grid grid-cols-4 grid-rows-5 gap-3 border-1 border p-4 rounded-3xl bg-white shadow-md shadow-black/10 ">
-          <div className="col-span-4 flex items-center justify-between row-span-1">
-            <p className="font-bold">Quantitativos</p>
-            <Button
-              variant="contained"
-              color="inherit"
-              size="small"
-              endIcon={<DownloadIcon />}
-            >
-              Export
-            </Button>
-          </div>
-
+        <p className="col-span-4 font-bold top-2 left-5">Quantidade de Ingressantes, Vagas, Inscritos e Concluintes por ano</p>
           <CardQtd
             qtd={data[0].cards[0].qtd}
             data={data[0].cards[0].data}
@@ -402,14 +354,14 @@ export default function Home() {
             title={data[0].cards[3].title}
           />
         </div>
-        <div className="col-span-5 row-span-1 border-1 border rounded-3xl relative bg-white shadow-md shadow-black/10">
+        <div className="col-span-5 row-span-1 h-fit border-1 border rounded-3xl relative bg-white shadow-md shadow-black/10">
           <HorizontalBarChart data={data[1].horizontalBar} />
         </div>
-        {/* <div className="col-span-12 gap-3">
+        <div className="col-span-12 gap-3">
           <div className=" border px-4 h-full pt-2 rounded-3xl bg-white shadow-md shadow-black/10">
-            <BarChartTest />
+            <BarChartTest data={data[4]} />
           </div>
-        </div> */}
+        </div>
         <div className="col-span-8 row-span-1 gap-3 rounded-3xl bg-white shadow-md shadow-black/10">
           <ChartLine data={data[2]} />
           {/* <div className="col-span-1 flex flex-col">
@@ -452,7 +404,7 @@ export default function Home() {
           </div> */}
         </div>
         <div className="col-span-4 row-span-1 rounded-3xl bg-white shadow-md shadow-black/10">
-          <ChartFunnel />
+          <ChartFunnel data={data[3]} />
         </div>
       </div>
     </div>

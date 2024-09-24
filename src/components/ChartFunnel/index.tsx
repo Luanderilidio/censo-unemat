@@ -4,8 +4,11 @@ import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import { faker } from "@faker-js/faker";
 
-const ChartFunnel: React.FC = () => {
-  // Configuração das opções do gráfico
+export default function ChartFunnel(data: any) {
+  const data2 = data.data.funnelChart;
+
+  console.log(data2);
+
   const options: ApexOptions = {
     chart: {
       type: "bar",
@@ -20,36 +23,56 @@ const ChartFunnel: React.FC = () => {
     },
     dataLabels: {
       enabled: true,
-      formatter: function (val, opt) {
-        return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val;
+      // formatter: function (val, opt) {
+      //   return   ":  " + val;
+      // },
+      style: {
+        fontSize: "14px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+        fontWeight: "bold",
+        colors: ["#000000"],
       },
       dropShadow: {
-        enabled: true,
+        enabled: false,
       },
     },
     grid: {
-      strokeDashArray: 5,
-      padding: {
-        right: 25,
-        left: 15,
+      show: true, // Exibe a grid
+      borderColor: "#ededed", // Cor das linhas da grid
+      strokeDashArray: 4, // Define o estilo pontilhado
+      row: {
+        colors: undefined,
+        opacity: 0.1,
+      },
+      column: {
+        colors: undefined,
+        opacity: 0.1,
+      },
+      xaxis: {
+        lines: {
+          show: true, // Mostra linhas da grid no eixo X
+        },
+      },
+      yaxis: {
+        lines: {
+          show: true, // Mostra linhas da grid no eixo Y
+        },
       },
     },
     legend: {
-      show: true, // Habilita as legendas
-      position: "bottom", // Posiciona as legendas no topo
-      horizontalAlign: "center", // Alinha as legendas à esquerda
-      offsetX: 0, // Ajusta a posição horizontal das legendas
-      offsetY: 0, // Ajusta a posição vertical das legendas
-      fontSize: "14px", // Tamanho da fonte das legendas
-      fontFamily: "Roboto", // Família da fonte das legendas
-      fontWeight: 600, // Peso da fonte das legendas
-      itemMargin: {
-        horizontal: 10, // Margem horizontal entre itens
-        vertical: 0, // Margem vertical entre itens
-      },
+      show: true,
     },
     xaxis: {
-      categories: ["0-17", "18_24", "25_29", "30_34", "40_49", "50_59", "60+"],
+      categories: [
+        "0-17",
+        "18-24",
+        "25-29",
+        "30-34",
+        "35-39",
+        "40-49",
+        "50-59",
+        "60+",
+      ],
     },
     yaxis: {
       show: true,
@@ -66,23 +89,11 @@ const ChartFunnel: React.FC = () => {
   };
 
   // Dados do gráfico
-  const series = [
-    {
-      name: "Número de Pessoas",
-      data: [
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-        faker.number.int({ min: 500, max: 1500 }),
-      ],
-    },
-  ];
+  const series = data2;
 
   return (
-    <div className="chart-container">
+    <div className="chart-container px-4 pt-4 relative">
+      <p className="font-bold absolute top-5 left-5">Idade dos Ingressantes</p>
       <Chart
         options={options}
         series={series}
@@ -91,6 +102,4 @@ const ChartFunnel: React.FC = () => {
       />
     </div>
   );
-};
-
-export default ChartFunnel;
+}

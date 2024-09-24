@@ -93,6 +93,29 @@ export const HorizontalBarChart: React.FC<HorizontalBarProps> = ({ data }) => {
         vertical: 0, // Margem vertical entre itens
       },
     },
+    grid: {
+      show: true, // Exibe a grid
+      borderColor: "#ededed", // Cor das linhas da grid
+      strokeDashArray: 4, // Define o estilo pontilhado
+      row: {
+        colors: undefined,
+        opacity: 0.1,
+      },
+      column: {
+        colors: undefined,
+        opacity: 0.1,
+      },
+      xaxis: {
+        lines: {
+          show: true, // Mostra linhas da grid no eixo X
+        },
+      },
+      yaxis: {
+        lines: {
+          show: true, // Mostra linhas da grid no eixo Y
+        },
+      },
+    },
   } as unknown as ApexOptions;
 
   const series = [
@@ -104,7 +127,8 @@ export const HorizontalBarChart: React.FC<HorizontalBarProps> = ({ data }) => {
   ];
 
   return (
-    <div className="chart-container">
+    <div className="chart-container relative pt-2">
+      <p className="font-bold absolute top-2 left-5">Modalidade de ingresso</p>
       <Chart
         options={options}
         series={series}
