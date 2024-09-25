@@ -1,5 +1,3 @@
-import { faker } from "@faker-js/faker";
-
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import Chart from "react-apexcharts";

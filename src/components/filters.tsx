@@ -118,7 +118,7 @@ export default function Filters() {
 
   const [year, setYear] = useState<number[]>([2010, 2022]);
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
+  const handleChange = (_event: Event, newValue: number | number[]) => {
     setYear(newValue as number[]);
   };
   return (

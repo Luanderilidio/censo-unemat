@@ -1,23 +1,5 @@
-import React, { useRef, useState } from "react";
-import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import {
-  Checkbox,
-  Chip,
-  colors,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
-import { faker } from "@faker-js/faker";
-
-interface Series {
-  name: string;
-  hidden: boolean;
-  data: number[];
-}
+import Chart from "react-apexcharts";
 
 export default function BarChart(data: any) {
   const data2 = data.data.barVertical;

@@ -1,8 +1,6 @@
 // src/components/FunnelChart.tsx
-import React from "react";
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
-import { faker } from "@faker-js/faker";
 
 export default function ChartFunnel(data: any) {
   const data2 = data.data.funnelChart;

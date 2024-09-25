@@ -1,19 +1,8 @@
-import React, { useState } from "react";
 import Chart from "react-apexcharts";
-import { faker } from "@faker-js/faker";
 import { ApexOptions } from "apexcharts";
 import CountUp from "react-countup";
 
-interface LineChartData {
-  name: string;
-  hidden: boolean;
-  data: number[];
-  total: number;
-}
 
-interface RaceData {
-  lineChart: LineChartData[];
-}
 
 export default function ChartLine(data: any) {
   const data2 = data.data.lineChart;
