@@ -1,6 +1,7 @@
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import Chart from "react-apexcharts";
+import "../../styles/ChartContainer.css";
 
 export interface HorizontalBarProps {
   data: {
@@ -9,14 +10,13 @@ export interface HorizontalBarProps {
   };
 }
 
-export const HorizontalBarChart: React.FC<HorizontalBarProps> = ({ data }) => {
-  // Configuração das opções do gráfico
+export const HorizontalBarChart: React.FC<any> = ({ data }) => {
   const options = {
     chart: {
       id: "vertical-bar-chart",
       type: "bar",
       toolbar: {
-        show: true, // Habilita a barra de ferramentas
+        show: false, // Habilita a barra de ferramentas
         tools: {
           download: true, // Exibe o botão de download
           selection: true, // Exibe a ferramenta de seleção
@@ -52,6 +52,7 @@ export const HorizontalBarChart: React.FC<HorizontalBarProps> = ({ data }) => {
     },
     plotOptions: {
       bar: {
+        stacked: true,
         horizontal: true, // Define o gráfico como barras verticais
         columnWidth: "55%", // Largura das colunas
         endingShape: "rounded", // Forma de término das barras
@@ -61,20 +62,20 @@ export const HorizontalBarChart: React.FC<HorizontalBarProps> = ({ data }) => {
       enabled: true,
       background: {
         enabled: true,
-        foreColor: '#000',
+        foreColor: "#000",
         padding: 4,
         borderRadius: 2,
         borderWidth: 1,
-        borderColor: '#000',
+        borderColor: "#000",
         opacity: 0.0,
         dropShadow: {
           enabled: true,
           top: 1,
           left: 1,
           blur: 1,
-          color: '#fff',
-          opacity: 1
-        }
+          color: "#fff",
+          opacity: 1,
+        },
       },
     },
     legend: {
@@ -119,19 +120,20 @@ export const HorizontalBarChart: React.FC<HorizontalBarProps> = ({ data }) => {
   const series = [
     {
       name: data.name, // Nome da série
-
       data: data.data, // Dados do gráfico
     },
   ];
 
   return (
-    <div className="chart-container relative pt-2">
-      <p className="font-bold absolute top-2 left-5">Modalidade de ingresso</p>
+    <div className="!h-full relative chart-container">
+      <p className="font-bold text-sm text-black/80  absolute left-5 top-2">
+        Modalidade de ingresso
+      </p>
       <Chart
         options={options}
         series={series}
         type="bar" // Tipo de gráfico
-        height={400} // Altura do gráfico
+        height="100%" // Altura do gráfico
       />
     </div>
   );

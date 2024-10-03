@@ -10,6 +10,9 @@ export default function ChartLine(data: any) {
   const options = {
     chart: {
       id: "basic-line",
+      toolbar: {
+        show: false,  // Desativa o menu de opções
+      },
     },
     dataLabels: {
       enabled: false, // Habilita os dataLabels
@@ -21,7 +24,50 @@ export default function ChartLine(data: any) {
         fontSize: "12px",
       },
     },
-
+    legend: {
+      show: true,
+      showForSingleSeries: false,
+      showForNullSeries: true,
+      showForZeroSeries: true,
+      position: "top",
+      horizontalAlign: "right",
+      floating: true,
+      fontSize: "10px",
+      fontFamily: "Roboto, Arial",
+      fontWeight: 600,
+      formatter: undefined,
+      inverseOrder: false,
+      width: undefined,
+      height: undefined,
+      tooltipHoverFormatter: undefined,
+      customLegendItems: [],
+      offsetX: -20,
+      offsetY: 10,
+      labels: {
+        colors: undefined,
+        useSeriesColors: false,
+      },
+      markers: {
+        size: 7,
+        shape: undefined,
+        strokeWidth: 5,
+        fillColors: undefined,
+        customHTML: undefined,
+        onClick: undefined,
+        offsetX: 5,
+        offsetY: 0,
+      },
+      itemMargin: {
+        horizontal: -4,
+        vertical: 0,
+      },
+      onItemClick: {
+        toggleDataSeries: true,
+      },
+      onItemHover: {
+        highlightDataSeries: true,
+      },
+    },
     grid: {
       show: true, // Exibe a grid
       borderColor: "#ededed", // Cor das linhas da grid
@@ -49,6 +95,23 @@ export default function ChartLine(data: any) {
       size: 5, // Tamanho dos pontos no gráfico
     },
     colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0', '#d3d3d3'],
+    // xaxis: {
+    //   categories: [
+    //     "2010",
+    //     "2011",
+    //     "2012",
+    //     "2013",
+    //     "2014",
+    //     "2015",
+    //     "2016",
+    //     "2017",
+    //     "2018",
+    //     "2019",
+    //     "2020",
+    //     "2021",
+    //     "2022",
+    //   ],
+    // },
     xaxis: {
       categories: [
         "2010",
@@ -65,9 +128,18 @@ export default function ChartLine(data: any) {
         "2021",
         "2022",
       ],
+      labels: {
+        rotate: 0,
+        style: {
+          fontSize: "10px", // Tamanho da fonte para as labels do eixo X
+          fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
+          fontWeight: "bold", // Peso da fonte (opcional)
+        },
+      },
+      
     },
     yaxis: {
-      show: true,
+      show: false,
       tickAmount: 5,
       labels: {
         style: {},
@@ -83,10 +155,9 @@ export default function ChartLine(data: any) {
   const series = data2;
 
   return (
-    <div className=" w-full h-full grid grid-cols-7 pb-3 pt-8 relative">
-
+    <div className="col-span-4 w-full h-full grid grid-cols-7 pb-3 pt-9 relative">
       <p className="font-bold absolute top-5 left-8">Raca/Cor dos Ingressantes</p>
-      <div className="col-span-6">
+      <div className="col-span-6 pl-2">
         <Chart
           options={options}
           series={series}

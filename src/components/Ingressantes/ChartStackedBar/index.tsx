@@ -4,8 +4,11 @@ import Chart from "react-apexcharts";
 export default function BarChart(data: any) {
   const data2 = data.data.barVertical;
 
+  // console.log("BarChart sexo", data2)
+
   const options = {
     chart: {
+      stacked: true,
       animations: {
         enabled: true,
         easing: "swing",
@@ -52,17 +55,47 @@ export default function BarChart(data: any) {
       },
     },
     legend: {
-      show: true, // Habilita as legendas
-      position: "top", // Posiciona as legendas no topo
-      horizontalAlign: "right", // Alinha as legendas à esquerda
-      offsetX: 0, // Ajusta a posição horizontal das legendas
-      offsetY: 0, // Ajusta a posição vertical das legendas
-      fontSize: "14px", // Tamanho da fonte das legendas
-      fontFamily: "Roboto", // Família da fonte das legendas
-      fontWeight: 600, // Peso da fonte das legendas
+      show: true,
+      showForSingleSeries: false,
+      showForNullSeries: true,
+      showForZeroSeries: true,
+      position: "top",
+      horizontalAlign: "right",
+      floating: true,
+      fontSize: "10px",
+      fontFamily: "Roboto, Arial",
+      fontWeight: 600,
+      formatter: undefined,
+      inverseOrder: false,
+      width: undefined,
+      height: undefined,
+      tooltipHoverFormatter: undefined,
+      customLegendItems: [],
+      offsetX: 0,
+      offsetY: 0,
+      labels: {
+        colors: undefined,
+        useSeriesColors: false,
+      },
+      markers: {
+        size: 7,
+        shape: undefined,
+        strokeWidth: 5,
+        fillColors: undefined,
+        customHTML: undefined,
+        onClick: undefined,
+        offsetX: 5,
+        offsetY: 0,
+      },
       itemMargin: {
-        horizontal: 10, // Margem horizontal entre itens
-        vertical: 0, // Margem vertical entre itens
+        horizontal: -4,
+        vertical: 0,
+      },
+      onItemClick: {
+        toggleDataSeries: true,
+      },
+      onItemHover: {
+        highlightDataSeries: true,
       },
     },
     stroke: {
@@ -102,19 +135,14 @@ export default function BarChart(data: any) {
         "2022",
       ],
       labels: {
-        trim: true,
-      },
-      tickPlacement: "between",
-      title: {
-        text: "",
+        rotate: 0,
         style: {
-          fontSize: "20px",
-          fontWeight: 700,
+          fontSize: "10px", // Tamanho da fonte para as labels do eixo X
+          fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
+          fontWeight: "bold", // Peso da fonte (opcional)
         },
       },
-      tooltip: {
-        enabled: true,
-      },
+      
     },
     colors: ["#008FFB", "#FF4560"],
     yaxis: {
@@ -134,16 +162,15 @@ export default function BarChart(data: any) {
   const series = data2;
 
   return (
-    <div id="chart" className=" border-blue-500 !h-[380px]">
+    <div className=" border-blue-500 chart-container">
       <div className="flex items-center justify-between mt-2">
         <p className="font-bold ">Quantidade de ingressantes por gênero</p>
       </div>
-
       <Chart
         options={options}
         series={series}
         type="bar"
-        height="100%"
+        height="450px"
       />
     </div>
   );

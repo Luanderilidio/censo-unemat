@@ -1,0 +1,6 @@
+.chart-container {
+    width: 100%;    /* Largura completa */
+    height: 100vh;  /* Altura total da viewport */
+    padding: 0;     /* Sem preenchimento */
+    margin: 0;      /* Sem margem */
+  }

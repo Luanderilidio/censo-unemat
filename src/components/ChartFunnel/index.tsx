@@ -5,7 +5,7 @@ import { ApexOptions } from "apexcharts";
 export default function ChartFunnel(data: any) {
   const data2 = data.data.funnelChart;
 
-  console.log(data2);
+  // console.log(data2);
 
   const options: ApexOptions = {
     chart: {

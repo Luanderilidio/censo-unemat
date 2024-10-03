@@ -5,7 +5,7 @@ import { ApexOptions } from "apexcharts";
 
 export interface YearlyData {
   ano: number;
-  quantidade: number;
+  qtd: number;
 }
 
 export interface CardData {
@@ -17,10 +17,12 @@ export interface CardData {
 export type CardsArray = CardData[];
 
 export default function CardQtd({ title, qtd, data }: CardData) {
+
+  // console.log(data)
   const series = [
     {
       name: "Qtd",
-      data: data.map((e) => e.quantidade),
+      data: data.map((e) => e.qtd),
     },
   ];
 
