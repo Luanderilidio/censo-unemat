@@ -21,7 +21,7 @@ export default function ChartLineIng(data: any) {
     dataLabels: {
       enabled: true,
       enabledOnSeries: undefined,
-      formatter: function (val, opts) {
+      formatter: function (val, _opts) {
         return val;
       },
       textAnchor: "middle",
