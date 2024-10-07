@@ -151,7 +151,8 @@ export default function ChartLine(data: any) {
 
   return (
     <div className="col-span-4 w-full h-full grid grid-cols-7 pb-3 pt-9 relative">
-      <p className="font-bold absolute top-5 left-8">Raca/Cor dos Ingressantes</p>
+      <p className="font-bold text-sm text-black/80 absolute top-5 left-8">Raca/Cor dos Ingressantes</p>
+      
       <div className="col-span-6 pl-2">
         <Chart
           options={options}

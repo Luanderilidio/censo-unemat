@@ -1,7 +1,7 @@
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 
-import "../../../styles/ChartContainer.css"
+import "../../../styles/ChartContainer.css";
 
 export default function ChartLineIng(data: any) {
   const data2 = data.data[0];
@@ -12,23 +12,98 @@ export default function ChartLineIng(data: any) {
     chart: {
       id: "basic-line",
       toolbar: {
-        show: false // Desativa a toolbar
+        show: false, // Desativa a toolbar
       },
       zoom: {
         enabled: false, // Desativa o zoom
       },
     },
     dataLabels: {
-      enabled: false, // Habilita os dataLabels
-      offsetY: -10,
-      formatter: (val: number) => {
-        return val.toFixed(0); // Formata o valor como inteiro
+      enabled: true,
+      enabledOnSeries: undefined,
+      formatter: function (val, opts) {
+        return val;
       },
+      textAnchor: "middle",
+      distributed: false,
+      offsetX: 0,
+      offsetY: -8,
       style: {
-        fontSize: "12px",
+        fontSize: "10px",
+        fontFamily: "Roboto",
+        fontWeight: "bold",
+        colors: undefined,
+      },
+      background: {
+        enabled: true,
+        foreColor: "#fff",
+        padding: 4,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "#fff",
+        opacity: 0.9,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: "#000",
+          opacity: 0.45,
+        },
+      },
+      dropShadow: {
+        enabled: false,
+        top: 1,
+        left: 1,
+        blur: 1,
+        color: "#000",
+        opacity: 0.45,
       },
     },
-
+    legend: {
+      show: true,
+      showForSingleSeries: false,
+      showForNullSeries: true,
+      showForZeroSeries: true,
+      position: "top",
+      horizontalAlign: "right",
+      floating: true,
+      fontSize: "10px",
+      fontFamily: "Roboto, Arial",
+      fontWeight: 600,
+      formatter: undefined,
+      inverseOrder: false,
+      width: undefined,
+      height: undefined,
+      tooltipHoverFormatter: undefined,
+      customLegendItems: [],
+      offsetX: 0,
+      offsetY: 5,
+      labels: {
+        colors: undefined,
+        useSeriesColors: false,
+      },
+      markers: {
+        size: 7,
+        shape: undefined,
+        strokeWidth: 5,
+        fillColors: undefined,
+        customHTML: undefined,
+        onClick: undefined,
+        offsetX: 5,
+        offsetY: 0,
+      },
+      itemMargin: {
+        horizontal: -4,
+        vertical: 0,
+      },
+      onItemClick: {
+        toggleDataSeries: true,
+      },
+      onItemHover: {
+        highlightDataSeries: true,
+      },
+    },
     grid: {
       show: true, // Exibe a grid
       borderColor: "#ededed", // Cor das linhas da grid
@@ -57,7 +132,7 @@ export default function ChartLineIng(data: any) {
     },
     colors: ["#008FFB"],
     xaxis: {
-      categories: data2.data.map(item => item.ano),
+      categories: data2.data.map((item) => item.ano),
       labels: {
         rotate: 0,
         style: {

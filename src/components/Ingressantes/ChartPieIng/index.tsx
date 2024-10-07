@@ -68,7 +68,7 @@ export default function ChartPieIng(data: any) {
 
   return (
     <div className="chart-container relative !h-[310px] border-green-500">
-      <p className="font-bold ">Quantidade de ingressantes por gênero</p>
+      <p className="font-bold text-sm text-black/80">Quantidade de ingressantes por gênero</p>
 
       <Chart
         options={options}

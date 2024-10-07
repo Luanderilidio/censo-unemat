@@ -25,7 +25,48 @@ export default function ChartLineIngEnemVest(data: any) {
     },
     colors: ["#0032fc", "#8600fc"],
     legend: {
-      show: false,  // Desativa a legenda
+      show: true,
+      showForSingleSeries: false,
+      showForNullSeries: true,
+      showForZeroSeries: true,
+      position: "top",
+      horizontalAlign: "right",
+      floating: true,
+      fontSize: "10px",
+      fontFamily: "Roboto, Arial",
+      fontWeight: 600,
+      formatter: undefined,
+      inverseOrder: false,
+      width: undefined,
+      height: undefined,
+      tooltipHoverFormatter: undefined,
+      customLegendItems: [],
+      offsetX: 0,
+      offsetY: 5,
+      labels: {
+        colors: undefined,
+        useSeriesColors: false,
+      },
+      markers: {
+        size: 7,
+        shape: undefined,
+        strokeWidth: 5,
+        fillColors: undefined,
+        customHTML: undefined,
+        onClick: undefined,
+        offsetX: 5,
+        offsetY: 0,
+      },
+      itemMargin: {
+        horizontal: -4,
+        vertical: 0,
+      },
+      onItemClick: {
+        toggleDataSeries: true,
+      },
+      onItemHover: {
+        highlightDataSeries: true,
+      },
     },
     dataLabels: {
       enabled: false, // Habilita os dataLabels

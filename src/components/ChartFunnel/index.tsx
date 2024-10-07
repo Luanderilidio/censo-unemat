@@ -91,7 +91,7 @@ export default function ChartFunnel(data: any) {
 
   return (
     <div className="chart-container px-4 pt-4 relative">
-      <p className="font-bold absolute top-5 left-5">Idade dos Ingressantes</p>
+      <p className="font-bold text-sm text-black/80 absolute top-5 left-5">Idade dos Ingressantes</p>
       <Chart
         options={options}
         series={series}

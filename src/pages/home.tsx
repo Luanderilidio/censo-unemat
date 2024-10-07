@@ -89,7 +89,7 @@ export default function Home() {
 
       </div>
       <div className="col-span-12 row-span-1 text-center font-bold text-2xl flex items-center justify-center border-green-500">
-        DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT
+        DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT  <span className="ml-2 font-normal font-Montserrat italic ">2.0</span>
       </div>
       <div className="col-span-2">
         <div className="flex flex-col gap-4 p-4 rounded-md border font-Roboto font-medium">
@@ -206,7 +206,7 @@ export default function Home() {
         {/* Graficos de Linha */}
         <div className="grid grid-cols-5 grid-rows-5 !h-[500px] p-4 border rounded-3xl bg-white shadow-md shadow-black/10 col-span-7 !row-span-1">
           <div className="col-span-2 row-span-2 flex items-center justify-center">
-            <div className="font-Bold">
+            <div className="font-Bold flex flex-col items-start justify-start">
               <p className="text-left font-bold text-md ">Quantidade de Ingressantes</p>
               <p className="text-left font-black text-[5rem] text-[#008FFB]">
                 <CountUp start={0} duration={2.75} end={data[0]?.lineChartIng?.[0]?.qtd ?? 0} decimal="." separator="," />
@@ -262,52 +262,6 @@ export default function Home() {
         <div className="col-span-4 !h-[450px] rounded-3xl border bg-white shadow-md shadow-black/10">
           <ChartFunnel data={data[3]} />
         </div>
-
-        {/* 
-        <div className="col-span-8 row-span-1 gap-3 rounded-3xl bg-white shadow-md shadow-black/10">
-          <ChartLine data={data[2]} />
-          <div className="col-span-1 flex flex-col">
-            <div className="font-Bold mt-10">
-              <p className="text-left  font-normal text-xs">Branca</p>
-              <p className="text-left font-bold text-4xl text-[#008FFB]">
-                <CountUp start={0} duration={2.75} end={100} />
-              </p>
-            </div>
-            <div className="font-Bold">
-              <p className="text-left  font-normal text-xs">Negra</p>
-              <p className="text-left font-bold text-4xl text-[#00E396]">
-                <CountUp start={0} duration={2.75} end={100} />
-              </p>
-            </div>
-            <div className="font-Bold">
-              <p className="text-left  font-normal text-xs">Parda</p>
-              <p className="text-left font-bold text-4xl text-[#FEB019]">
-                <CountUp start={0} duration={2.75} end={100} />
-              </p>
-            </div>
-            <div className="font-Bold">
-              <p className="text-left  font-normal text-xs">Amarela</p>
-              <p className="text-left font-bold text-4xl text-[#FF4560]">
-                <CountUp start={0} duration={2.75} end={100} />
-              </p>
-            </div>
-            <div className="font-Bold">
-              <p className="text-left  font-normal text-xs">Indígena</p>
-              <p className="text-left font-bold text-4xl text-[#775DD0]">
-                <CountUp start={0} duration={2.75} end={100} />
-              </p>
-            </div>
-            <div className="font-Bold">
-              <p className="text-left  font-normal text-xs">N/ Declarado</p>
-              <p className="text-left font-bold text-4xl text-[#008FFB]">
-                <CountUp start={0} duration={2.75} end={100} />
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="col-span-4 row-span-1 rounded-3xl bg-white shadow-md shadow-black/10">
-          <ChartFunnel data={data[3]} />
-        </div> */}
       </div>
     </div>
   );
