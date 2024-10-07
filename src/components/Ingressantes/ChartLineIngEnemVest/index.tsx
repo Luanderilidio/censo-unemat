@@ -2,22 +2,16 @@
 import Chart from "react-apexcharts";
 import { ApexOptions } from "apexcharts";
 import "../../../styles/ChartContainer.css"
+import { colors } from "@mui/material";
 
-interface ChartLineIngEnemVestProps {
-  data: any;
-  title: string;
-}
 
-export default function ChartLineIngEnemVest({
-  data,
-  title,
-}) {
+export default function ChartLineIngEnemVest(data: any) {
 
-  const data2 = data.data;
+  const data2 = data.data.lineChartEnemVest;
 
-  // console.log("Data ChartLineIngEnemVest", data2);
+  console.log("Data ChartLineIngEnemVest", data2);
 
-  const categories = data2.map((e: any) => e.ano);
+  const categories = data2[0].data.map((item) => item.ano);
 
   const options = {
     chart: {
@@ -29,6 +23,7 @@ export default function ChartLineIngEnemVest({
         enabled: false, // Desativa o zoom
       },
     },
+    colors: ["#0032fc", "#8600fc"],
     legend: {
       show: false,  // Desativa a legenda
     },
@@ -42,7 +37,7 @@ export default function ChartLineIngEnemVest({
         fontSize: "12px",
       },
     },
-
+    
     grid: {
       show: true, // Exibe a grid
       borderColor: "#ededed", // Cor das linhas da grid
@@ -79,7 +74,6 @@ export default function ChartLineIngEnemVest({
     markers: {
       size: 5, // Tamanho dos pontos no gráfico
     },
-    colors: ["#008FFB"],
     xaxis: {
       categories: categories,
       labels: {
@@ -87,7 +81,7 @@ export default function ChartLineIngEnemVest({
         style: {
           fontSize: "10px", // Tamanho da fonte para as labels do eixo X
           fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
-          fontWeight: "normal", // Peso da fonte (opcional)
+          fontWeight: "bold", // Peso da fonte (opcional)
         },
       },
       tickAmount: 5,
@@ -108,15 +102,19 @@ export default function ChartLineIngEnemVest({
 
   const series = [
     {
-      name: "Qtd",
-      data: data2.map((e: any) => e.qtd),
+      name: "Enem",
+      data: data2[0].data.map((item: any) => item.qtd),
+    },
+    {
+      name: "Vestibular",
+      data: data2[1].data.map((item: any) => item.qtd),
     },
   ];
 
   return (
     <div className="w-full !h-full relative chart-container">
       <p className="font-bold text-sm text-black/80  absolute left-5 top-1">
-        {title}
+        Ingressantes por Enem/Vestibular
       </p>
 
       <Chart

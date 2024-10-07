@@ -57,21 +57,7 @@ export default function ChartLineIng(data: any) {
     },
     colors: ["#008FFB"],
     xaxis: {
-      categories: [
-        "2010",
-        "2011",
-        "2012",
-        "2013",
-        "2014",
-        "2015",
-        "2016",
-        "2017",
-        "2018",
-        "2019",
-        "2020",
-        "2021",
-        "2022",
-      ],
+      categories: data2.data.map(item => item.ano),
       labels: {
         rotate: 0,
         style: {
@@ -103,7 +89,7 @@ export default function ChartLineIng(data: any) {
   ];
 
   return (
-    <div className="w-full h-full px-2 pt-2 relative chart-container">
+    <div className="w-full h-full relative chart-container">
       <p className="font-bold text-sm text-black/80  absolute left-5 top-2">
         Quantidade de Ingressantes por Ano
       </p>

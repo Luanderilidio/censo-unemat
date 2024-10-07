@@ -4,9 +4,11 @@ import { useState } from "react";
 import {
   Autocomplete,
   Button,
+  CircularProgress,
   FormControl,
   IconButton,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -69,292 +71,23 @@ export default function Home() {
     }
   };
 
-  // const { data, error, isLoading, refetch } = useQuery({
-  //   queryKey: ["posts"],
-  //   queryFn: fecthData,
-  //   staleTime: 999999, // 5 segundos antes de marcar como stale
-  // });
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: ["posts"],
+    queryFn: fecthData,
+    staleTime: 999999, // 5 segundos antes de marcar como stale
+  });
 
-  const data = [
-    {
-      lineChartIng: [
-        {
-          title: "Quantidade de Ingressantes",
-          qtd: 55588,
-          hidden: false,
-          data: [
-            {
-              ano: 2010,
-              qtd: 3181,
-            },
-            {
-              ano: 2011,
-              qtd: 3332,
-            },
-            {
-              ano: 2012,
-              qtd: 4897,
-            },
-            {
-              ano: 2013,
-              qtd: 3808,
-            },
-            {
-              ano: 2014,
-              qtd: 3828,
-            },
-            {
-              ano: 2015,
-              qtd: 4704,
-            },
-            {
-              ano: 2016,
-              qtd: 4708,
-            },
-            {
-              ano: 2017,
-              qtd: 4490,
-            },
-            {
-              ano: 2018,
-              qtd: 5750,
-            },
-            {
-              ano: 2019,
-              qtd: 5589,
-            },
-            {
-              ano: 2020,
-              qtd: 2122,
-            },
-            {
-              ano: 2021,
-              qtd: 4507,
-            },
-            {
-              ano: 2022,
-              qtd: 4672,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      horizontalBar: {
-        name: "Ingressantes",
-        data: [17294, 10173, 7132, 16, 139, 23],
-      },
-    },
-    {
-      lineChart: [
-        {
-          name: "Branca",
-          hidden: false,
-          data: [
-            345, 417, 1015, 600, 939, 1188, 1144, 1135, 1461, 1498, 531, 1662,
-            1543,
-          ],
-          total: 13478,
-        },
-        {
-          name: "Negra",
-          hidden: false,
-          data: [
-            205, 271, 326, 294, 403, 464, 470, 515, 656, 559, 1263, 2067, 858,
-          ],
-          total: 8351,
-        },
-        {
-          name: "Parda",
-          hidden: false,
-          data: [
-            413, 606, 912, 636, 1143, 1553, 1870, 1575, 2408, 2150, 28, 130,
-            394,
-          ],
-          total: 13818,
-        },
-        {
-          name: "Amarela",
-          hidden: true,
-          data: [7, 15, 42, 14, 69, 53, 61, 59, 91, 50, 21, 549, 279],
-          total: 1310,
-        },
-        {
-          name: "Indígena",
-          hidden: true,
-          data: [2, 6, 9, 3, 4, 10, 125, 15, 34, 45, 14, 54, 48],
-          total: 369,
-        },
-        {
-          name: "N/ Declarado",
-          hidden: true,
-          data: [
-            2209, 2017, 2593, 2261, 1270, 1436, 1038, 1191, 1100, 1287, 265, 45,
-            1550,
-          ],
-          total: 18262,
-        },
-      ],
-    },
-    {
-      funnelChart: [
-        {
-          name: "ingressantes",
-          data: [1264, 35572, 7747, 4787, 2990, 2603, 554, 71],
-        },
-      ],
-    },
-    {
-      barVertical: [
-        {
-          name: "Masculino",
-          hidden: false,
-          data: [
-            1348, 1377, 2050, 1614, 1702, 2078, 2128, 2129, 2363, 2290, 930,
-            1705, 1967,
-          ],
-        },
-        {
-          name: "Feminino",
-          hidden: true,
-          data: [
-            1833, 1955, 2847, 2194, 2126, 2626, 2580, 2361, 3387, 3299, 1192,
-            2802, 2705,
-          ],
-        },
-      ],
-    },
-    {
-      lineChartEnemVest: [
-        {
-          title: "Ingressantes pelo Enem",
-          qtd: 31420,
-          hidden: false,
-          data: [
-            {
-              ano: 2010,
-              qtd: 3113,
-            },
-            {
-              ano: 2011,
-              qtd: 3259,
-            },
-            {
-              ano: 2012,
-              qtd: 4599,
-            },
-            {
-              ano: 2013,
-              qtd: 2110,
-            },
-            {
-              ano: 2014,
-              qtd: 1685,
-            },
-            {
-              ano: 2015,
-              qtd: 2262,
-            },
-            {
-              ano: 2016,
-              qtd: 2095,
-            },
-            {
-              ano: 2017,
-              qtd: 2208,
-            },
-            {
-              ano: 2018,
-              qtd: 3301,
-            },
-            {
-              ano: 2019,
-              qtd: 2897,
-            },
-            {
-              ano: 2020,
-              qtd: 880,
-            },
-            {
-              ano: 2021,
-              qtd: 934,
-            },
-            {
-              ano: 2022,
-              qtd: 2077,
-            },
-          ],
-        },
-        {
-          title: "Ingressantes pelo Vestibular",
-          qtd: 21146,
-          hidden: true,
-          data: [
-            {
-              ano: 2010,
-              qtd: 0,
-            },
-            {
-              ano: 2011,
-              qtd: 0,
-            },
-            {
-              ano: 2012,
-              qtd: 1,
-            },
-            {
-              ano: 2013,
-              qtd: 1614,
-            },
-            {
-              ano: 2014,
-              qtd: 1925,
-            },
-            {
-              ano: 2015,
-              qtd: 1851,
-            },
-            {
-              ano: 2016,
-              qtd: 2194,
-            },
-            {
-              ano: 2017,
-              qtd: 2065,
-            },
-            {
-              ano: 2018,
-              qtd: 2070,
-            },
-            {
-              ano: 2019,
-              qtd: 2210,
-            },
-            {
-              ano: 2020,
-              qtd: 2067,
-            },
-            {
-              ano: 2021,
-              qtd: 3215,
-            },
-            {
-              ano: 2022,
-              qtd: 1934,
-            },
-          ],
-        },
-      ],
-    },
-  ];
+  if (isLoading) return <LinearProgress />;
+  if (error) return <div>Something went wrong!</div>;
 
-  console.log(data[4]?.barVertical);
-
-  // if (isLoading) return <>carregando dados...</>;
-  // if (error) return <div>Something went wrong!</div>;
 
   return (
-    <div className="grid grid-cols-12 gap-5 border bg-gray-100/20 px-4">
+    <div className="grid grid-cols-12 gap-5 bg-gray-100/20 px-4">
+      <div className="col-span-12 row-span-1">
+
+       {isLoading2 && <LinearProgress /> }
+
+      </div>
       <div className="col-span-12 row-span-1 text-center font-bold text-2xl flex items-center justify-center border-green-500">
         DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT
       </div>
@@ -458,65 +191,75 @@ export default function Home() {
           </div>
           <Button
             variant="contained"
+            className="flex gap-2"
             onClick={() => {
               setIsLoading2(true);
-              // refetch();
+              refetch();
             }}
           >
-            {isLoading2 ? "Gerando" : "Gerar"}
+            {isLoading2 ? "Gerando" : "Gerar"} 
+            {isLoading2 && <CircularProgress size={20} />}
           </Button>
         </div>
       </div>
       <div className="grid grid-cols-12 gap-3  border-red-500 col-span-10 ">
         {/* Graficos de Linha */}
-        <div className="grid grid-cols-2 grid-rows-5 !h-[500px]  border-red-500 rounded-3xl bg-white shadow-md shadow-black/10 col-span-7 !row-span-1">
-          <div className="col-span-2 row-span-3">
-            <ChartLineIng data={data[0].lineChartIng} />
+        <div className="grid grid-cols-5 grid-rows-5 !h-[500px] p-4 border rounded-3xl bg-white shadow-md shadow-black/10 col-span-7 !row-span-1">
+          <div className="col-span-2 row-span-2 flex items-center justify-center">
+            <div className="font-Bold">
+              <p className="text-left font-bold text-md ">Quantidade de Ingressantes</p>
+              <p className="text-left font-black text-[5rem] text-[#008FFB]">
+                <CountUp start={0} duration={2.75} end={data[0]?.lineChartIng?.[0]?.qtd ?? 0} decimal="." separator="," />
+              </p>
+            </div>
           </div>
-          <div className="col-span-1 row-span-2  pl-2  border-500-red">
+          <div className="col-span-3 row-span-2 border-500-red">
             <ChartLineIngEnemVest
               title="Ingressantes por Enem"
-              data={data[5]?.lineChartEnemVest?.[0]}
+              data={data[5]}
             />
           </div>
+          <div className="col-span-5 row-span-3">
+            <ChartLineIng data={data[0].lineChartIng} />
+          </div>
           <div className="col-span-1 row-span-2 pr-2 border-500-red">
-            <ChartLineIngEnemVest
+            {/* <ChartLineIngEnemVest
               title="Ingressantes por Vestibular"
               data={data[5]?.lineChartEnemVest?.[1]}
-            />
+            /> */}
           </div>
         </div>
 
         {/* BarVertical + Line */}
-        <div className="grid grid-cols-2 grid-rows-5 !h-[500px] col-span-5 border rounded-3xl bg-white shadow-md shadow-black/10">
+        <div className="grid grid-cols-2 grid-rows-5 !h-[500px] col-span-5 p-4 border rounded-3xl bg-white shadow-md shadow-black/10">
           <div className="col-span-2 h-full row-span-3 border-red-500">
             <HorizontalBarChart data={data[1].horizontalBar} />
           </div>
           <div className="col-span-2 row-span-2 border-red-500">
-          <ChartLineTurn data={data[4]?.barVertical} />
+            <ChartLineTurn data={data[6]} />
           </div>
         </div>
 
         {/* BarHorizontal */}
-        <div className="col-span-7 gap-3 !h-[500px] border px-4 pt-2 rounded-3xl bg-white shadow-md shadow-black/10">
+        <div className="col-span-7 gap-3 !h-[500px] border p-4 rounded-3xl bg-white shadow-md shadow-black/10">
           <BarChartTest data={data[4]} />
         </div>
 
         {/* BarPie + BarLine */}
-        <div className="grid grid-rows-5 border px-4 !h-[500px] pt-2 rounded-3xl bg-white shadow-md shadow-black/10 col-span-5">
+        <div className="grid grid-rows-5 border !h-[500px] p-4 rounded-3xl bg-white shadow-md shadow-black/10 col-span-5">
           <div className="row-span-3 !h-[300px] border-red-500">
-            <ChartPieIng />
+            <ChartPieIng data={data[4]} />
           </div>
 
           <div className="row-span-2 !h-[200px]  border-red-500">
-            <ChartLineIngGen data={data[4]?.barVertical} />
+            <ChartLineIngGen data={data[4]} />
           </div>
         </div>
 
-        <div className="col-span-8 !h-[450px] gap-3 rounded-3xl bg-white shadow-md shadow-black/10">
+        <div className="col-span-8 !h-[450px] gap-3 border rounded-3xl bg-white shadow-md shadow-black/10">
           <ChartLine data={data[2]} />
         </div>
-        <div className="col-span-4 !h-[450px] rounded-3xl bg-white shadow-md shadow-black/10">
+        <div className="col-span-4 !h-[450px] rounded-3xl border bg-white shadow-md shadow-black/10">
           <ChartFunnel data={data[3]} />
         </div>
 

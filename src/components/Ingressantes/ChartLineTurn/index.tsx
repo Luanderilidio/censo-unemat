@@ -3,11 +3,11 @@ import { ApexOptions } from "apexcharts";
 import CountUp from "react-countup";
 
 export default function ChartLineTurn(data: any) {
-  const data2 = data.data;
+  const data2 = data.data.lineChartTurn;
 
   // const categories = data2.data[0].map((e: any) => e.ano);
 
-  console.log("ChartLineIngGen", data.data);
+  // console.log("ChartLineIngGen", data2);
 
   const options = {
     chart: {
@@ -112,27 +112,13 @@ export default function ChartLineTurn(data: any) {
     },
     colors: ["#ffff00", "#001fff"],
     xaxis: {
-      categories: [
-        "2010",
-        "2011",
-        "2012",
-        "2013",
-        "2014",
-        "2015",
-        "2016",
-        "2017",
-        "2018",
-        "2019",
-        "2020",
-        "2021",
-        "2022",
-      ],
+      categories: data2[0].data.map(item => item.ano),
       labels: {
         rotate: 0,
         style: {
           fontSize: "10px", // Tamanho da fonte para as labels do eixo X
           fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
-          fontWeight: "normal", // Peso da fonte (opcional)
+          fontWeight: "bold", // Peso da fonte (opcional)
         },
       },
       tickAmount: 5,
@@ -153,18 +139,18 @@ export default function ChartLineTurn(data: any) {
 
   const series = [
     {
-      name: "Masculino",
-      data: data2[0].data,
+      name: "Diurno",
+      data: data2[0].data.map(item => item.qtd),
     },
     {
-      name: "Feminino",
-      data: data2[1].data,
+      name: "Noturno",
+      data: data2[1].data.map(item => item.qtd),
     },
   ];
 
   return (
-    <div className="w-full h-full px-2 relative">
-      <p className="font-bold text-sm text-black/80  absolute left-5 top-2">
+    <div className="w-full h-full relative ">
+      <p className="font-bold text-sm text-black/80  absolute left-3 top-2">
         Quantidade de ingressantes por Turno
       </p>
       <Chart

@@ -6,8 +6,14 @@ import CountUp from "react-countup";
 
 import "../../../styles/ChartContainer.css";
 
-const ChartPieIng = () => {
-  const series = [44, 55]; // Valores simples
+export default function ChartPieIng(data: any) {
+  
+  const data2 = data.data.barVertical;
+  const series = [data2[0].qtd, data2[1].qtd];
+
+
+  // console.log("ChartPieIng: ", data2[0].qtd)
+
   const options = {
     chart: {
       type: "pie",
@@ -76,17 +82,16 @@ const ChartPieIng = () => {
       <div className="font-Bold flex flex-col items-start justify-start absolute left-3 bottom-10">
         <p className="text-left  font-normal text-xs leading-none">Feminino</p>
         <p className="text-left font-bold text-3xl text-[#FF4560]">
-          <CountUp start={0} duration={2.75} end={12312} />
+          <CountUp start={0} duration={2.75} end={data2[1].qtd} />
         </p>
       </div>
       <div className="font-Bold flex flex-col items-start justify-start absolute right-3 bottom-10">
         <p className="text-left  font-normal text-xs leading-none">Masculino</p>
         <p className="text-left font-bold text-3xl text-[#008FFB]">
-          <CountUp start={0} duration={2.75} end={12312} />
+          <CountUp start={0} duration={2.75} end={data2[0].qtd} />
         </p>
       </div>
     </div>
   );
 };
 
-export default ChartPieIng;

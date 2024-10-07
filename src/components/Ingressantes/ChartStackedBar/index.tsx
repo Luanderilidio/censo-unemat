@@ -1,11 +1,10 @@
 import { ApexOptions } from "apexcharts";
 import Chart from "react-apexcharts";
+import CountUp from "react-countup";
 
 export default function BarChart(data: any) {
   const data2 = data.data.barVertical;
-
-  // console.log("BarChart sexo", data2)
-
+  
   const options = {
     chart: {
       stacked: true,
@@ -119,21 +118,7 @@ export default function BarChart(data: any) {
       intersect: true,
     },
     xaxis: {
-      categories: [
-        "2010",
-        "2011",
-        "2012",
-        "2013",
-        "2014",
-        "2015",
-        "2016",
-        "2017",
-        "2018",
-        "2019",
-        "2020",
-        "2021",
-        "2022",
-      ],
+      categories: data2[0].data.map((item) => item.ano),
       labels: {
         rotate: 0,
         style: {
@@ -159,7 +144,19 @@ export default function BarChart(data: any) {
     },
   } as unknown as ApexOptions;
 
-  const series = data2;
+  const series = [
+    {
+      name: "Masculino",
+      hidden: false,
+      data: data2[0].data.map(item => item.qtd)
+    },
+    {
+      name: "Feminino",
+      qtd: 0,
+      hidden: true,
+      data: data2[1].data.map(item => item.qtd)
+    }
+  ];
 
   return (
     <div className=" border-blue-500 chart-container">
