@@ -3,12 +3,7 @@ import React from "react";
 import Chart from "react-apexcharts";
 import "../../styles/ChartContainer.css";
 
-export interface HorizontalBarProps {
-  data: {
-    name: string;
-    data: number[];
-  };
-}
+
 
 export const HorizontalBarChart: React.FC<any> = ({ data }) => {
   const options = {
@@ -125,16 +120,13 @@ export const HorizontalBarChart: React.FC<any> = ({ data }) => {
   ];
 
   return (
-    <div className="!h-full relative chart-container">
-      <p className="font-bold text-sm text-black/80  absolute left-5 top-2">
-        Modalidade de ingresso
-      </p>
+    // <div className="!h-full relative chart-container">
       <Chart
         options={options}
         series={series}
         type="bar" // Tipo de gráfico
         height="100%" // Altura do gráfico
       />
-    </div>
+    // </div>
   );
 };

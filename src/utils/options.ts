@@ -1,5 +1,5 @@
-export const cities = [
-    "",
+export const cities = [ 
+  "Selecionar tudo",
     "ALTA FLORESTA",
     "ALTO ARAGUAIA",
     "ARIPUANA",
@@ -46,8 +46,8 @@ export const cities = [
     "QUERENCIA",
   ];
   
-  export const courses = [
-    "",
+  export const courses: string[] = [ 
+    "Selecionar tudo",
     "AGRONOMIA",
     "CIENCIAS BIOLOGICAS",
     "ENGENHARIA FLORESTAL",
