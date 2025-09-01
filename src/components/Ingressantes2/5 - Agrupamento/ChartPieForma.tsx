@@ -20,32 +20,54 @@ import {
 } from '@mui/material';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig1, chartData1 as originalData } from './data';
+import { chartConfig5, chartData5 as originalData } from "./data";
+ 
 
-export function ChartPieSexo() {
-  const sexKeys = ['Feminino', 'Masculino'] as const;
+
+export function ChartPieForma() {
+
+  const formKeys = [
+    'Vestibular',
+    'Enem',
+    'Avaliação_Seriada',
+    'Seleção_Simplificada',
+    'EGR',
+    'Outro_Tipo_Seleção',
+    'Processo_Seletivo',
+    'Vaga_Remanescente',
+    'Programa_Especial',
+    'Outra_Forma',
+  ] as const;
 
   // inicializar acumulador
-  const totals: Record<(typeof sexKeys)[number], number> = {
-    Feminino: 0,
-    Masculino: 0,
+  const totals: Record<(typeof formKeys)[number], number> = {
+    Vestibular: 0,
+    Enem: 0,
+    Avaliação_Seriada: 0,
+    Seleção_Simplificada: 0,
+    EGR: 0,
+    Outro_Tipo_Seleção: 0,
+    Processo_Seletivo: 0,
+    Vaga_Remanescente: 0,
+    Programa_Especial: 0,
+    Outra_Forma: 0,
   };
 
   // somar cada ano por faixa etária
   for (const year of originalData) {
-    sexKeys.forEach((key) => {
+    formKeys.forEach((key) => {
       totals[key] += year[key];
     });
   }
 
   // transformar no formato desejado
-  const chartData1 = sexKeys.map((key) => ({
-    sexo: key,
+  const chartData5 = formKeys.map((key) => ({
+    forma: key,
     quantidade: totals[key],
-    fill: faker.color.rgb({ casing: 'upper' }),
+    fill: faker.color.rgb({ casing: 'upper' })
   }));
 
-  const total = chartData1.reduce((acc, cur) => acc + cur.quantidade, 0);
+const total = chartData5.reduce((acc, cur) => acc + cur.quantidade, 0);
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
@@ -67,16 +89,16 @@ export function ChartPieSexo() {
         </div>
       </div>
       <ChartContainer
-        config={chartConfig1}
+        config={chartConfig5}
         className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[500px] px-4 pb-2 w-full"
       >
         <PieChart>
-          <ChartTooltip content={<ChartTooltipContent nameKey="sexo" />} />
+          <ChartTooltip content={<ChartTooltipContent nameKey="forma" />} />
 
           <Pie
-            data={chartData1}
+            data={chartData5}
             dataKey="quantidade"
-            nameKey="sexo"
+            nameKey="forma"
             labelLine={true}
             label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
               const RADIAN = Math.PI / 180;
@@ -87,13 +109,13 @@ export function ChartPieSexo() {
                 <text
                   x={x}
                   y={y}
-                  fill={chartData1[index].fill}
+                  fill={chartData5[index].fill}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={14}
                   fontWeight="bold"
                 >
-                  {chartData1[index].sexo}
+                  {chartData5[index].forma}
                 </text>
               );
             }}
@@ -114,10 +136,10 @@ export function ChartPieSexo() {
                   <div key={index} className="flex items-center gap-2">
                     <span
                       className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig1[entry.value].color }}
+                      style={{ backgroundColor: chartConfig5[entry.value].color }}
                     />
-                    <span style={{ color: chartConfig1[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig1[entry.value].label}
+                    <span style={{ color: chartConfig5[entry.value].color, fontWeight: 'bold' }}>
+                      {chartConfig5[entry.value].label}
                     </span>
                   </div>
                 ))}

@@ -14,24 +14,24 @@ import {
   Slider,
   TextField,
   Typography,
-} from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import FmdGoodIcon from "@mui/icons-material/FmdGood";
-import SchoolIcon from "@mui/icons-material/School";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { TbTools } from "react-icons/tb";
-import SearchIcon from "@mui/icons-material/Search";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import WifiIcon from "@mui/icons-material/Wifi";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { MdWork } from "react-icons/md";
+} from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import SchoolIcon from '@mui/icons-material/School';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { TbTools } from 'react-icons/tb';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import WifiIcon from '@mui/icons-material/Wifi';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import { FaChalkboardTeacher } from 'react-icons/fa';
+import { MdWork } from 'react-icons/md';
 
-import { cities, courses } from "../utils/options";
-import { useMemo, useState } from "react";
-import { dataFilters } from "../utils/dataFilters";
-import { ExpandMore } from "../utils/ExpandMore";
-import IngressantesMain from "../components/Ingressantes2/IngressantesMain";
+import { cities, courses } from '../utils/options';
+import { useMemo, useState } from 'react';
+import { dataFilters } from '../utils/dataFilters';
+import { ExpandMore } from '../utils/ExpandMore';
+import IngressantesMain from '../components/Ingressantes2/IngressantesMain';
 
 export default function Home2() {
   // const [course, setCourse] = useState<string | null>(null);
@@ -57,11 +57,8 @@ export default function Home2() {
 
   // Todos os anos disponíveis no dataset
   const anos = useMemo(
-    () =>
-      Array.from(
-        new Set(dataFilters.map((d) => Number(d.NU_ANO_CENSO)))
-      ).sort(),
-    []
+    () => Array.from(new Set(dataFilters.map((d) => Number(d.NU_ANO_CENSO)))).sort(),
+    [],
   );
 
   // Handler do slider
@@ -74,49 +71,42 @@ export default function Home2() {
   // 🔹 Dados filtrados dinamicamente
   const filteredData = useMemo(() => {
     let filtered = dataFilters.filter(
-      (d) =>
-        Number(d.NU_ANO_CENSO) >= years[0] && Number(d.NU_ANO_CENSO) <= years[1]
+      (d) => Number(d.NU_ANO_CENSO) >= years[0] && Number(d.NU_ANO_CENSO) <= years[1],
     );
     if (city) filtered = filtered.filter((d) => d.NO_MUNICIPIO === city);
     if (course) filtered = filtered.filter((d) => d.NO_CURSO === course);
-    if (modality)
-      filtered = filtered.filter((d) => d.TP_MODALIDADE_ENSINO === modality);
-    if (degree)
-      filtered = filtered.filter((d) => d.TP_GRAU_ACADEMICO === degree);
+    if (modality) filtered = filtered.filter((d) => d.TP_MODALIDADE_ENSINO === modality);
+    if (degree) filtered = filtered.filter((d) => d.TP_GRAU_ACADEMICO === degree);
     return filtered;
   }, [years, city, course, modality, degree]);
 
   // 🔹 Opções dos filtros dependentes
   const municipios = useMemo(
     () => Array.from(new Set(filteredData.map((d) => d.NO_MUNICIPIO))).sort(),
-    [filteredData]
+    [filteredData],
   );
 
   const cursos = useMemo(
     () => Array.from(new Set(filteredData.map((d) => d.NO_CURSO))).sort(),
-    [filteredData]
+    [filteredData],
   );
 
   const modalidades = useMemo(
-    () =>
-      Array.from(
-        new Set(filteredData.map((d) => d.TP_MODALIDADE_ENSINO))
-      ).sort(),
-    [filteredData]
+    () => Array.from(new Set(filteredData.map((d) => d.TP_MODALIDADE_ENSINO))).sort(),
+    [filteredData],
   );
 
   const graus = useMemo(
-    () =>
-      Array.from(new Set(filteredData.map((d) => d.TP_GRAU_ACADEMICO))).sort(),
-    [filteredData]
+    () => Array.from(new Set(filteredData.map((d) => d.TP_GRAU_ACADEMICO))).sort(),
+    [filteredData],
   );
 
   const columns = [
-    { field: "NU_ANO_CENSO", headerName: "Ano", width: 100 },
-    { field: "NO_MUNICIPIO", headerName: "Município", width: 180 },
-    { field: "NO_CURSO", headerName: "Curso", width: 200 },
-    { field: "TP_MODALIDADE_ENSINO", headerName: "Modalidade", width: 150 },
-    { field: "TP_GRAU_ACADEMICO", headerName: "Grau Acadêmico", width: 180 },
+    { field: 'NU_ANO_CENSO', headerName: 'Ano', width: 100 },
+    { field: 'NO_MUNICIPIO', headerName: 'Município', width: 180 },
+    { field: 'NO_CURSO', headerName: 'Curso', width: 200 },
+    { field: 'TP_MODALIDADE_ENSINO', headerName: 'Modalidade', width: 150 },
+    { field: 'TP_GRAU_ACADEMICO', headerName: 'Grau Acadêmico', width: 180 },
   ];
 
   return (
@@ -164,12 +154,8 @@ export default function Home2() {
           renderOption={(props, option) => (
             <li {...props} key={option}>
               <div className="flex gap-1 items-center justify-center">
-                {option !== "Selecionar tudo" && (
-                  <FmdGoodIcon sx={{ fontSize: 12 }} />
-                )}
-                <p className={`!text-sm !font-semibold leading-none  `}>
-                  {option}
-                </p>
+                {option !== 'Selecionar tudo' && <FmdGoodIcon sx={{ fontSize: 12 }} />}
+                <p className={`!text-sm !font-semibold leading-none  `}>{option}</p>
               </div>
             </li>
           )}
@@ -185,12 +171,10 @@ export default function Home2() {
           renderOption={(props, option) => (
             <li {...props} key={option}>
               <div className="flex gap-1 items-start justify-center">
-                {option !== "Selecionar tudo" && (
-                  <SchoolIcon sx={{ fontSize: 12 }} />
-                )}
+                {option !== 'Selecionar tudo' && <SchoolIcon sx={{ fontSize: 12 }} />}
                 <p
                   className={`!text-xs !font-semibold leading-none ${
-                    option === "Selecionar tudo" && "text-black/40"
+                    option === 'Selecionar tudo' && 'text-black/40'
                   }`}
                 >
                   {option}
@@ -206,20 +190,16 @@ export default function Home2() {
             options={modalidades}
             value={modality}
             onChange={(_, newValue) => setModality(newValue)}
-            renderInput={(params) => (
-              <TextField {...params} label="Modalidade" />
-            )}
+            renderInput={(params) => <TextField {...params} label="Modalidade" />}
             renderOption={(props, option) => (
               <li {...props} key={option}>
                 <div className="flex gap-2 items-center justify-center">
-                  {option === "DISTANCIA" ? (
+                  {option === 'DISTANCIA' ? (
                     <WifiIcon sx={{ fontSize: 20 }} />
                   ) : (
                     <ApartmentIcon sx={{ fontSize: 20 }} />
                   )}
-                  <p className={"!text-sm !font-semibold leading-none"}>
-                    {option}
-                  </p>
+                  <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
                 </div>
               </li>
             )}
@@ -232,20 +212,14 @@ export default function Home2() {
             options={graus}
             value={degree}
             onChange={(_, newValue) => setDegree(newValue)}
-            renderInput={(params) => (
-              <TextField {...params} label="Grau Acadêmico" />
-            )}
+            renderInput={(params) => <TextField {...params} label="Grau Acadêmico" />}
             renderOption={(props, option) => (
               <li {...props} key={option}>
                 <div className="flex gap-2 items-center justify-center">
-                  {option === "BACHARELADO" && <MdWork size={15} />}
-                  {option === "LICENCIATURA" && (
-                    <FaChalkboardTeacher size={15} />
-                  )}
-                  {option === "TECNOLOGICO" && <TbTools size={15} />}
-                  <p className={"!text-sm !font-semibold leading-none"}>
-                    {option}
-                  </p>
+                  {option === 'BACHARELADO' && <MdWork size={15} />}
+                  {option === 'LICENCIATURA' && <FaChalkboardTeacher size={15} />}
+                  {option === 'TECNOLOGICO' && <TbTools size={15} />}
+                  <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
                 </div>
               </li>
             )}
@@ -299,8 +273,7 @@ export default function Home2() {
 
       {/* INGRESSANTES */}
       <div className="col-span-15">
-
-      <IngressantesMain />
+        <IngressantesMain />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
-import { ApexOptions } from "apexcharts";
-import React from "react";
-import Chart from "react-apexcharts";
+import { ApexOptions } from 'apexcharts';
+import React from 'react';
+import Chart from 'react-apexcharts';
 
 type SeriesType = {
   name: string;
@@ -10,18 +10,18 @@ type SeriesType = {
 interface HorizontalBarChartProps {
   categories: string[];
   series: SeriesType[];
-  colors: string[]; // opcional, caso queira customizar cores 
+  colors: string[]; // opcional, caso queira customizar cores
 }
 
 export const HorizontalBarChart2: React.FC<HorizontalBarChartProps> = ({
   categories,
   series,
-  colors = ["#008FFB", "#00E396", "#FEB019", "#FF4560"],
+  colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560'],
 }) => {
   const options: ApexOptions = {
     chart: {
-      id: "vertical-bar-chart",
-      type: "bar",
+      id: 'vertical-bar-chart',
+      type: 'bar',
       stacked: true,
       toolbar: {
         show: true,
@@ -46,36 +46,36 @@ export const HorizontalBarChart2: React.FC<HorizontalBarChartProps> = ({
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: "55%",
-        endingShape: "rounded",
+        columnWidth: '55%',
+        endingShape: 'rounded',
       },
     },
     dataLabels: {
       enabled: true,
       background: {
         enabled: true,
-        foreColor: "#fff",
+        foreColor: '#fff',
         padding: 4,
         borderRadius: 2,
         borderWidth: 1,
-        borderColor: "#fff",
+        borderColor: '#fff',
         opacity: 0.0,
         dropShadow: {
           enabled: true,
           top: 1,
           left: 1,
           blur: 1,
-          color: "#fff",
+          color: '#fff',
           opacity: 1,
         },
       },
     },
     legend: {
       show: true,
-      position: "bottom",
-      horizontalAlign: "center",
-      fontSize: "14px",
-      fontFamily: "Roboto",
+      position: 'bottom',
+      horizontalAlign: 'center',
+      fontSize: '14px',
+      fontFamily: 'Roboto',
       fontWeight: 600,
       itemMargin: {
         horizontal: 10,
@@ -84,7 +84,7 @@ export const HorizontalBarChart2: React.FC<HorizontalBarChartProps> = ({
     },
     grid: {
       show: true,
-      borderColor: "#ededed",
+      borderColor: '#ededed',
       strokeDashArray: 4,
       xaxis: { lines: { show: true } },
       yaxis: { lines: { show: true } },

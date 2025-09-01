@@ -1,6 +1,6 @@
 // src/components/FunnelChart.tsx
-import Chart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
+import Chart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
 
 export default function ChartFunnel(data: any) {
   const data2 = data.data.funnelChart;
@@ -9,7 +9,7 @@ export default function ChartFunnel(data: any) {
 
   const options: ApexOptions = {
     chart: {
-      type: "bar",
+      type: 'bar',
     },
     plotOptions: {
       bar: {
@@ -25,10 +25,10 @@ export default function ChartFunnel(data: any) {
       //   return   ":  " + val;
       // },
       style: {
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-        fontWeight: "bold",
-        colors: ["#000000"],
+        fontSize: '14px',
+        fontFamily: 'Helvetica, Arial, sans-serif',
+        fontWeight: 'bold',
+        colors: ['#000000'],
       },
       dropShadow: {
         enabled: false,
@@ -36,7 +36,7 @@ export default function ChartFunnel(data: any) {
     },
     grid: {
       show: true, // Exibe a grid
-      borderColor: "#ededed", // Cor das linhas da grid
+      borderColor: '#ededed', // Cor das linhas da grid
       strokeDashArray: 4, // Define o estilo pontilhado
       row: {
         colors: undefined,
@@ -61,16 +61,7 @@ export default function ChartFunnel(data: any) {
       show: true,
     },
     xaxis: {
-      categories: [
-        "0-17",
-        "18-24",
-        "25-29",
-        "30-34",
-        "35-39",
-        "40-49",
-        "50-59",
-        "60+",
-      ],
+      categories: ['0-17', '18-24', '25-29', '30-34', '35-39', '40-49', '50-59', '60+'],
     },
     yaxis: {
       show: true,
@@ -91,7 +82,9 @@ export default function ChartFunnel(data: any) {
 
   return (
     <div className="chart-container px-4 pt-4 relative">
-      <p className="font-bold text-sm text-black/80 absolute top-5 left-5">Idade dos Ingressantes</p>
+      <p className="font-bold text-sm text-black/80 absolute top-5 left-5">
+        Idade dos Ingressantes
+      </p>
       <Chart
         options={options}
         series={series}

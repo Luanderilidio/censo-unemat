@@ -1,21 +1,18 @@
-
-import Chart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
-import "../../../styles/ChartContainer.css"
-import { colors } from "@mui/material";
-
+import Chart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
+import '../../../styles/ChartContainer.css';
+import { colors } from '@mui/material';
 
 export default function ChartLineIngEnemVest(data: any) {
-
   const data2 = data.data.lineChartEnemVest;
 
-  console.log("Data ChartLineIngEnemVest", data2);
+  console.log('Data ChartLineIngEnemVest', data2);
 
   const categories = data2[0].data.map((item) => item.ano);
 
   const options = {
     chart: {
-      id: "basic-line",
+      id: 'basic-line',
       toolbar: {
         show: false, // Desativa a toolbar
       },
@@ -23,17 +20,17 @@ export default function ChartLineIngEnemVest(data: any) {
         enabled: false, // Desativa o zoom
       },
     },
-    colors: ["#0032fc", "#8600fc"],
+    colors: ['#0032fc', '#8600fc'],
     legend: {
       show: true,
       showForSingleSeries: false,
       showForNullSeries: true,
       showForZeroSeries: true,
-      position: "top",
-      horizontalAlign: "right",
+      position: 'top',
+      horizontalAlign: 'right',
       floating: true,
-      fontSize: "10px",
-      fontFamily: "Roboto, Arial",
+      fontSize: '10px',
+      fontFamily: 'Roboto, Arial',
       fontWeight: 600,
       formatter: undefined,
       inverseOrder: false,
@@ -75,13 +72,13 @@ export default function ChartLineIngEnemVest(data: any) {
         return val.toFixed(0); // Formata o valor como inteiro
       },
       style: {
-        fontSize: "12px",
+        fontSize: '12px',
       },
     },
-    
+
     grid: {
       show: true, // Exibe a grid
-      borderColor: "#ededed", // Cor das linhas da grid
+      borderColor: '#ededed', // Cor das linhas da grid
       strokeDashArray: 4, // Define o estilo pontilhado
       row: {
         colors: undefined,
@@ -95,8 +92,8 @@ export default function ChartLineIngEnemVest(data: any) {
         labels: {
           show: false,
           style: {
-            fontFamily: "Roboto",
-            fontSize: "1px", // Define o tamanho da fonte do eixo X
+            fontFamily: 'Roboto',
+            fontSize: '1px', // Define o tamanho da fonte do eixo X
           },
         },
         axisTicks: {
@@ -120,9 +117,9 @@ export default function ChartLineIngEnemVest(data: any) {
       labels: {
         rotate: 0,
         style: {
-          fontSize: "10px", // Tamanho da fonte para as labels do eixo X
-          fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
-          fontWeight: "bold", // Peso da fonte (opcional)
+          fontSize: '10px', // Tamanho da fonte para as labels do eixo X
+          fontFamily: 'Roboto, sans-serif', // Define a família de fontes (opcional)
+          fontWeight: 'bold', // Peso da fonte (opcional)
         },
       },
       tickAmount: 5,
@@ -143,11 +140,11 @@ export default function ChartLineIngEnemVest(data: any) {
 
   const series = [
     {
-      name: "Enem",
+      name: 'Enem',
       data: data2[0].data.map((item: any) => item.qtd),
     },
     {
-      name: "Vestibular",
+      name: 'Vestibular',
       data: data2[1].data.map((item: any) => item.qtd),
     },
   ];
@@ -158,13 +155,7 @@ export default function ChartLineIngEnemVest(data: any) {
         Ingressantes por Enem/Vestibular
       </p>
 
-      <Chart
-        options={options}
-        series={series}
-        type="line"
-        height="100%"
-        width="100%"
-      />
+      <Chart options={options} series={series} type="line" height="100%" width="100%" />
     </div>
   );
 }

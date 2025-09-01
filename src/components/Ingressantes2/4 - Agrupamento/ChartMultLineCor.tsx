@@ -29,23 +29,16 @@ import {
 import { FaChartLine, FaQuestionCircle } from 'react-icons/fa';
 import { RiPieChart2Line } from 'react-icons/ri';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig2, chartData2 } from './data';
+import { chartConfig4, chartData4 } from './data';
 
 export const description = 'A line chart with a label';
 
-export function ChartMultLineIdade() {
+export function ChartMultLineCor() {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
-    | 'Todos'
-    | 'Ing_0_17'
-    | 'Ing_18_24'
-    | 'Ing_25_29'
-    | 'Ing_30_39'
-    | 'Ing_40_49'
-    | 'Ing_50_59'
-    | 'Ing_60_mais'
-  >('Ing_0_17');
+    'Todos' | 'Branca' | 'Preta' | 'Parda' | 'Amarela' | 'Indigena' | 'Indefinido'
+  >('Todos');
 
   return (
     <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
@@ -67,20 +60,19 @@ export function ChartMultLineIdade() {
           <InputLabel>Filtro</InputLabel>
           <Select value={filter} label="Filtro" onChange={(e) => setFilter(e.target.value as any)}>
             <MenuItem value="Todos">Todos</MenuItem>
-            <MenuItem value="Ing_0_17">Ing_0_17</MenuItem>
-            <MenuItem value="Ing_18_24">Ing_18_24</MenuItem>
-            <MenuItem value="Ing_25_29">Ing_25_29</MenuItem>
-            <MenuItem value="Ing_30_39">Ing_30_39</MenuItem>
-            <MenuItem value="Ing_40_49">Ing_40_49</MenuItem>
-            <MenuItem value="Ing_50_59">Ing_50_59</MenuItem>
-            <MenuItem value="Ing_60_mais">Ing_60_ mais</MenuItem>
+            <MenuItem value="Branca">Branca</MenuItem>
+            <MenuItem value="Preta">Preta</MenuItem>
+            <MenuItem value="Parda">Parda</MenuItem>
+            <MenuItem value="Amarela">Amarela</MenuItem>
+            <MenuItem value="Indigena">Indigena</MenuItem>
+            <MenuItem value="Indefinido">Indefinido</MenuItem>
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig2} className="h-[460px] p-4 w-full">
+      <ChartContainer config={chartConfig4} className="h-[460px] p-4 w-full">
         <LineChart
           accessibilityLayer
-          data={chartData2}
+          data={chartData4}
           margin={{
             top: 0,
             left: 15,
@@ -128,10 +120,10 @@ export function ChartMultLineIdade() {
                   <div key={index} className="flex items-center gap-2">
                     <span
                       className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig2[entry.value].color }}
+                      style={{ backgroundColor: chartConfig4[entry.value].color }}
                     />
-                    <span style={{ color: chartConfig2[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig2[entry.value].label}
+                    <span style={{ color: chartConfig4[entry.value].color, fontWeight: 'bold' }}>
+                      {chartConfig4[entry.value].label}
                     </span>
                   </div>
                 ))}
@@ -140,9 +132,9 @@ export function ChartMultLineIdade() {
           />
 
           <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-          {(filter === 'Todos' || filter === 'Ing_0_17') && (
+          {(filter === 'Todos' || filter === 'Branca') && (
             <Line
-              dataKey="Ing_0_17"
+              dataKey="Branca"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}
@@ -160,9 +152,9 @@ export function ChartMultLineIdade() {
               )}
             </Line>
           )}
-          {(filter === 'Todos' || filter === 'Ing_18_24') && (
+          {(filter === 'Todos' || filter === 'Preta') && (
             <Line
-              dataKey="Ing_18_24"
+              dataKey="Preta"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}
@@ -180,9 +172,9 @@ export function ChartMultLineIdade() {
               )}
             </Line>
           )}
-          {(filter === 'Todos' || filter === 'Ing_25_29') && (
+          {(filter === 'Todos' || filter === 'Parda') && (
             <Line
-              dataKey="Ing_25_29"
+              dataKey="Parda"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}
@@ -200,9 +192,9 @@ export function ChartMultLineIdade() {
               )}
             </Line>
           )}
-          {(filter === 'Todos' || filter === 'Ing_30_39') && (
+          {(filter === 'Todos' || filter === 'Amarela') && (
             <Line
-              dataKey="Ing_30_39"
+              dataKey="Amarela"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}
@@ -220,9 +212,9 @@ export function ChartMultLineIdade() {
               )}
             </Line>
           )}
-          {(filter === 'Todos' || filter === 'Ing_40_49') && (
+          {(filter === 'Todos' || filter === 'Indigena') && (
             <Line
-              dataKey="Ing_40_49"
+              dataKey="Indigena"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}
@@ -240,29 +232,9 @@ export function ChartMultLineIdade() {
               )}
             </Line>
           )}
-          {(filter === 'Todos' || filter === 'Ing_50_59') && (
+          {(filter === 'Todos' || filter === 'Indefinido') && (
             <Line
-              dataKey="Ing_50_59"
-              type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
-              strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
-              activeDot={{ r: 6 }}
-            >
-             {filter !== 'Todos' && (
-                <LabelList
-                  position="top"
-                  offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
-                  fontSize={15}
-                  fontWeight={'bold'}
-                />
-              )}
-            </Line>
-          )}
-          {(filter === 'Todos' || filter === 'Ing_60_mais') && (
-            <Line
-              dataKey="Ing_60_mais"
+              dataKey="Indefinido"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}

@@ -1,6 +1,6 @@
-import Chart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
-import CountUp from "react-countup";
+import Chart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
+import CountUp from 'react-countup';
 
 export default function ChartLineIngGen(data: any) {
   const data2 = data.data.barVertical;
@@ -11,7 +11,7 @@ export default function ChartLineIngGen(data: any) {
 
   const options = {
     chart: {
-      id: "basic-line",
+      id: 'basic-line',
       toolbar: {
         show: false, // Desativa a toolbar
       },
@@ -24,11 +24,11 @@ export default function ChartLineIngGen(data: any) {
       showForSingleSeries: false,
       showForNullSeries: true,
       showForZeroSeries: true,
-      position: "top",
-      horizontalAlign: "right",
+      position: 'top',
+      horizontalAlign: 'right',
       floating: true,
-      fontSize: "10px",
-      fontFamily: "Roboto, Arial",
+      fontSize: '10px',
+      fontFamily: 'Roboto, Arial',
       fontWeight: 600,
       formatter: undefined,
       inverseOrder: false,
@@ -70,13 +70,13 @@ export default function ChartLineIngGen(data: any) {
         return val.toFixed(0); // Formata o valor como inteiro
       },
       style: {
-        fontSize: "12px",
+        fontSize: '12px',
       },
     },
 
     grid: {
       show: true, // Exibe a grid
-      borderColor: "#ededed", // Cor das linhas da grid
+      borderColor: '#ededed', // Cor das linhas da grid
       strokeDashArray: 4, // Define o estilo pontilhado
       row: {
         colors: undefined,
@@ -90,8 +90,8 @@ export default function ChartLineIngGen(data: any) {
         labels: {
           show: false,
           style: {
-            fontFamily: "Roboto",
-            fontSize: "1px", // Define o tamanho da fonte do eixo X
+            fontFamily: 'Roboto',
+            fontSize: '1px', // Define o tamanho da fonte do eixo X
           },
         },
         axisTicks: {
@@ -110,15 +110,15 @@ export default function ChartLineIngGen(data: any) {
     markers: {
       size: 5, // Tamanho dos pontos no gráfico
     },
-    colors: ["#008FFB", "#FF4560"],
+    colors: ['#008FFB', '#FF4560'],
     xaxis: {
-      categories: data2[0].data.map(item => item.ano),
+      categories: data2[0].data.map((item) => item.ano),
       labels: {
         rotate: 0,
         style: {
-          fontSize: "10px", // Tamanho da fonte para as labels do eixo X
-          fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
-          fontWeight: "bold", // Peso da fonte (opcional)
+          fontSize: '10px', // Tamanho da fonte para as labels do eixo X
+          fontFamily: 'Roboto, sans-serif', // Define a família de fontes (opcional)
+          fontWeight: 'bold', // Peso da fonte (opcional)
         },
       },
       tickAmount: 5,
@@ -139,12 +139,12 @@ export default function ChartLineIngGen(data: any) {
 
   const series = [
     {
-      name: "Masculino",
-      data: data2[0].data.map(item => item.qtd),
+      name: 'Masculino',
+      data: data2[0].data.map((item) => item.qtd),
     },
     {
-      name: "Feminino",
-      data: data2[1].data.map(item => item.qtd),
+      name: 'Feminino',
+      data: data2[1].data.map((item) => item.qtd),
     },
   ];
 
@@ -153,13 +153,7 @@ export default function ChartLineIngGen(data: any) {
       <p className="font-bold text-sm text-black/80  absolute left-5 top-2">
         Gênero dos Ingressantes por Ano
       </p>
-      <Chart
-        options={options}
-        series={series}
-        type="line"
-        height="100%"
-        width="100%"
-      />
+      <Chart options={options} series={series} type="line" height="100%" width="100%" />
     </div>
   );
 }

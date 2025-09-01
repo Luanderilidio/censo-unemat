@@ -25,23 +25,14 @@ import {
 } from '@mui/material';
 import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig2, chartData2 } from './data';
+import { chartConfig4, chartData4 } from './data';
 
-
-
-export function StackedBarChartIdade() {
+export function StackedBarChartCor() {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
-    | 'Todos'
-    | 'Ing_0_17'
-    | 'Ing_18_24'
-    | 'Ing_25_29'
-    | 'Ing_30_39'
-    | 'Ing_40_49'
-    | 'Ing_50_59'
-    | 'Ing_60_mais'
-  >('Ing_0_17');
+    'Todos' | 'Branca' | 'Preta' | 'Parda' | 'Amarela' | 'Indigena' | 'Indefinido'
+  >('Todos');
 
   return (
     <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
@@ -63,18 +54,17 @@ export function StackedBarChartIdade() {
           <InputLabel>Filtro</InputLabel>
           <Select value={filter} label="Filtro" onChange={(e) => setFilter(e.target.value as any)}>
             <MenuItem value="Todos">Todos</MenuItem>
-            <MenuItem value="Ing_0_17">Ing_0_17</MenuItem>
-            <MenuItem value="Ing_18_24">Ing_18_24</MenuItem>
-            <MenuItem value="Ing_25_29">Ing_25_29</MenuItem>
-            <MenuItem value="Ing_30_39">Ing_30_39</MenuItem>
-            <MenuItem value="Ing_40_49">Ing_40_49</MenuItem>
-            <MenuItem value="Ing_50_59">Ing_50_59</MenuItem>
-            <MenuItem value="Ing_60_mais">Ing_60_ mais</MenuItem>
+            <MenuItem value="Branca">Branca</MenuItem>
+            <MenuItem value="Preta">Preta</MenuItem>
+            <MenuItem value="Parda">Parda</MenuItem>
+            <MenuItem value="Amarela">Amarela</MenuItem>
+            <MenuItem value="Indigena">Indigena</MenuItem>
+            <MenuItem value="Indefinido">Indefinido</MenuItem>
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig2} className="h-[450px] px-4 pb-2 w-full">
-        <BarChart accessibilityLayer data={chartData2}>
+      <ChartContainer config={chartConfig4} className="h-[450px] px-4 pb-2 w-full">
+        <BarChart accessibilityLayer data={chartData4}>
           <XAxis
             dataKey="year"
             tickLine={true}
@@ -115,26 +105,26 @@ export function StackedBarChartIdade() {
                   <div key={index} className="flex items-center gap-2">
                     <span
                       className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig2[entry.value].color }}
+                      style={{ backgroundColor: chartConfig4[entry.value].color }}
                     />
-                    <span style={{ color: chartConfig2[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig2[entry.value].label}
+                    <span style={{ color: chartConfig4[entry.value].color, fontWeight: 'bold' }}>
+                      {chartConfig4[entry.value].label}
                     </span>
                   </div>
                 ))}
               </div>
             )}
           />
-          {(filter === 'Todos' || filter === 'Ing_0_17') && (
+          {(filter === 'Todos' || filter === 'Branca') && (
             <Bar
-              dataKey="Ing_0_17"
+              dataKey="Branca"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[0, 0, 4, 4]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_0_17"
+                  dataKey="Branca"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -142,33 +132,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_18_24') && (
+          {(filter === 'Todos' || filter === 'Preta') && (
             <Bar
-              dataKey="Ing_18_24"
+              dataKey="Preta"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_18_24"
-                  position="insideTop"
-                  fill="#FFF"
-                  className="font-bold text-xs font-Roboto"
-                />
-              )}
-            </Bar>
-          )}{' '}
-          {(filter === 'Todos' || filter === 'Ing_25_29') && (
-            <Bar
-              dataKey="Ing_25_29"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[4, 4, 0, 0]}
-            >
-              {filter !== 'Todos' && (
-                <LabelList
-                  dataKey="Ing_25_29"
+                  dataKey="Preta"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -176,16 +149,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_30_39') && (
+          {(filter === 'Todos' || filter === 'Parda') && (
             <Bar
-              dataKey="Ing_30_39"
+              dataKey="Parda"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_30_39"
+                  dataKey="Parda"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -193,16 +166,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_40_49') && (
+          {(filter === 'Todos' || filter === 'Amarela') && (
             <Bar
-              dataKey="Ing_40_49"
+              dataKey="Amarela"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_40_49"
+                  dataKey="Amarela"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -210,16 +183,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_50_59') && (
+          {(filter === 'Todos' || filter === 'Indigena') && (
             <Bar
-              dataKey="Ing_50_59"
+              dataKey="Indigena"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_50_59"
+                  dataKey="Indigena"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -227,16 +200,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_60_mais') && (
+          {(filter === 'Todos' || filter === 'Indefinido') && (
             <Bar
-              dataKey="Ing_60_mais"
+              dataKey="Indefinido"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_60_mais"
+                  dataKey="Indefinido"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"

@@ -1,35 +1,33 @@
-import { ApexOptions } from "apexcharts";
-import React from "react";
-import Chart from "react-apexcharts";
-import ChartLineIngGen from "../ChartLineIngGen";
-import CountUp from "react-countup";
+import { ApexOptions } from 'apexcharts';
+import React from 'react';
+import Chart from 'react-apexcharts';
+import ChartLineIngGen from '../ChartLineIngGen';
+import CountUp from 'react-countup';
 
-import "../../../styles/ChartContainer.css";
+import '../../../styles/ChartContainer.css';
 
 export default function ChartPieIng(data: any) {
-  
   const data2 = data.data.barVertical;
   const series = [data2[0].qtd, data2[1].qtd];
-
 
   // console.log("ChartPieIng: ", data2[0].qtd)
 
   const options = {
     chart: {
-      type: "pie",
+      type: 'pie',
     },
-    labels: ["Masculino", "Feminino"],
-    colors: ["#008FFB", "#FF4560"],
+    labels: ['Masculino', 'Feminino'],
+    colors: ['#008FFB', '#FF4560'],
     legend: {
       show: true,
       showForSingleSeries: false,
       showForNullSeries: true,
       showForZeroSeries: true,
-      position: "top",
-      horizontalAlign: "right",
+      position: 'top',
+      horizontalAlign: 'right',
       floating: true,
-      fontSize: "10px",
-      fontFamily: "Roboto, Arial",
+      fontSize: '10px',
+      fontFamily: 'Roboto, Arial',
       fontWeight: 600,
       formatter: undefined,
       inverseOrder: false,
@@ -70,14 +68,7 @@ export default function ChartPieIng(data: any) {
     <div className="chart-container relative !h-[310px] border-green-500">
       <p className="font-bold text-sm text-black/80">Quantidade de ingressantes por gênero</p>
 
-      <Chart
-        options={options}
-        series={series}
-        type="pie"
-        width="100%"
-        height="310"
-        className=""
-      />
+      <Chart options={options} series={series} type="pie" width="100%" height="310" className="" />
 
       <div className="font-Bold flex flex-col items-start justify-start absolute left-3 bottom-10">
         <p className="text-left  font-normal text-xs leading-none">Feminino</p>
@@ -93,5 +84,4 @@ export default function ChartPieIng(data: any) {
       </div>
     </div>
   );
-};
-
+}

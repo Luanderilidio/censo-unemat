@@ -1,7 +1,7 @@
-import Chart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
+import Chart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
 
-import "../../../styles/ChartContainer.css";
+import '../../../styles/ChartContainer.css';
 
 export default function ChartLineIng(data: any) {
   const data2 = data.data[0];
@@ -10,7 +10,7 @@ export default function ChartLineIng(data: any) {
 
   const options = {
     chart: {
-      id: "basic-line",
+      id: 'basic-line',
       toolbar: {
         show: false, // Desativa a toolbar
       },
@@ -24,30 +24,30 @@ export default function ChartLineIng(data: any) {
       formatter: function (val, _opts) {
         return val;
       },
-      textAnchor: "middle",
+      textAnchor: 'middle',
       distributed: false,
       offsetX: 0,
       offsetY: -8,
       style: {
-        fontSize: "10px",
-        fontFamily: "Roboto",
-        fontWeight: "bold",
+        fontSize: '10px',
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
         colors: undefined,
       },
       background: {
         enabled: true,
-        foreColor: "#fff",
+        foreColor: '#fff',
         padding: 4,
         borderRadius: 4,
         borderWidth: 1,
-        borderColor: "#fff",
+        borderColor: '#fff',
         opacity: 0.9,
         dropShadow: {
           enabled: false,
           top: 1,
           left: 1,
           blur: 1,
-          color: "#000",
+          color: '#000',
           opacity: 0.45,
         },
       },
@@ -56,7 +56,7 @@ export default function ChartLineIng(data: any) {
         top: 1,
         left: 1,
         blur: 1,
-        color: "#000",
+        color: '#000',
         opacity: 0.45,
       },
     },
@@ -65,11 +65,11 @@ export default function ChartLineIng(data: any) {
       showForSingleSeries: false,
       showForNullSeries: true,
       showForZeroSeries: true,
-      position: "top",
-      horizontalAlign: "right",
+      position: 'top',
+      horizontalAlign: 'right',
       floating: true,
-      fontSize: "10px",
-      fontFamily: "Roboto, Arial",
+      fontSize: '10px',
+      fontFamily: 'Roboto, Arial',
       fontWeight: 600,
       formatter: undefined,
       inverseOrder: false,
@@ -106,7 +106,7 @@ export default function ChartLineIng(data: any) {
     },
     grid: {
       show: true, // Exibe a grid
-      borderColor: "#ededed", // Cor das linhas da grid
+      borderColor: '#ededed', // Cor das linhas da grid
       strokeDashArray: 4, // Define o estilo pontilhado
       row: {
         colors: undefined,
@@ -130,15 +130,15 @@ export default function ChartLineIng(data: any) {
     markers: {
       size: 5, // Tamanho dos pontos no gráfico
     },
-    colors: ["#008FFB"],
+    colors: ['#008FFB'],
     xaxis: {
       categories: data2.data.map((item) => item.ano),
       labels: {
         rotate: 0,
         style: {
-          fontSize: "10px", // Tamanho da fonte para as labels do eixo X
-          fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
-          fontWeight: "bold", // Peso da fonte (opcional)
+          fontSize: '10px', // Tamanho da fonte para as labels do eixo X
+          fontFamily: 'Roboto, sans-serif', // Define a família de fontes (opcional)
+          fontWeight: 'bold', // Peso da fonte (opcional)
         },
       },
     },
@@ -158,7 +158,7 @@ export default function ChartLineIng(data: any) {
 
   const series = [
     {
-      name: "Qtd",
+      name: 'Qtd',
       data: data2.data.map((e: any) => e.qtd),
     },
   ];
@@ -169,13 +169,7 @@ export default function ChartLineIng(data: any) {
         Quantidade de Ingressantes por Ano
       </p>
 
-      <Chart
-        options={options}
-        series={series}
-        type="line"
-        height="100%"
-        width="100%"
-      />
+      <Chart options={options} series={series} type="line" height="100%" width="100%" />
     </div>
   );
 }

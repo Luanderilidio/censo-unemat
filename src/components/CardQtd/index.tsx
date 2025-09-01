@@ -1,7 +1,7 @@
-import Chart from "react-apexcharts";
-import PersonIcon from "@mui/icons-material/Person";
-import CountUp from "react-countup";
-import { ApexOptions } from "apexcharts";
+import Chart from 'react-apexcharts';
+import PersonIcon from '@mui/icons-material/Person';
+import CountUp from 'react-countup';
+import { ApexOptions } from 'apexcharts';
 
 export interface YearlyData {
   ano: number;
@@ -17,20 +17,19 @@ export interface CardData {
 export type CardsArray = CardData[];
 
 export default function CardQtd({ title, qtd, data }: CardData) {
-
   // console.log(data)
   const series = [
     {
-      name: "Qtd",
+      name: 'Qtd',
       data: data.map((e) => e.qtd),
     },
   ];
 
-const categories = data.map(e => e.ano)
+  const categories = data.map((e) => e.ano);
 
   const options = {
     chart: {
-      type: "area",
+      type: 'area',
       height: 160,
       sparkline: {
         enabled: true,
@@ -48,7 +47,7 @@ const categories = data.map(e => e.ano)
       fillSeriesColor: true,
       theme: false,
       style: {
-        fontSize: "15px",
+        fontSize: '15px',
         fontFamily: 'Roboto',
       },
       onDatasetHover: {
@@ -56,7 +55,7 @@ const categories = data.map(e => e.ano)
       },
       x: {
         show: true,
-        format: "yyyy",
+        format: 'yyyy',
         formatter: undefined,
       },
       y: {
@@ -67,20 +66,20 @@ const categories = data.map(e => e.ano)
       },
       z: {
         formatter: undefined,
-        title: "Size: ",
+        title: 'Size: ',
       },
       marker: {
         show: true,
       },
       fixed: {
         enabled: true,
-        position: "topRight",
+        position: 'topRight',
         offsetX: -10,
         offsetY: -45,
       },
     },
     stroke: {
-      curve: "straight",
+      curve: 'straight',
     },
     fill: {
       opacity: 1,
@@ -113,13 +112,7 @@ const categories = data.map(e => e.ano)
       </div>
       {/* <div /> */}
       <div className="w-full  flex items-center justify-center absolute bottom-2 ">
-        <Chart
-          options={options}
-          series={series}
-          type="line"
-          height="80"
-          width="100%"
-        />
+        <Chart options={options} series={series} type="line" height="80" width="100%" />
       </div>
     </div>
   );

@@ -2,7 +2,13 @@
 
 import React, { useState } from 'react';
 import { Bar, BarChart, Label, LabelList, XAxis, YAxis } from 'recharts';
-import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend } from '../../ui/chart';
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+} from '../../ui/chart';
 import { faker } from '@faker-js/faker';
 import {
   Button,
@@ -19,12 +25,17 @@ import {
 } from '@mui/material';
 import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig1, chartData1 } from './data';
+import { chartConfig3, chartData3 } from './data';
 
-export function StackedBarChartSexo() {
+ 
+export function StackedBarChartTurno() {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
-  const [filter, setFilter] = useState<'Todos' | 'Masculino' | 'Feminino'>('Todos');
+  const [filter, setFilter] = useState<
+    | 'Todos'
+    | 'Diurno'
+    | 'Noturno' 
+  >('Todos');
 
   return (
     <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
@@ -46,13 +57,13 @@ export function StackedBarChartSexo() {
           <InputLabel>Filtro</InputLabel>
           <Select value={filter} label="Filtro" onChange={(e) => setFilter(e.target.value as any)}>
             <MenuItem value="Todos">Todos</MenuItem>
-            <MenuItem value="Masculino">Masculino</MenuItem>
-            <MenuItem value="Feminino">Feminino</MenuItem>
+            <MenuItem value="Diurno">Diurno</MenuItem>
+            <MenuItem value="Noturno">Noturno</MenuItem> 
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig1} className="h-[450px] px-4 pb-2 w-full">
-        <BarChart accessibilityLayer data={chartData1}>
+      <ChartContainer config={chartConfig3} className="h-[450px] px-4 pb-2 w-full">
+        <BarChart accessibilityLayer data={chartData3}>
           <XAxis
             dataKey="year"
             tickLine={true}
@@ -93,36 +104,50 @@ export function StackedBarChartSexo() {
                   <div key={index} className="flex items-center gap-2">
                     <span
                       className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig1[entry.value].color }}
+                      style={{ backgroundColor: chartConfig3[entry.value].color }}
                     />
-                    <span style={{ color: chartConfig1[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig1[entry.value].label}
+                    <span style={{ color: chartConfig3[entry.value].color, fontWeight: 'bold' }}>
+                      {chartConfig3[entry.value].label}
                     </span>
                   </div>
                 ))}
               </div>
             )}
           />
-          {(filter === 'Todos' || filter === 'Feminino') && (
-            <Bar dataKey="Feminino" stackId="a" fill="#F54927" radius={[0, 0, 4, 4]}>
-              <LabelList
-                dataKey="Feminino"
-                position="insideTop"
-                fill="#FFF"
-                className="font-bold text-xs font-Roboto"
-              />
+          {(filter === 'Todos' || filter === 'Diurno') && (
+            <Bar
+              dataKey="Diurno"
+              stackId="a"
+              fill={faker.color.rgb({ casing: 'upper' })}
+              radius={[0, 0, 4, 4]}
+            >
+              {filter !== 'Todos' && (
+                <LabelList
+                  dataKey="Diurno"
+                  position="insideTop"
+                  fill="#FFF"
+                  className="font-bold text-xs font-Roboto"
+                />
+              )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Masculino') && (
-            <Bar dataKey="Masculino" stackId="a" fill="#2787F5" radius={[4, 4, 0, 0]}>
-              <LabelList
-                dataKey="Masculino"
-                position="insideTop"
-                fill="#FFF"
-                className="font-bold text-xs font-Roboto"
-              />
+          {(filter === 'Todos' || filter === 'Noturno') && (
+            <Bar
+              dataKey="Noturno"
+              stackId="a"
+              fill={faker.color.rgb({ casing: 'upper' })}
+              radius={[4, 4, 0, 0]}
+            >
+              {filter !== 'Todos' && (
+                <LabelList
+                  dataKey="Noturno"
+                  position="insideTop"
+                  fill="#FFF"
+                  className="font-bold text-xs font-Roboto"
+                />
+              )}
             </Bar>
-          )}
+          )}  
         </BarChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>

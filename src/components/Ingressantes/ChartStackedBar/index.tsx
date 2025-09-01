@@ -1,27 +1,27 @@
-import { ApexOptions } from "apexcharts";
-import Chart from "react-apexcharts";
-import CountUp from "react-countup";
+import { ApexOptions } from 'apexcharts';
+import Chart from 'react-apexcharts';
+import CountUp from 'react-countup';
 
 export default function BarChart(data: any) {
   const data2 = data.data.barVertical;
-  
+
   const options = {
     chart: {
       stacked: true,
       animations: {
         enabled: true,
-        easing: "swing",
+        easing: 'swing',
       },
-      background: "",
-      foreColor: "#333",
-      fontFamily: "Roboto",
+      background: '',
+      foreColor: '#333',
+      fontFamily: 'Roboto',
       // height: 250,
-      id: "gH2S1",
+      id: 'gH2S1',
       stackOnlyBar: true,
       toolbar: {
         show: false,
       },
-      type: "bar" as const,
+      type: 'bar' as const,
       // width: 400,
       zoom: {
         allowMouseWheelZoom: true,
@@ -29,21 +29,21 @@ export default function BarChart(data: any) {
     },
     plotOptions: {
       bar: {
-        columnWidth: "90%",
+        columnWidth: '90%',
         distributed: false,
         borderRadius: 5,
-        borderRadiusApplication: "end",
-        borderRadiusWhenStacked: "last",
+        borderRadiusApplication: 'end',
+        borderRadiusWhenStacked: 'last',
       },
     },
     dataLabels: {
       enabled: true, // Habilita os dataLabels
       style: {
-        fontSize: "12px",
-        colors: ["#fff"], // Define a cor do texto
-        transform: "rotate(90deg)", // Ajuste o ângulo de rotação conforme necessário
-        transformOrigin: "bottom left", // Ajuste o ponto de origem da rotação
-        whiteSpace: "nowrap", // Para evitar que o texto quebre em várias linhas
+        fontSize: '12px',
+        colors: ['#fff'], // Define a cor do texto
+        transform: 'rotate(90deg)', // Ajuste o ângulo de rotação conforme necessário
+        transformOrigin: 'bottom left', // Ajuste o ponto de origem da rotação
+        whiteSpace: 'nowrap', // Para evitar que o texto quebre em várias linhas
       },
     },
     grid: {
@@ -58,11 +58,11 @@ export default function BarChart(data: any) {
       showForSingleSeries: false,
       showForNullSeries: true,
       showForZeroSeries: true,
-      position: "top",
-      horizontalAlign: "right",
+      position: 'top',
+      horizontalAlign: 'right',
       floating: true,
-      fontSize: "10px",
-      fontFamily: "Roboto, Arial",
+      fontSize: '10px',
+      fontFamily: 'Roboto, Arial',
       fontWeight: 600,
       formatter: undefined,
       inverseOrder: false,
@@ -99,11 +99,11 @@ export default function BarChart(data: any) {
     },
     stroke: {
       fill: {
-        type: "solid",
+        type: 'solid',
         opacity: 0.85,
         gradient: {
-          shade: "dark",
-          type: "horizontal",
+          shade: 'dark',
+          type: 'horizontal',
           shadeIntensity: 0.5,
           inverseColors: true,
           opacityFrom: 1,
@@ -122,14 +122,13 @@ export default function BarChart(data: any) {
       labels: {
         rotate: 0,
         style: {
-          fontSize: "10px", // Tamanho da fonte para as labels do eixo X
-          fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
-          fontWeight: "bold", // Peso da fonte (opcional)
+          fontSize: '10px', // Tamanho da fonte para as labels do eixo X
+          fontFamily: 'Roboto, sans-serif', // Define a família de fontes (opcional)
+          fontWeight: 'bold', // Peso da fonte (opcional)
         },
       },
-      
     },
-    colors: ["#008FFB", "#FF4560"],
+    colors: ['#008FFB', '#FF4560'],
     yaxis: {
       show: false,
       tickAmount: 5,
@@ -146,16 +145,16 @@ export default function BarChart(data: any) {
 
   const series = [
     {
-      name: "Masculino",
+      name: 'Masculino',
       hidden: false,
-      data: data2[0].data.map(item => item.qtd)
+      data: data2[0].data.map((item) => item.qtd),
     },
     {
-      name: "Feminino",
+      name: 'Feminino',
       qtd: 0,
       hidden: true,
-      data: data2[1].data.map(item => item.qtd)
-    }
+      data: data2[1].data.map((item) => item.qtd),
+    },
   ];
 
   return (
@@ -163,12 +162,7 @@ export default function BarChart(data: any) {
       <div className="flex items-center justify-between mt-2">
         <p className="font-bold ">Quantidade de ingressantes por gênero</p>
       </div>
-      <Chart
-        options={options}
-        series={series}
-        type="bar"
-        height="450px"
-      />
+      <Chart options={options} series={series} type="bar" height="450px" />
     </div>
   );
 }

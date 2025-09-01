@@ -20,32 +20,36 @@ import {
 } from '@mui/material';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig1, chartData1 as originalData } from './data';
+import { chartConfig4, chartData4 as originalData } from './data';
 
-export function ChartPieSexo() {
-  const sexKeys = ['Feminino', 'Masculino'] as const;
+export function ChartPieCor() {
+  const colorKeys = ['Branca', 'Preta', 'Parda', 'Amarela', 'Indigena', 'Indefinido'] as const;
 
   // inicializar acumulador
-  const totals: Record<(typeof sexKeys)[number], number> = {
-    Feminino: 0,
-    Masculino: 0,
+  const totals: Record<(typeof colorKeys)[number], number> = {
+    Branca: 0,
+    Preta: 0,
+    Parda: 0,
+    Amarela: 0,
+    Indigena: 0,
+    Indefinido: 0,
   };
 
   // somar cada ano por faixa etária
   for (const year of originalData) {
-    sexKeys.forEach((key) => {
+    colorKeys.forEach((key) => {
       totals[key] += year[key];
     });
   }
 
   // transformar no formato desejado
-  const chartData1 = sexKeys.map((key) => ({
-    sexo: key,
+  const chartData4 = colorKeys.map((key) => ({
+    cor: key,
     quantidade: totals[key],
     fill: faker.color.rgb({ casing: 'upper' }),
   }));
 
-  const total = chartData1.reduce((acc, cur) => acc + cur.quantidade, 0);
+  const total = chartData4.reduce((acc, cur) => acc + cur.quantidade, 0);
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
@@ -67,16 +71,16 @@ export function ChartPieSexo() {
         </div>
       </div>
       <ChartContainer
-        config={chartConfig1}
+        config={chartConfig4}
         className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[500px] px-4 pb-2 w-full"
       >
         <PieChart>
-          <ChartTooltip content={<ChartTooltipContent nameKey="sexo" />} />
+          <ChartTooltip content={<ChartTooltipContent nameKey="cor" />} />
 
           <Pie
-            data={chartData1}
+            data={chartData4}
             dataKey="quantidade"
-            nameKey="sexo"
+            nameKey="cor"
             labelLine={true}
             label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
               const RADIAN = Math.PI / 180;
@@ -87,13 +91,13 @@ export function ChartPieSexo() {
                 <text
                   x={x}
                   y={y}
-                  fill={chartData1[index].fill}
+                  fill={chartData4[index].fill}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={14}
                   fontWeight="bold"
                 >
-                  {chartData1[index].sexo}
+                  {chartData4[index].cor}
                 </text>
               );
             }}
@@ -114,10 +118,10 @@ export function ChartPieSexo() {
                   <div key={index} className="flex items-center gap-2">
                     <span
                       className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig1[entry.value].color }}
+                      style={{ backgroundColor: chartConfig4[entry.value].color }}
                     />
-                    <span style={{ color: chartConfig1[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig1[entry.value].label}
+                    <span style={{ color: chartConfig4[entry.value].color, fontWeight: 'bold' }}>
+                      {chartConfig4[entry.value].label}
                     </span>
                   </div>
                 ))}

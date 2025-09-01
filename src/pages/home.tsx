@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import api from "../services/api";
-import { useState } from "react";
+import { useQuery } from '@tanstack/react-query';
+import api from '../services/api';
+import { useState } from 'react';
 import {
   Autocomplete,
   Button,
@@ -14,23 +14,20 @@ import {
   SelectChangeEvent,
   Slider,
   TextField,
-} from "@mui/material";
-import CardQtd, { CardsArray } from "../components/CardQtd";
-import ClearIcon from "@mui/icons-material/Clear";
-import BarChartTest from "../components/Ingressantes/ChartStackedBar";
-import ChartLine from "../components/ChartLine";
-import CountUp from "react-countup";
-import ChartFunnel from "../components/ChartFunnel";
-import {
-  HorizontalBarChart,
-  HorizontalBarProps,
-} from "../components/ChartBarHorizontal";
-import { cities, courses } from "../utils/options";
-import ChartLineIng from "../components/Ingressantes/ChartLineIng";
-import ChartLineIngEnemVest from "../components/Ingressantes/ChartLineIngEnemVest";
-import ChartPieIng from "../components/Ingressantes/ChartPieIng";
-import ChartLineIngGen from "../components/Ingressantes/ChartLineIngGen";
-import ChartLineTurn from "../components/Ingressantes/ChartLineTurn";
+} from '@mui/material';
+import CardQtd, { CardsArray } from '../components/CardQtd';
+import ClearIcon from '@mui/icons-material/Clear';
+import BarChartTest from '../components/Ingressantes/ChartStackedBar';
+import ChartLine from '../components/ChartLine';
+import CountUp from 'react-countup';
+import ChartFunnel from '../components/ChartFunnel';
+import { HorizontalBarChart, HorizontalBarProps } from '../components/ChartBarHorizontal';
+import { cities, courses } from '../utils/options';
+import ChartLineIng from '../components/Ingressantes/ChartLineIng';
+import ChartLineIngEnemVest from '../components/Ingressantes/ChartLineIngEnemVest';
+import ChartPieIng from '../components/Ingressantes/ChartPieIng';
+import ChartLineIngGen from '../components/Ingressantes/ChartLineIngGen';
+import ChartLineTurn from '../components/Ingressantes/ChartLineTurn';
 
 export interface DataStructure {
   cards: CardsArray[];
@@ -38,10 +35,10 @@ export interface DataStructure {
 }
 
 export default function Home() {
-  const [course, setCourse] = useState<string | null>("");
-  const [city, setCity] = useState<string | null>("");
-  const [modality, setModality] = useState<string>("");
-  const [degree, setDegree] = useState<string>("");
+  const [course, setCourse] = useState<string | null>('');
+  const [city, setCity] = useState<string | null>('');
+  const [modality, setModality] = useState<string>('');
+  const [degree, setDegree] = useState<string>('');
   const [isLoading2, setIsLoading2] = useState(true);
 
   const [year, setYear] = useState<number[]>([2010, 2022]);
@@ -51,11 +48,11 @@ export default function Home() {
   };
   const fecthData = async () => {
     const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
-    console.log("apiUrl", apiUrl);
+    console.log('apiUrl', apiUrl);
     try {
       const response = await api.get(apiUrl, {
         params: {
-          action: "getFiltered",
+          action: 'getFiltered',
           course: course,
           city: city,
           modality: modality,
@@ -72,7 +69,7 @@ export default function Home() {
   };
 
   const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ['posts'],
     queryFn: fecthData,
     staleTime: 999999, // 5 segundos antes de marcar como stale
   });
@@ -80,16 +77,12 @@ export default function Home() {
   if (isLoading) return <LinearProgress />;
   if (error) return <div>Something went wrong!</div>;
 
-
   return (
     <div className="grid grid-cols-12 gap-5 bg-gray-100/20 px-4">
-      <div className="col-span-12 row-span-1">
-
-       {isLoading2 && <LinearProgress /> }
-
-      </div>
+      <div className="col-span-12 row-span-1">{isLoading2 && <LinearProgress />}</div>
       <div className="col-span-12 row-span-1 text-center font-bold text-2xl flex items-center justify-center border-green-500">
-        DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT  <span className="ml-2 font-normal font-Montserrat italic ">2.0</span>
+        DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT{' '}
+        <span className="ml-2 font-normal font-Montserrat italic ">2.0</span>
       </div>
       <div className="col-span-2">
         <div className="flex flex-col gap-4 p-4 rounded-md border font-Roboto font-medium">
@@ -113,9 +106,7 @@ export default function Home() {
             onChange={(_event: any, newValue: string | null) => {
               setCity(newValue);
             }}
-            renderInput={(params) => (
-              <TextField {...params} label="Município" />
-            )}
+            renderInput={(params) => <TextField {...params} label="Município" />}
           />
           <FormControl fullWidth>
             <InputLabel>Modalidade</InputLabel>
@@ -129,14 +120,14 @@ export default function Home() {
               <MenuItem value={1}>Presencial</MenuItem>
               <MenuItem value={2}>Distância</MenuItem>
             </Select>
-            {modality !== "" && (
+            {modality !== '' && (
               <IconButton
-                onClick={() => setModality("")}
+                onClick={() => setModality('')}
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   right: 20,
-                  top: "50%",
-                  transform: "translateY(-50%)",
+                  top: '50%',
+                  transform: 'translateY(-50%)',
                 }}
               >
                 <ClearIcon fontSize="small" />
@@ -155,14 +146,14 @@ export default function Home() {
               <MenuItem value={1}>Bacharelado</MenuItem>
               <MenuItem value={2}>Licenciatura</MenuItem>
             </Select>
-            {degree !== "" && (
+            {degree !== '' && (
               <IconButton
-                onClick={() => setDegree("")}
+                onClick={() => setDegree('')}
                 style={{
-                  position: "absolute",
+                  position: 'absolute',
                   right: 20,
-                  top: "50%",
-                  transform: "translateY(-50%)",
+                  top: '50%',
+                  transform: 'translateY(-50%)',
                 }}
               >
                 <ClearIcon fontSize="small" />
@@ -175,7 +166,7 @@ export default function Home() {
 
             <Slider
               disabled
-              getAriaLabel={() => "Temperature range"}
+              getAriaLabel={() => 'Temperature range'}
               value={year}
               min={2010}
               max={2022}
@@ -197,7 +188,7 @@ export default function Home() {
               refetch();
             }}
           >
-            {isLoading2 ? "Gerando" : "Gerar"} 
+            {isLoading2 ? 'Gerando' : 'Gerar'}
             {isLoading2 && <CircularProgress size={20} />}
           </Button>
         </div>
@@ -209,15 +200,18 @@ export default function Home() {
             <div className="font-Bold flex flex-col items-start justify-start">
               <p className="text-left font-bold text-md ">Quantidade de Ingressantes</p>
               <p className="text-left font-black text-[5rem] text-[#008FFB]">
-                <CountUp start={0} duration={2.75} end={data[0]?.lineChartIng?.[0]?.qtd ?? 0} decimal="." separator="," />
+                <CountUp
+                  start={0}
+                  duration={2.75}
+                  end={data[0]?.lineChartIng?.[0]?.qtd ?? 0}
+                  decimal="."
+                  separator=","
+                />
               </p>
             </div>
           </div>
           <div className="col-span-3 row-span-2 border-500-red">
-            <ChartLineIngEnemVest
-              title="Ingressantes por Enem"
-              data={data[5]}
-            />
+            <ChartLineIngEnemVest title="Ingressantes por Enem" data={data[5]} />
           </div>
           <div className="col-span-5 row-span-3">
             <ChartLineIng data={data[0].lineChartIng} />

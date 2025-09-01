@@ -1,15 +1,13 @@
-import { ApexOptions } from "apexcharts";
-import React from "react";
-import Chart from "react-apexcharts";
-import "../../styles/ChartContainer.css";
-
-
+import { ApexOptions } from 'apexcharts';
+import React from 'react';
+import Chart from 'react-apexcharts';
+import '../../styles/ChartContainer.css';
 
 export const HorizontalBarChart: React.FC<any> = ({ data }) => {
   const options = {
     chart: {
-      id: "vertical-bar-chart",
-      type: "bar",
+      id: 'vertical-bar-chart',
+      type: 'bar',
       toolbar: {
         show: false, // Habilita a barra de ferramentas
         tools: {
@@ -24,14 +22,7 @@ export const HorizontalBarChart: React.FC<any> = ({ data }) => {
       },
     },
     xaxis: {
-      categories: [
-        "Concorrência",
-        "Pública",
-        "Étnico",
-        "Social",
-        "Deficiente",
-        "Outros",
-      ], // Categorias do eixo X
+      categories: ['Concorrência', 'Pública', 'Étnico', 'Social', 'Deficiente', 'Outros'], // Categorias do eixo X
 
       axisTicks: {
         show: false, // oculta as marcas de verificação no eixo X
@@ -49,38 +40,38 @@ export const HorizontalBarChart: React.FC<any> = ({ data }) => {
       bar: {
         stacked: true,
         horizontal: true, // Define o gráfico como barras verticais
-        columnWidth: "55%", // Largura das colunas
-        endingShape: "rounded", // Forma de término das barras
+        columnWidth: '55%', // Largura das colunas
+        endingShape: 'rounded', // Forma de término das barras
       },
     },
     dataLabels: {
       enabled: true,
       background: {
         enabled: true,
-        foreColor: "#000",
+        foreColor: '#000',
         padding: 4,
         borderRadius: 2,
         borderWidth: 1,
-        borderColor: "#000",
+        borderColor: '#000',
         opacity: 0.0,
         dropShadow: {
           enabled: true,
           top: 1,
           left: 1,
           blur: 1,
-          color: "#fff",
+          color: '#fff',
           opacity: 1,
         },
       },
     },
     legend: {
       show: true, // Habilita as legendas
-      position: "bottom", // Posiciona as legendas no topo
-      horizontalAlign: "center", // Alinha as legendas à esquerda
+      position: 'bottom', // Posiciona as legendas no topo
+      horizontalAlign: 'center', // Alinha as legendas à esquerda
       offsetX: 0, // Ajusta a posição horizontal das legendas
       offsetY: 0, // Ajusta a posição vertical das legendas
-      fontSize: "14px", // Tamanho da fonte das legendas
-      fontFamily: "Roboto", // Família da fonte das legendas
+      fontSize: '14px', // Tamanho da fonte das legendas
+      fontFamily: 'Roboto', // Família da fonte das legendas
       fontWeight: 600, // Peso da fonte das legendas
       itemMargin: {
         horizontal: 10, // Margem horizontal entre itens
@@ -89,7 +80,7 @@ export const HorizontalBarChart: React.FC<any> = ({ data }) => {
     },
     grid: {
       show: true, // Exibe a grid
-      borderColor: "#ededed", // Cor das linhas da grid
+      borderColor: '#ededed', // Cor das linhas da grid
       strokeDashArray: 4, // Define o estilo pontilhado
       row: {
         colors: undefined,
@@ -121,12 +112,12 @@ export const HorizontalBarChart: React.FC<any> = ({ data }) => {
 
   return (
     // <div className="!h-full relative chart-container">
-      <Chart
-        options={options}
-        series={series}
-        type="bar" // Tipo de gráfico
-        height="100%" // Altura do gráfico
-      />
+    <Chart
+      options={options}
+      series={series}
+      type="bar" // Tipo de gráfico
+      height="100%" // Altura do gráfico
+    />
     // </div>
   );
 };

@@ -1,8 +1,6 @@
-import Chart from "react-apexcharts";
-import { ApexOptions } from "apexcharts";
-import CountUp from "react-countup";
-
-
+import Chart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
+import CountUp from 'react-countup';
 
 export default function ChartLine(data: any) {
   const data2 = data.data.lineChart;
@@ -11,9 +9,9 @@ export default function ChartLine(data: any) {
 
   const options = {
     chart: {
-      id: "basic-line",
+      id: 'basic-line',
       toolbar: {
-        show: false,  // Desativa o menu de opções
+        show: false, // Desativa o menu de opções
       },
     },
     dataLabels: {
@@ -23,7 +21,7 @@ export default function ChartLine(data: any) {
         return val.toFixed(0); // Formata o valor como inteiro
       },
       style: {
-        fontSize: "12px",
+        fontSize: '12px',
       },
     },
     legend: {
@@ -31,11 +29,11 @@ export default function ChartLine(data: any) {
       showForSingleSeries: false,
       showForNullSeries: true,
       showForZeroSeries: true,
-      position: "top",
-      horizontalAlign: "right",
+      position: 'top',
+      horizontalAlign: 'right',
       floating: true,
-      fontSize: "10px",
-      fontFamily: "Roboto, Arial",
+      fontSize: '10px',
+      fontFamily: 'Roboto, Arial',
       fontWeight: 600,
       formatter: undefined,
       inverseOrder: false,
@@ -72,7 +70,7 @@ export default function ChartLine(data: any) {
     },
     grid: {
       show: true, // Exibe a grid
-      borderColor: "#ededed", // Cor das linhas da grid
+      borderColor: '#ededed', // Cor das linhas da grid
       strokeDashArray: 4, // Define o estilo pontilhado
       row: {
         colors: undefined,
@@ -115,16 +113,15 @@ export default function ChartLine(data: any) {
     //   ],
     // },
     xaxis: {
-      categories: data2[0].data.map(item => item.ano),
+      categories: data2[0].data.map((item) => item.ano),
       labels: {
         rotate: 0,
         style: {
-          fontSize: "10px", // Tamanho da fonte para as labels do eixo X
-          fontFamily: "Roboto, sans-serif", // Define a família de fontes (opcional)
-          fontWeight: "bold", // Peso da fonte (opcional)
+          fontSize: '10px', // Tamanho da fonte para as labels do eixo X
+          fontFamily: 'Roboto, sans-serif', // Define a família de fontes (opcional)
+          fontWeight: 'bold', // Peso da fonte (opcional)
         },
       },
-
     },
     yaxis: {
       show: false,
@@ -141,26 +138,22 @@ export default function ChartLine(data: any) {
   } as unknown as ApexOptions;
 
   const series = [
-    { name: "Branca", hidden: false, data: data2[0].data.map(item => item.qtd) },
-    { name: "Negra", hidden: false, data: data2[1].data.map(item => item.qtd) },
-    { name: "Parda", hidden: false, data: data2[2].data.map(item => item.qtd) },
-    { name: "Amarela", hidden: true, data: data2[3].data.map(item => item.qtd) },
-    { name: "Indigena", hidden: true, data: data2[4].data.map(item => item.qtd) },
-    { name: "N/ Declarado", hidden: true, data: data2[5].data.map(item => item.qtd) }
+    { name: 'Branca', hidden: false, data: data2[0].data.map((item) => item.qtd) },
+    { name: 'Negra', hidden: false, data: data2[1].data.map((item) => item.qtd) },
+    { name: 'Parda', hidden: false, data: data2[2].data.map((item) => item.qtd) },
+    { name: 'Amarela', hidden: true, data: data2[3].data.map((item) => item.qtd) },
+    { name: 'Indigena', hidden: true, data: data2[4].data.map((item) => item.qtd) },
+    { name: 'N/ Declarado', hidden: true, data: data2[5].data.map((item) => item.qtd) },
   ];
 
   return (
     <div className="col-span-4 w-full h-full grid grid-cols-7 pb-3 pt-9 relative">
-      <p className="font-bold text-sm text-black/80 absolute top-5 left-8">Raca/Cor dos Ingressantes</p>
-      
+      <p className="font-bold text-sm text-black/80 absolute top-5 left-8">
+        Raca/Cor dos Ingressantes
+      </p>
+
       <div className="col-span-6 pl-2">
-        <Chart
-          options={options}
-          series={series}
-          type="line"
-          height="100%"
-          width="100%"
-        />
+        <Chart options={options} series={series} type="line" height="100%" width="100%" />
       </div>
       <div className="col-span-1 flex flex-col justify-start items-start gap-2">
         <div className="font-Bold mt-10 flex flex-col items-start justify-start">
@@ -188,17 +181,13 @@ export default function ChartLine(data: any) {
           </p>
         </div>
         <div className="font-Bold flex flex-col items-start justify-start">
-          <p className="text-left  font-normal text-xs leading-none">
-            Indígena
-          </p>
+          <p className="text-left  font-normal text-xs leading-none">Indígena</p>
           <p className="text-left font-bold text-3xl text-[#775DD0]">
             <CountUp start={0} duration={2.75} end={data2[4].qtd} />
           </p>
         </div>
         <div className="font-Bold flex flex-col items-start justify-start">
-          <p className="text-left  font-normal text-xs leading-none">
-            N/ Declarado
-          </p>
+          <p className="text-left  font-normal text-xs leading-none">N/ Declarado</p>
           <p className="text-left font-bold text-3xl text-[#d3d3d3]">
             <CountUp start={0} duration={2.75} end={data2[5].qtd} />
           </p>

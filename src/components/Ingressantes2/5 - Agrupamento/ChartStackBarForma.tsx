@@ -25,23 +25,24 @@ import {
 } from '@mui/material';
 import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig2, chartData2 } from './data';
+import { chartConfig5, chartData5 } from './data';
 
-
-
-export function StackedBarChartIdade() {
+export function StackedBarChartForma() {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
     | 'Todos'
-    | 'Ing_0_17'
-    | 'Ing_18_24'
-    | 'Ing_25_29'
-    | 'Ing_30_39'
-    | 'Ing_40_49'
-    | 'Ing_50_59'
-    | 'Ing_60_mais'
-  >('Ing_0_17');
+    | 'Vestibular'
+    | 'Enem'
+    | 'Avaliação_Seriada'
+    | 'Seleção_Simplificada'
+    | 'EGR'
+    | 'Outro_Tipo_Seleção'
+    | 'Processo_Seletivo'
+    | 'Vaga_Remanescente'
+    | 'Programa_Especial'
+    | 'Outra_Forma'
+  >('Vestibular');
 
   return (
     <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
@@ -63,18 +64,20 @@ export function StackedBarChartIdade() {
           <InputLabel>Filtro</InputLabel>
           <Select value={filter} label="Filtro" onChange={(e) => setFilter(e.target.value as any)}>
             <MenuItem value="Todos">Todos</MenuItem>
-            <MenuItem value="Ing_0_17">Ing_0_17</MenuItem>
-            <MenuItem value="Ing_18_24">Ing_18_24</MenuItem>
-            <MenuItem value="Ing_25_29">Ing_25_29</MenuItem>
-            <MenuItem value="Ing_30_39">Ing_30_39</MenuItem>
-            <MenuItem value="Ing_40_49">Ing_40_49</MenuItem>
-            <MenuItem value="Ing_50_59">Ing_50_59</MenuItem>
-            <MenuItem value="Ing_60_mais">Ing_60_ mais</MenuItem>
+            <MenuItem value="Vestibular">Vestibular</MenuItem>
+            <MenuItem value="Enem">Enem</MenuItem>
+            <MenuItem value="Avaliação_Seriada">Avaliação_Seriada</MenuItem>
+            <MenuItem value="Seleção_Simplificada">Seleção_Simplificada</MenuItem>
+            <MenuItem value="EGR">EGR</MenuItem>
+            <MenuItem value="Outro_Tipo_Seleção">Outro_Tipo_Seleção</MenuItem>
+            <MenuItem value="Vaga_Remanescente">Vaga_Remanescente</MenuItem>
+            <MenuItem value="Processo_Seletivo">Processo_Seletivo</MenuItem>
+            <MenuItem value="Programa_Especial">Programa_Especial</MenuItem>
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig2} className="h-[450px] px-4 pb-2 w-full">
-        <BarChart accessibilityLayer data={chartData2}>
+      <ChartContainer config={chartConfig5} className="h-[450px] px-4 pb-2 w-full">
+        <BarChart accessibilityLayer data={chartData5}>
           <XAxis
             dataKey="year"
             tickLine={true}
@@ -115,26 +118,26 @@ export function StackedBarChartIdade() {
                   <div key={index} className="flex items-center gap-2">
                     <span
                       className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig2[entry.value].color }}
+                      style={{ backgroundColor: chartConfig5[entry.value].color }}
                     />
-                    <span style={{ color: chartConfig2[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig2[entry.value].label}
+                    <span style={{ color: chartConfig5[entry.value].color, fontWeight: 'bold' }}>
+                      {chartConfig5[entry.value].label}
                     </span>
                   </div>
                 ))}
               </div>
             )}
           />
-          {(filter === 'Todos' || filter === 'Ing_0_17') && (
+          {(filter === 'Todos' || filter === 'Vestibular') && (
             <Bar
-              dataKey="Ing_0_17"
+              dataKey="Vestibular"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[0, 0, 4, 4]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_0_17"
+                  dataKey="Vestibular"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -142,16 +145,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_18_24') && (
+          {(filter === 'Todos' || filter === 'Enem') && (
             <Bar
-              dataKey="Ing_18_24"
+              dataKey="Enem"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_18_24"
+                  dataKey="Enem"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -159,16 +162,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}{' '}
-          {(filter === 'Todos' || filter === 'Ing_25_29') && (
+          {(filter === 'Todos' || filter === 'Avaliação_Seriada') && (
             <Bar
-              dataKey="Ing_25_29"
+              dataKey="Avaliação_Seriada"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_25_29"
+                  dataKey="Avaliação_Seriada"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -176,16 +179,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_30_39') && (
+          {(filter === 'Todos' || filter === 'Seleção_Simplificada') && (
             <Bar
-              dataKey="Ing_30_39"
+              dataKey="Seleção_Simplificada"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_30_39"
+                  dataKey="Seleção_Simplificada"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -193,16 +196,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_40_49') && (
+          {(filter === 'Todos' || filter === 'EGR') && (
             <Bar
-              dataKey="Ing_40_49"
+              dataKey="EGR"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_40_49"
+                  dataKey="EGR"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -210,16 +213,16 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_50_59') && (
+          {(filter === 'Todos' || filter === 'Outro_Tipo_Seleção') && (
             <Bar
-              dataKey="Ing_50_59"
+              dataKey="Outro_Tipo_Seleção"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_50_59"
+                  dataKey="Outro_Tipo_Seleção"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -227,16 +230,67 @@ export function StackedBarChartIdade() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Ing_60_mais') && (
+          {(filter === 'Todos' || filter === 'Processo_Seletivo') && (
             <Bar
-              dataKey="Ing_60_mais"
+              dataKey="Processo_Seletivo"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Ing_60_mais"
+                  dataKey="Processo_Seletivo"
+                  position="insideTop"
+                  fill="#FFF"
+                  className="font-bold text-xs font-Roboto"
+                />
+              )}
+            </Bar>
+          )}
+          {(filter === 'Todos' || filter === 'Vaga_Remanescente') && (
+            <Bar
+              dataKey="Vaga_Remanescente"
+              stackId="a"
+              fill={faker.color.rgb({ casing: 'upper' })}
+              radius={[4, 4, 0, 0]}
+            >
+              {filter !== 'Todos' && (
+                <LabelList
+                  dataKey="Vaga_Remanescente"
+                  position="insideTop"
+                  fill="#FFF"
+                  className="font-bold text-xs font-Roboto"
+                />
+              )}
+            </Bar>
+          )}
+          {(filter === 'Todos' || filter === 'Programa_Especial') && (
+            <Bar
+              dataKey="Programa_Especial"
+              stackId="a"
+              fill={faker.color.rgb({ casing: 'upper' })}
+              radius={[4, 4, 0, 0]}
+            >
+              {filter !== 'Todos' && (
+                <LabelList
+                  dataKey="Programa_Especial"
+                  position="insideTop"
+                  fill="#FFF"
+                  className="font-bold text-xs font-Roboto"
+                />
+              )}
+            </Bar>
+          )}
+          {(filter === 'Todos' || filter === 'Outra_Forma') && (
+            <Bar
+              dataKey="Outra_Forma"
+              stackId="a"
+              fill={faker.color.rgb({ casing: 'upper' })}
+              radius={[4, 4, 0, 0]}
+            >
+              {filter !== 'Todos' && (
+                <LabelList
+                  dataKey="Outra_Forma"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
