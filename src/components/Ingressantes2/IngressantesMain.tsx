@@ -1,13 +1,18 @@
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { MdInsertChartOutlined } from "react-icons/md";
 import { FaQuestionCircle } from "react-icons/fa";
+import { FaChartLine } from "react-icons/fa6";
 
 import { useState } from "react";
 import { ExpandMore } from "../../utils/ExpandMore";
 import { TiChartPie } from "react-icons/ti";
 import { CardContent, Collapse, IconButton } from "@mui/material";
-import CardBar from "../CardBar";
-import { HorizontalBarChart2 } from "../ChartBarHorizontal/index2";
+import { StackedBarChartSexo } from "./1 - Agrupamento/ChartStackBarSexo";
+import { ChartLineSexo } from "./1 - Agrupamento/ChartLineSexo";
+import { ChartPieSexo } from "./1 - Agrupamento/ChartPieSexo";
+import { ChartMultLineSexo } from "./1 - Agrupamento/ChartMultLineSexo";
+import { StackedBarChartIdade } from "./2 - Agrupamento/ChartStackBarIdade";
+import { ChartPieIdade } from "./2 - Agrupamento/ChartPieIdade";
+import { ChartMultLineIdade } from "./2 - Agrupamento/ChartMultLineIdade";
 
 export default function IngressantesMain() {
   const [expanded, setExpanded] = useState(false);
@@ -37,7 +42,7 @@ export default function IngressantesMain() {
             <div className="col-span-12 border-b ">
               <div className="flex px-4 pt-4 pb-2 items-center justify-between gap-1 text-black/70">
                 <div className="flex items-center gap-1 justify-start">
-                  <MdInsertChartOutlined size={18} />
+                  <FaChartLine size={18} />
                   <h1 className="font-semibold text-sm">Gráfico de Linha</h1>
                 </div>
                 <IconButton>
@@ -75,54 +80,42 @@ export default function IngressantesMain() {
                 </h2>
               </div>
             </div>
-            <div className="col-span-12 border-purple-500 p-4">
-              Grafico de Linha
+            <div className="col-span-12 border-purple-500 h-[450px]">
+              <ChartLineSexo />
             </div>
           </div>
 
-          <div className="col-span-5 !h-[400px] border-red-500">
-            <CardBar
-              title="Grafico de pasdasd"
-              subtitle="asdasdasda"
-              titleDialog="asdasdasd"
-              descriptionDialog="asdasdasd"
-              children={
-                <HorizontalBarChart2
-                  categories={[
-                    "Concorrência",
-                    "Pública",
-                    "Étnico",
-                    "Social",
-                    "Deficiente",
-                    "Outros",
-                  ]}
-                  series={[
-                    { name: "Candidatos", data: [30, 40, 25, 50, 20, 10] },
-                    { name: "Vagas", data: [10, 20, 15, 30, 10, 5] },
-                  ]}
-                  colors={["#1E90FF", "#FF6347"]} // Azul e vermelho
-                />
-              }
-            />
+          {/* 1° - Agrupamento - sexo */}
+
+          <div className="col-span-15 flex items-center justify-between mt-10 text-black/50">
+            <h1 className=" text-3xl font-bold">Sexo dos Ingressantes</h1>
+            <h1 className=" text-sm font-bold">1° Agrupamento </h1>
+          </div>
+          <div className="col-span-8 border-red-500">
+            <StackedBarChartSexo />
+          </div>
+          <div className="col-span-7 border-red-500">
+            <ChartPieSexo />
+          </div>
+          <div className="col-span-15 border-red-500">
+            <ChartMultLineSexo />
           </div>
 
-          <div className="col-span-5 !h-96 border-red-500">
-            {/* <CardBar
-              title="Grafico de pasdasd"
-              subtitle="asdasdasda"
-              titleDialog="asdasdasd"
-              descriptionDialog="asdasdasd"
-            /> */}
+          {/* 2° - Agrupamento - Idade */}
+          <div className="col-span-15 flex items-center justify-between mt-10 text-black/50">
+            <h1 className=" text-3xl font-bold">Idade dos Ingressantes</h1>
+            <h1 className=" text-sm font-bold">1° Agrupamento </h1>
+          </div>
+          <div className="col-span-8 border-red-500">
+            <StackedBarChartIdade />
+          </div>
+          <div className="col-span-7 border-red-500">
+            <ChartPieIdade />
+          </div>
+          <div className="col-span-15 border-red-500">
+            <ChartMultLineIdade />
           </div>
 
-          <div className="col-span-5 !h-96 border-red-500">
-            {/* <CardBar
-              title="Grafico de pasdasd"
-              subtitle="asdasdasda"
-              titleDialog="asdasdasd"
-              descriptionDialog="asdasdasd"
-            /> */}
-          </div>
         </CardContent>
       </Collapse>
     </div>
