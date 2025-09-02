@@ -37,7 +37,8 @@
     "react-slot-counter": "^3.0.1",
     "recharts": "^2.15.4",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

@@ -7,7 +7,7 @@ import { ExpandMore } from '../../utils/ExpandMore';
 import { TiChartPie } from 'react-icons/ti';
 import { CardContent, Collapse, IconButton } from '@mui/material';
 import { StackedBarChartSexo } from './1 - Agrupamento/ChartStackBarSexo';
-import { ChartLineSexo } from './1 - Agrupamento/ChartLineSexo';
+import { ChartLineQtd } from './1 - Agrupamento/ChartLineQtd';
 import { ChartPieSexo } from './1 - Agrupamento/ChartPieSexo';
 import { ChartMultLineSexo } from './1 - Agrupamento/ChartMultLineSexo';
 import { StackedBarChartIdade } from './2 - Agrupamento/ChartStackBarIdade';
@@ -22,8 +22,16 @@ import { StackedBarChartCor } from './4 - Agrupamento/ChartStackBarCor';
 import { StackedBarChartForma } from './5 - Agrupamento/ChartStackBarForma';
 import { ChartPieForma } from './5 - Agrupamento/ChartPieForma';
 import { ChartMultLineForma } from './5 - Agrupamento/ChartMultLineForma';
+import { EntrantsData } from './SchemaEntrants';
 
-export default function IngressantesMain() {
+type IngressantesMainProps = {
+  data?: EntrantsData["entrants"];
+};
+
+export default function IngressantesMain({ data }: IngressantesMainProps) {
+
+  console.log("IngressantesMain", data);
+  
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -80,7 +88,7 @@ export default function IngressantesMain() {
               </div>
             </div>
             <div className="col-span-12 border-purple-500 h-[450px]">
-              <ChartLineSexo />
+              <ChartLineQtd chartData={data?.entrantsQtd} />
             </div>
           </div>
 
@@ -91,13 +99,13 @@ export default function IngressantesMain() {
             <h1 className=" text-sm font-bold">1° Agrupamento </h1>
           </div>
           <div className="col-span-8 border-red-500">
-            <StackedBarChartSexo />
+            <StackedBarChartSexo chartData={data?.entrantsSex}  />
           </div>
           <div className="col-span-7 border-red-500">
-            <ChartPieSexo />
+            <ChartPieSexo chartData={data?.entrantsSex} />
           </div>
           <div className="col-span-15 border-red-500">
-            <ChartMultLineSexo />
+            <ChartMultLineSexo chartData={data?.entrantsSex} />
           </div>
 
           {/* 2° - Agrupamento - Idade */}
@@ -143,6 +151,21 @@ export default function IngressantesMain() {
           </div>
           <div className="col-span-15 border-red-500">
             <ChartMultLineForma />
+          </div>
+
+          {/* 5° - Agrupamento - Idade */}
+          <div className="col-span-15 flex items-center justify-between mt-10 text-black/50">
+            <h1 className=" text-3xl font-bold">Cor dos Ingressantes</h1>
+            <h1 className=" text-sm font-bold">4° Agrupamento </h1>
+          </div>
+          <div className="col-span-8 border-red-500">
+            <StackedBarChartCor />
+          </div>
+          <div className="col-span-7 border-red-500">
+            <ChartPieCor />
+          </div>
+          <div className="col-span-15 border-red-500">
+            <ChartMultLineCor />
           </div>
         </CardContent>
       </Collapse>

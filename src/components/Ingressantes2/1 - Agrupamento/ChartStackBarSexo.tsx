@@ -19,9 +19,14 @@ import {
 } from '@mui/material';
 import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig1, chartData1 } from './data';
+import { chartConfig1 } from './data';
+import { DataEntrantsSex } from '../SchemaEntrants';
 
-export function StackedBarChartSexo() {
+type ChartMultLineSexoProps = {
+  chartData?: DataEntrantsSex;
+};
+
+export function StackedBarChartSexo({chartData}: ChartMultLineSexoProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<'Todos' | 'Masculino' | 'Feminino'>('Todos');
@@ -52,7 +57,7 @@ export function StackedBarChartSexo() {
         </FormControl>
       </div>
       <ChartContainer config={chartConfig1} className="h-[450px] px-4 pb-2 w-full">
-        <BarChart accessibilityLayer data={chartData1}>
+        <BarChart accessibilityLayer data={chartData}>
           <XAxis
             dataKey="year"
             tickLine={true}

@@ -20,9 +20,15 @@ import {
 } from '@mui/material';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig1, chartData1 as originalData } from './data';
+import { chartConfig1 } from './data';
+import { DataEntrantsSex } from '../SchemaEntrants';
 
-export function ChartPieSexo() {
+type ChartMultLineSexoProps = {
+  chartData?: DataEntrantsSex;
+};
+
+export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
+  const originalData = chartData || [];
   const sexKeys = ['Feminino', 'Masculino'] as const;
 
   // inicializar acumulador
@@ -39,13 +45,13 @@ export function ChartPieSexo() {
   }
 
   // transformar no formato desejado
-  const chartData1 = sexKeys.map((key) => ({
+  const chartDataFomated = sexKeys.map((key) => ({
     sexo: key,
     quantidade: totals[key],
     fill: faker.color.rgb({ casing: 'upper' }),
   }));
 
-  const total = chartData1.reduce((acc, cur) => acc + cur.quantidade, 0);
+  const total = chartDataFomated.reduce((acc, cur) => acc + cur.quantidade, 0);
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
@@ -74,7 +80,7 @@ export function ChartPieSexo() {
           <ChartTooltip content={<ChartTooltipContent nameKey="sexo" />} />
 
           <Pie
-            data={chartData1}
+            data={chartData}
             dataKey="quantidade"
             nameKey="sexo"
             labelLine={true}
@@ -87,13 +93,13 @@ export function ChartPieSexo() {
                 <text
                   x={x}
                   y={y}
-                  fill={chartData1[index].fill}
+                  fill={chartDataFomated[index].fill}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={14}
                   fontWeight="bold"
                 >
-                  {chartData1[index].sexo}
+                  {chartDataFomated[index].sexo}
                 </text>
               );
             }}

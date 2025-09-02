@@ -27,11 +27,16 @@ import {
 } from '@mui/material';
 import { FaChartLine, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig1, chartData1 } from './data';
+import { chartConfig1 } from './data';
+import { DataEntrantsSex } from '../SchemaEntrants';
 
 export const description = 'A line chart with a label';
 
-export function ChartMultLineSexo() {
+type ChartMultLineSexoProps = {
+  chartData?: DataEntrantsSex;
+};
+
+export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<'Todos' | 'Masculino' | 'Feminino'>('Todos');
@@ -64,7 +69,7 @@ export function ChartMultLineSexo() {
       <ChartContainer config={chartConfig1} className="h-[460px] p-4 w-full">
         <LineChart
           accessibilityLayer
-          data={chartData1}
+          data={chartData}
           margin={{
             top: 0,
             left: 15,
@@ -125,7 +130,7 @@ export function ChartMultLineSexo() {
 
           <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
           {(filter === 'Todos' || filter === 'Feminino') && (
-             <Line
+            <Line
               dataKey="Feminino"
               type="linear"
               stroke="#F54927"

@@ -12,34 +12,24 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';
+import { DataEntrantsQtd } from '../SchemaEntrants';
 
 export const description = 'A line chart with a label';
 
-const chartData = [
-  { year: '2010', ingressantes: faker.number.int(100) },
-  { year: '2011', ingressantes: faker.number.int(100) },
-  { year: '2012', ingressantes: faker.number.int(100) },
-  { year: '2013', ingressantes: faker.number.int(100) },
-  { year: '2014', ingressantes: faker.number.int(100) },
-  { year: '2015', ingressantes: faker.number.int(100) },
-  { year: '2016', ingressantes: faker.number.int(100) },
-  { year: '2017', ingressantes: faker.number.int(100) },
-  { year: '2018', ingressantes: faker.number.int(100) },
-  { year: '2019', ingressantes: faker.number.int(100) },
-  { year: '2020', ingressantes: faker.number.int(100) },
-  { year: '2021', ingressantes: faker.number.int(100) },
-  { year: '2022', ingressantes: faker.number.int(100) },
-  { year: '2023', ingressantes: faker.number.int(100) },
-];
-
 const chartConfig = {
-  ingressantes: {
+  Ingressantes: {
     label: 'Ingressantes',
     color: '#F54927',
   },
 } satisfies ChartConfig;
 
-export function ChartLineSexo() {
+type ChartLineQtdProps = {
+  chartData?: DataEntrantsQtd;
+};
+
+export function ChartLineQtd({ chartData }: ChartLineQtdProps) {
+  console.log('ChartLineQtd', chartData);
+
   return (
     <ChartContainer config={chartConfig} className="h-[450px] p-4 w-full">
       <LineChart
@@ -105,7 +95,7 @@ export function ChartLineSexo() {
 
         <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
         <Line
-          dataKey="ingressantes"
+          dataKey="Ingressantes"
           type="linear"
           stroke="#F54927"
           strokeWidth={2}

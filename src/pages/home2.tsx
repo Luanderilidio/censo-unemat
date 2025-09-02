@@ -32,20 +32,13 @@ import { useMemo, useState } from 'react';
 import { dataFilters } from '../utils/dataFilters';
 import { ExpandMore } from '../utils/ExpandMore';
 import IngressantesMain from '../components/Ingressantes2/IngressantesMain';
+import api from '../services/api';
+import { EntrantsData, EntrantsDataSchema } from '../components/Ingressantes2/SchemaEntrants';
 
 export default function Home2() {
-  // const [course, setCourse] = useState<string | null>(null);
-  // const [city, setCity] = useState<string | null>("");
-  // const [modality, setModality] = useState<string>("Selecionar tudo");
-  // const [degree, setDegree] = useState<string>("Selecionar tudo");
-  // const [years, setYears] = useState<number[]>([2010, 2023]);
-
-  // const handleChange = (_: Event, newValue: number | number[]) => {
-  //   setYears(newValue as [number, number]);
-  // };
-
+  const [data, setData] = useState<EntrantsData>();
   const [expanded, setExpanded] = useState(false);
-  const [years, setYears] = useState<[number, number]>([2010, 2023]);
+  const [years, setYears] = useState<[number, number]>([2009, 2023]);
   const [city, setCity] = useState<string | null>(null);
   const [course, setCourse] = useState<string | null>(null);
   const [modality, setModality] = useState<string | null>(null);
@@ -55,20 +48,17 @@ export default function Home2() {
     setExpanded(!expanded);
   };
 
-  // Todos os anos disponíveis no dataset
   const anos = useMemo(
     () => Array.from(new Set(dataFilters.map((d) => Number(d.NU_ANO_CENSO)))).sort(),
     [],
   );
 
-  // Handler do slider
   const handleYearChange = (_: Event, newValue: number | number[]) => {
     if (Array.isArray(newValue)) {
       setYears([newValue[0], newValue[1]]);
     }
   };
 
-  // 🔹 Dados filtrados dinamicamente
   const filteredData = useMemo(() => {
     let filtered = dataFilters.filter(
       (d) => Number(d.NU_ANO_CENSO) >= years[0] && Number(d.NU_ANO_CENSO) <= years[1],
@@ -80,7 +70,6 @@ export default function Home2() {
     return filtered;
   }, [years, city, course, modality, degree]);
 
-  // 🔹 Opções dos filtros dependentes
   const municipios = useMemo(
     () => Array.from(new Set(filteredData.map((d) => d.NO_MUNICIPIO))).sort(),
     [filteredData],
@@ -109,6 +98,29 @@ export default function Home2() {
     { field: 'TP_GRAU_ACADEMICO', headerName: 'Grau Acadêmico', width: 180 },
   ];
 
+  const fecthData = async () => {
+    const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
+    console.log('apiUrl', apiUrl);
+    try {
+      const response = await api.get<EntrantsData>(apiUrl, {
+        params: {
+          course: course,
+          city: city,
+          modality: modality,
+          degree: degree,
+          year_start: years[0],
+          year_end: years[1],
+        },
+      });
+
+      setData(response.data);
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="grid grid-cols-12 p-4">
       <div className="col-span-12 grid grid-cols-15 gap-3 p-3 bg-gray-200/30 rounded-lg shadow-md">
@@ -128,6 +140,8 @@ export default function Home2() {
                   yearStart: years[0],
                   yearEnd: years[1],
                 });
+
+                fecthData();
               }}
               endIcon={<SearchIcon />}
               variant="contained"
@@ -273,7 +287,10 @@ export default function Home2() {
 
       {/* INGRESSANTES */}
       <div className="col-span-15">
-        <IngressantesMain />
+        <IngressantesMain
+          // entrants={data}
+          data={data?.entrants}
+        />
       </div>
     </div>
   );
