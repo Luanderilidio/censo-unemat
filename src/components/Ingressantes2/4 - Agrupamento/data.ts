@@ -154,7 +154,7 @@ export const chartData4 = [
   },
 ];
 
-export const chartConfig4= {
+export const chartConfig4 = {
   Branca: { label: 'Branca', color: faker.color.rgb({ casing: 'upper' }) },
   Preta: { label: 'Preta', color: faker.color.rgb({ casing: 'upper' }) },
   Parda: { label: 'Parda', color: faker.color.rgb({ casing: 'upper' }) },

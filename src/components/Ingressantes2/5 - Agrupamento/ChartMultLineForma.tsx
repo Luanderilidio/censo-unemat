@@ -27,23 +27,27 @@ import {
   Select,
 } from '@mui/material';
 import { FaChartLine, FaQuestionCircle } from 'react-icons/fa';
-import { RiPieChart2Line } from 'react-icons/ri';
 import { useBoolean } from 'react-hooks-shareable';
-import {chartConfig5, chartData5 } from './data';
+import { chartConfig5 } from './data';
+import { DataEntrantsForm } from '../SchemaEntrants';
 
 export const description = 'A line chart with a label';
 
-export function ChartMultLineForma() {
+type ChartMultLineFormaProps = {
+  chartData?: DataEntrantsForm;
+};
+
+export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
     | 'Todos'
     | 'Vestibular'
     | 'Enem'
-    | 'Avaliação_Seriada'
-    | 'Seleção_Simplificada'
+    | 'Avaliacao_Seriada'
+    | 'Selecao_Simplificada'
     | 'EGR'
-    | 'Outro_Tipo_Seleção'
+    | 'Outro_Tipo_Selecao'
     | 'Processo_Seletivo'
     | 'Vaga_Remanescente'
     | 'Programa_Especial'
@@ -72,11 +76,11 @@ export function ChartMultLineForma() {
             <MenuItem value="Todos">Todos</MenuItem>
             <MenuItem value="Vestibular">Vestibular</MenuItem>
             <MenuItem value="Enem">Enem</MenuItem>
-            <MenuItem value="Avaliação_Seriada">Avaliação_Seriada</MenuItem>
-            <MenuItem value="Seleção_Simplificada">Seleção_Simplificada</MenuItem>
+            <MenuItem value="Avaliacao_Seriada">Avaliacao_Seriada</MenuItem>
+            <MenuItem value="Selecao_Simplificada">Selecao_Simplificada</MenuItem>
             <MenuItem value="EGR">EGR</MenuItem>
-            <MenuItem value="Outro_Tipo_Seleção">Outro_Tipo_Seleção</MenuItem>
-            <MenuItem value="Vaga_Remanescente">Outro_Tipo_Seleção</MenuItem>
+            <MenuItem value="Outro_Tipo_Selecao">Outro_Tipo_Selecao</MenuItem>
+            <MenuItem value="Vaga_Remanescente">Outro_Tipo_Selecao</MenuItem>
             <MenuItem value="Processo_Seletivo">Processo_Seletivo</MenuItem>
             <MenuItem value="Programa_Especial">Programa_Especial</MenuItem>
           </Select>
@@ -85,7 +89,7 @@ export function ChartMultLineForma() {
       <ChartContainer config={chartConfig5} className="h-[460px] p-4 w-full">
         <LineChart
           accessibilityLayer
-          data={chartData5}
+          data={chartData}
           margin={{
             top: 0,
             left: 15,
@@ -128,18 +132,21 @@ export function ChartMultLineForma() {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 mb-5 ">
-                {payload?.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig5[entry.value].color }}
-                    />
-                    <span style={{ color: chartConfig5[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig5[entry.value].label}
-                    </span>
-                  </div>
-                ))}
+              <div className="flex items-center justify-center flex-wrap gap-4 ">
+                {payload?.map((entry, index) => {
+                  const conf = chartConfig5[entry.value as keyof typeof chartConfig5];
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: conf?.color ?? '#999' }}
+                      />
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                        {conf?.label ?? entry.value}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           />
@@ -185,9 +192,9 @@ export function ChartMultLineForma() {
               )}
             </Line>
           )}
-          {(filter === 'Todos' || filter === 'Avaliação_Seriada') && (
+          {(filter === 'Todos' || filter === 'Avaliacao_Seriada') && (
             <Line
-              dataKey="Avaliação_Seriada"
+              dataKey="Avaliacao_Seriada"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}
@@ -205,9 +212,9 @@ export function ChartMultLineForma() {
               )}
             </Line>
           )}
-          {(filter === 'Todos' || filter === 'Seleção_Simplificada') && (
+          {(filter === 'Todos' || filter === 'Selecao_Simplificada') && (
             <Line
-              dataKey="Seleção_Simplificada"
+              dataKey="Selecao_Simplificada"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}
@@ -245,9 +252,9 @@ export function ChartMultLineForma() {
               )}
             </Line>
           )}
-          {(filter === 'Todos' || filter === 'Outro_Tipo_Seleção') && (
+          {(filter === 'Todos' || filter === 'Outro_Tipo_Selecao') && (
             <Line
-              dataKey="Outro_Tipo_Seleção"
+              dataKey="Outro_Tipo_Selecao"
               type="linear"
               stroke={faker.color.rgb({ casing: 'upper' })}
               strokeWidth={2}

@@ -15,7 +15,7 @@ export const ChartDataEntrantsSex = z.array(
     year: z.string(),
     Masculino: z.number(),
     Feminino: z.number(),
-    fill: faker.color.rgb({ casing: 'upper' }),
+    fill: z.string().default(faker.color.rgb({ casing: 'upper' })),
   }),
 );
 
@@ -32,7 +32,7 @@ export const ChartDataEntrantsAge = z.array(
     Ing_40_49: z.number(),
     Ing_50_59: z.number(),
     Ing_60_mais: z.number(),
-    fill: faker.color.rgb({ casing: 'upper' }),
+    fill: z.string().default(faker.color.rgb({ casing: 'upper' })),
   }),
 );
 
@@ -43,7 +43,7 @@ export const ChartDataEntrantsShift = z.array(
     year: z.string(),
     Diurno: z.number(),
     Noturno: z.number(),
-    fill: faker.color.rgb({ casing: 'upper' }),
+    fill: z.string().default(faker.color.rgb({ casing: 'upper' })),
   }),
 );
 
@@ -58,7 +58,7 @@ export const ChartDataEntrantsColor = z.array(
     Amarela: z.number(),
     Indigena: z.number(),
     Indefinido: z.number(),
-    fill: faker.color.rgb({ casing: 'upper' }),
+    fill: z.string().default(faker.color.rgb({ casing: 'upper' })),
   }),
 );
 
@@ -77,7 +77,7 @@ export const ChartDataEntrantsForm = z.array(
     Vaga_Remanescente: z.number(),
     Programa_Especial: z.number(),
     Outra_Forma: z.number(),
-    fill: faker.color.rgb({ casing: 'upper' }),
+    fill: z.string().default(faker.color.rgb({ casing: 'upper' })),
   }),
 );
 export type DataEntrantsForm = z.infer<typeof ChartDataEntrantsForm>;

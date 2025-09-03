@@ -20,19 +20,23 @@ import {
 } from '@mui/material';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig5, chartData5 as originalData } from "./data";
- 
+import { chartConfig5 } from './data';
+import { DataEntrantsForm } from '../SchemaEntrants';
 
+type ChartPieFormaProps = {
+  chartData?: DataEntrantsForm;
+};
 
-export function ChartPieForma() {
+export function ChartPieForma({ chartData }: ChartPieFormaProps) {
+  const originalData = chartData || [];
 
   const formKeys = [
     'Vestibular',
     'Enem',
-    'Avaliação_Seriada',
-    'Seleção_Simplificada',
+    'Avaliacao_Seriada',
+    'Selecao_Simplificada',
     'EGR',
-    'Outro_Tipo_Seleção',
+    'Outro_Tipo_Selecao',
     'Processo_Seletivo',
     'Vaga_Remanescente',
     'Programa_Especial',
@@ -43,10 +47,10 @@ export function ChartPieForma() {
   const totals: Record<(typeof formKeys)[number], number> = {
     Vestibular: 0,
     Enem: 0,
-    Avaliação_Seriada: 0,
-    Seleção_Simplificada: 0,
+    Avaliacao_Seriada: 0,
+    Selecao_Simplificada: 0,
     EGR: 0,
-    Outro_Tipo_Seleção: 0,
+    Outro_Tipo_Selecao: 0,
     Processo_Seletivo: 0,
     Vaga_Remanescente: 0,
     Programa_Especial: 0,
@@ -61,13 +65,13 @@ export function ChartPieForma() {
   }
 
   // transformar no formato desejado
-  const chartData5 = formKeys.map((key) => ({
+  const chartDataFomated = formKeys.map((key) => ({
     forma: key,
     quantidade: totals[key],
-    fill: faker.color.rgb({ casing: 'upper' })
+    fill: faker.color.rgb({ casing: 'upper' }),
   }));
 
-const total = chartData5.reduce((acc, cur) => acc + cur.quantidade, 0);
+  const total = chartDataFomated.reduce((acc, cur) => acc + cur.quantidade, 0);
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
@@ -96,7 +100,7 @@ const total = chartData5.reduce((acc, cur) => acc + cur.quantidade, 0);
           <ChartTooltip content={<ChartTooltipContent nameKey="forma" />} />
 
           <Pie
-            data={chartData5}
+            data={chartDataFomated}
             dataKey="quantidade"
             nameKey="forma"
             labelLine={true}
@@ -109,13 +113,13 @@ const total = chartData5.reduce((acc, cur) => acc + cur.quantidade, 0);
                 <text
                   x={x}
                   y={y}
-                  fill={chartData5[index].fill}
+                  fill={chartDataFomated[index].fill}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
-                  fontSize={14}
+                  fontSize={percent <= 0.03 ? 10 : 14}
                   fontWeight="bold"
                 >
-                  {chartData5[index].forma}
+                  {chartDataFomated[index].forma}
                 </text>
               );
             }}
@@ -124,7 +128,10 @@ const total = chartData5.reduce((acc, cur) => acc + cur.quantidade, 0);
               dataKey="quantidade"
               className="fill-background text-3xl font-semibold"
               stroke="none"
-              formatter={(value: number) => `${((value / total) * 100).toFixed(0)}%`}
+              formatter={(value: number, entry: any) => {
+                const percent = value / total;
+                return percent >= 0.03 ? `${(percent * 100).toFixed(0)}%` : '';
+              }}
             />
           </Pie>
 
@@ -132,17 +139,20 @@ const total = chartData5.reduce((acc, cur) => acc + cur.quantidade, 0);
             verticalAlign="top"
             content={({ payload }) => (
               <div className="flex items-center justify-center flex-wrap gap-4 ">
-                {payload?.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig5[entry.value].color }}
-                    />
-                    <span style={{ color: chartConfig5[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig5[entry.value].label}
-                    </span>
-                  </div>
-                ))}
+                {payload?.map((entry, index) => {
+                  const conf = chartConfig5[entry.value as keyof typeof chartConfig5];
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: conf?.color ?? '#999' }}
+                      />
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                        {conf?.label ?? entry.value}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           />

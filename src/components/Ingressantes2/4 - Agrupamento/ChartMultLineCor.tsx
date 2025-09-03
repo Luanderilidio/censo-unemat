@@ -27,13 +27,17 @@ import {
   Select,
 } from '@mui/material';
 import { FaChartLine, FaQuestionCircle } from 'react-icons/fa';
-import { RiPieChart2Line } from 'react-icons/ri';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig4, chartData4 } from './data';
+import { chartConfig4 } from './data';
+import { DataEntrantsColor } from '../SchemaEntrants';
 
 export const description = 'A line chart with a label';
 
-export function ChartMultLineCor() {
+type ChartMultLineCorProps = {
+  chartData?: DataEntrantsColor;
+};
+
+export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
@@ -72,7 +76,7 @@ export function ChartMultLineCor() {
       <ChartContainer config={chartConfig4} className="h-[460px] p-4 w-full">
         <LineChart
           accessibilityLayer
-          data={chartData4}
+          data={chartData}
           margin={{
             top: 0,
             left: 15,
@@ -115,18 +119,21 @@ export function ChartMultLineCor() {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 mb-5 ">
-                {payload?.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig4[entry.value].color }}
-                    />
-                    <span style={{ color: chartConfig4[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig4[entry.value].label}
-                    </span>
-                  </div>
-                ))}
+              <div className="flex items-center justify-center flex-wrap gap-4 ">
+                {payload?.map((entry, index) => {
+                  const conf = chartConfig4[entry.value as keyof typeof chartConfig4];
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: conf?.color ?? '#999' }}
+                      />
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                        {conf?.label ?? entry.value}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           />

@@ -154,32 +154,31 @@ export const chartData2 = [
   },
 ];
 export const chartConfig2 = {
- 
-   Ing_0_17: {
+  Ing_0_17: {
     label: 'Ing_0_17',
     color: faker.color.rgb({ casing: 'upper' }),
   },
-    Ing_18_24:{
+  Ing_18_24: {
     label: 'Ing_18_24',
     color: faker.color.rgb({ casing: 'upper' }),
   },
-    Ing_25_29:{
+  Ing_25_29: {
     label: 'Ing_25_29',
     color: faker.color.rgb({ casing: 'upper' }),
   },
-    Ing_30_39: {
+  Ing_30_39: {
     label: 'Ing_30_39',
     color: faker.color.rgb({ casing: 'upper' }),
   },
-    Ing_40_49: {
+  Ing_40_49: {
     label: 'Ing_40_49',
     color: faker.color.rgb({ casing: 'upper' }),
   },
-    Ing_50_59: {
+  Ing_50_59: {
     label: 'Ing_50_59',
     color: faker.color.rgb({ casing: 'upper' }),
   },
-    Ing_60_mais: {
+  Ing_60_mais: {
     label: 'Ing_60_mais',
     color: faker.color.rgb({ casing: 'upper' }),
   },

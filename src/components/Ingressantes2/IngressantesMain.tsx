@@ -25,13 +25,10 @@ import { ChartMultLineForma } from './5 - Agrupamento/ChartMultLineForma';
 import { EntrantsData } from './SchemaEntrants';
 
 type IngressantesMainProps = {
-  data?: EntrantsData["entrants"];
+  data?: EntrantsData['entrants'];
 };
 
 export default function IngressantesMain({ data }: IngressantesMainProps) {
-
-  console.log("IngressantesMain", data);
-  
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -99,7 +96,7 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
             <h1 className=" text-sm font-bold">1° Agrupamento </h1>
           </div>
           <div className="col-span-8 border-red-500">
-            <StackedBarChartSexo chartData={data?.entrantsSex}  />
+            <StackedBarChartSexo chartData={data?.entrantsSex} />
           </div>
           <div className="col-span-7 border-red-500">
             <ChartPieSexo chartData={data?.entrantsSex} />
@@ -114,13 +111,13 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
             <h1 className=" text-sm font-bold">2° Agrupamento </h1>
           </div>
           <div className="col-span-8 border-red-500">
-            <StackedBarChartIdade />
+            <StackedBarChartIdade chartData={data?.entrantsAge} />
           </div>
           <div className="col-span-7 border-red-500">
-            <ChartPieIdade />
+            <ChartPieIdade chartData={data?.entrantsAge} />
           </div>
           <div className="col-span-15 border-red-500">
-            <ChartMultLineIdade />
+            <ChartMultLineIdade chartData={data?.entrantsAge} />
           </div>
 
           {/* 2° - Agrupamento - Idade */}
@@ -129,13 +126,13 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
             <h1 className=" text-sm font-bold">3° Agrupamento </h1>
           </div>
           <div className="col-span-8 border-red-500">
-            <StackedBarChartTurno />
+            <StackedBarChartTurno chartData={data?.entrantsShift} />
           </div>
           <div className="col-span-7 border-red-500">
-            <ChartPieTurno />
+            <ChartPieTurno chartData={data?.entrantsShift} />
           </div>
           <div className="col-span-15 border-red-500">
-            <ChartMultLineTurno />
+            <ChartMultLineTurno chartData={data?.entrantsShift} />
           </div>
 
           {/* 5° - Agrupamento - Idade */}
@@ -144,13 +141,13 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
             <h1 className=" text-sm font-bold">5° Agrupamento </h1>
           </div>
           <div className="col-span-8 border-red-500">
-            <StackedBarChartForma />
+            <StackedBarChartForma chartData={data?.entrantsForm} />
           </div>
           <div className="col-span-7 border-red-500">
-            <ChartPieForma />
+            <ChartPieForma chartData={data?.entrantsForm} />
           </div>
           <div className="col-span-15 border-red-500">
-            <ChartMultLineForma />
+            <ChartMultLineForma chartData={data?.entrantsForm} />
           </div>
 
           {/* 5° - Agrupamento - Idade */}
@@ -159,13 +156,13 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
             <h1 className=" text-sm font-bold">4° Agrupamento </h1>
           </div>
           <div className="col-span-8 border-red-500">
-            <StackedBarChartCor />
+            <StackedBarChartCor chartData={data?.entrantsColor} />
           </div>
           <div className="col-span-7 border-red-500">
-            <ChartPieCor />
+            <ChartPieCor chartData={data?.entrantsColor} />
           </div>
           <div className="col-span-15 border-red-500">
-            <ChartMultLineCor />
+            <ChartMultLineCor chartData={data?.entrantsColor} />
           </div>
         </CardContent>
       </Collapse>

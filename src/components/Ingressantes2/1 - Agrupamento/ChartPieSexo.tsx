@@ -80,7 +80,7 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
           <ChartTooltip content={<ChartTooltipContent nameKey="sexo" />} />
 
           <Pie
-            data={chartData}
+            data={chartDataFomated}
             dataKey="quantidade"
             nameKey="sexo"
             labelLine={true}
@@ -116,17 +116,21 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
             verticalAlign="top"
             content={({ payload }) => (
               <div className="flex items-center justify-center flex-wrap gap-4 ">
-                {payload?.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig1[entry.value].color }}
-                    />
-                    <span style={{ color: chartConfig1[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig1[entry.value].label}
-                    </span>
-                  </div>
-                ))}
+                {payload?.map((entry, index) => {
+                  const conf = chartConfig1[entry.value as keyof typeof chartConfig1];
+
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: conf?.color ?? '#999' }}
+                      />
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                        {conf?.label ?? entry.value}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           />

@@ -20,9 +20,16 @@ import {
 } from '@mui/material';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig3, chartData3 as originalData } from './data';
+import { chartConfig3 } from './data';
+import { DataEntrantsShift } from '../SchemaEntrants';
 
-export function ChartPieTurno() {
+type ChartPieTurnoProps = {
+  chartData?: DataEntrantsShift;
+};
+
+export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
+  const originalData = chartData || [];
+
   const shiftKeys = ['Diurno', 'Noturno'] as const;
 
   // inicializar acumulador
@@ -39,13 +46,13 @@ export function ChartPieTurno() {
   }
 
   // transformar no formato desejado
-  const chartData3 = shiftKeys.map((key) => ({
+  const chartDataFomated = shiftKeys.map((key) => ({
     turno: key,
     quantidade: totals[key],
     fill: faker.color.rgb({ casing: 'upper' }),
   }));
 
-  const total = chartData3.reduce((acc, cur) => acc + cur.quantidade, 0);
+  const total = chartDataFomated.reduce((acc, cur) => acc + cur.quantidade, 0);
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
@@ -74,7 +81,7 @@ export function ChartPieTurno() {
           <ChartTooltip content={<ChartTooltipContent nameKey="turno" />} />
 
           <Pie
-            data={chartData3}
+            data={chartDataFomated}
             dataKey="quantidade"
             nameKey="turno"
             labelLine={true}
@@ -87,13 +94,13 @@ export function ChartPieTurno() {
                 <text
                   x={x}
                   y={y}
-                  fill={chartData3[index].fill}
+                  fill={chartDataFomated[index].fill}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={14}
                   fontWeight="bold"
                 >
-                  {chartData3[index].turno}
+                  {chartDataFomated[index].turno}
                 </text>
               );
             }}
@@ -107,23 +114,27 @@ export function ChartPieTurno() {
           </Pie>
 
           <ChartLegend
-                      verticalAlign="top"
-                      content={({ payload }) => (
-                        <div className="flex items-center justify-center flex-wrap gap-4 ">
-                          {payload?.map((entry, index) => (
-                            <div key={index} className="flex items-center gap-2">
-                              <span
-                                className="w-3 h-3 rounded-full"
-                                style={{ backgroundColor: chartConfig3[entry.value].color }}
-                              />  
-                              <span style={{ color: chartConfig3[entry.value].color, fontWeight: 'bold' }}>
-                                {chartConfig3[entry.value].label}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    />
+            verticalAlign="top"
+            content={({ payload }) => (
+              <div className="flex items-center justify-center flex-wrap gap-4 ">
+                {payload?.map((entry, index) => {
+                  const conf = chartConfig3[entry.value as keyof typeof chartConfig3];
+
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: conf?.color ?? '#999' }}
+                      />
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                        {conf?.label ?? entry.value}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          />
         </PieChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>

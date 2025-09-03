@@ -132,14 +132,14 @@ export default function Home2() {
           <div className="flex">
             <Button
               onClick={() => {
-                console.log({
-                  course: course,
-                  city: city,
-                  modality: modality,
-                  degree: degree,
-                  yearStart: years[0],
-                  yearEnd: years[1],
-                });
+                // console.log({
+                //   course: course,
+                //   city: city,
+                //   modality: modality,
+                //   degree: degree,
+                //   yearStart: years[0],
+                //   yearEnd: years[1],
+                // });
 
                 fecthData();
               }}

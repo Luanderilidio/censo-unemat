@@ -25,9 +25,13 @@ import {
 } from '@mui/material';
 import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig4, chartData4 } from './data';
+import { chartConfig4 } from './data';
+import { DataEntrantsColor } from '../SchemaEntrants';
 
-export function StackedBarChartCor() {
+type StackedBarChartProps = {
+  chartData?: DataEntrantsColor;
+};
+export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
@@ -64,7 +68,7 @@ export function StackedBarChartCor() {
         </FormControl>
       </div>
       <ChartContainer config={chartConfig4} className="h-[450px] px-4 pb-2 w-full">
-        <BarChart accessibilityLayer data={chartData4}>
+        <BarChart accessibilityLayer data={chartData}>
           <XAxis
             dataKey="year"
             tickLine={true}
@@ -101,17 +105,20 @@ export function StackedBarChartCor() {
             verticalAlign="top"
             content={({ payload }) => (
               <div className="flex items-center justify-center flex-wrap gap-4 ">
-                {payload?.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig4[entry.value].color }}
-                    />
-                    <span style={{ color: chartConfig4[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig4[entry.value].label}
-                    </span>
-                  </div>
-                ))}
+                {payload?.map((entry, index) => {
+                  const conf = chartConfig4[entry.value as keyof typeof chartConfig4];
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: conf?.color ?? '#999' }}
+                      />
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                        {conf?.label ?? entry.value}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           />

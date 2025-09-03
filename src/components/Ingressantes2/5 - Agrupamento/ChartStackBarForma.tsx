@@ -25,19 +25,24 @@ import {
 } from '@mui/material';
 import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
-import { chartConfig5, chartData5 } from './data';
+import { chartConfig5 } from './data';
+import { DataEntrantsForm } from '../SchemaEntrants';
 
-export function StackedBarChartForma() {
+type StackedBarChartFormaProps = {
+  chartData?: DataEntrantsForm;
+};
+
+export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
     | 'Todos'
     | 'Vestibular'
     | 'Enem'
-    | 'Avaliação_Seriada'
-    | 'Seleção_Simplificada'
+    | 'Avaliacao_Seriada'
+    | 'Selecao_Simplificada'
     | 'EGR'
-    | 'Outro_Tipo_Seleção'
+    | 'Outro_Tipo_Selecao'
     | 'Processo_Seletivo'
     | 'Vaga_Remanescente'
     | 'Programa_Especial'
@@ -66,10 +71,10 @@ export function StackedBarChartForma() {
             <MenuItem value="Todos">Todos</MenuItem>
             <MenuItem value="Vestibular">Vestibular</MenuItem>
             <MenuItem value="Enem">Enem</MenuItem>
-            <MenuItem value="Avaliação_Seriada">Avaliação_Seriada</MenuItem>
-            <MenuItem value="Seleção_Simplificada">Seleção_Simplificada</MenuItem>
+            <MenuItem value="Avaliacao_Seriada">Avaliacao_Seriada</MenuItem>
+            <MenuItem value="Selecao_Simplificada">Selecao_Simplificada</MenuItem>
             <MenuItem value="EGR">EGR</MenuItem>
-            <MenuItem value="Outro_Tipo_Seleção">Outro_Tipo_Seleção</MenuItem>
+            <MenuItem value="Outro_Tipo_Selecao">Outro_Tipo_Selecao</MenuItem>
             <MenuItem value="Vaga_Remanescente">Vaga_Remanescente</MenuItem>
             <MenuItem value="Processo_Seletivo">Processo_Seletivo</MenuItem>
             <MenuItem value="Programa_Especial">Programa_Especial</MenuItem>
@@ -77,7 +82,7 @@ export function StackedBarChartForma() {
         </FormControl>
       </div>
       <ChartContainer config={chartConfig5} className="h-[450px] px-4 pb-2 w-full">
-        <BarChart accessibilityLayer data={chartData5}>
+        <BarChart accessibilityLayer data={chartData}>
           <XAxis
             dataKey="year"
             tickLine={true}
@@ -114,17 +119,20 @@ export function StackedBarChartForma() {
             verticalAlign="top"
             content={({ payload }) => (
               <div className="flex items-center justify-center flex-wrap gap-4 ">
-                {payload?.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: chartConfig5[entry.value].color }}
-                    />
-                    <span style={{ color: chartConfig5[entry.value].color, fontWeight: 'bold' }}>
-                      {chartConfig5[entry.value].label}
-                    </span>
-                  </div>
-                ))}
+                {payload?.map((entry, index) => {
+                  const conf = chartConfig5[entry.value as keyof typeof chartConfig5];
+                  return (
+                    <div key={index} className="flex items-center gap-2">
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: conf?.color ?? '#999' }}
+                      />
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                        {conf?.label ?? entry.value}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           />
@@ -162,16 +170,16 @@ export function StackedBarChartForma() {
               )}
             </Bar>
           )}{' '}
-          {(filter === 'Todos' || filter === 'Avaliação_Seriada') && (
+          {(filter === 'Todos' || filter === 'Avaliacao_Seriada') && (
             <Bar
-              dataKey="Avaliação_Seriada"
+              dataKey="Avaliacao_Seriada"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Avaliação_Seriada"
+                  dataKey="Avaliacao_Seriada"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -179,16 +187,16 @@ export function StackedBarChartForma() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Seleção_Simplificada') && (
+          {(filter === 'Todos' || filter === 'Selecao_Simplificada') && (
             <Bar
-              dataKey="Seleção_Simplificada"
+              dataKey="Selecao_Simplificada"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Seleção_Simplificada"
+                  dataKey="Selecao_Simplificada"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"
@@ -213,16 +221,16 @@ export function StackedBarChartForma() {
               )}
             </Bar>
           )}
-          {(filter === 'Todos' || filter === 'Outro_Tipo_Seleção') && (
+          {(filter === 'Todos' || filter === 'Outro_Tipo_Selecao') && (
             <Bar
-              dataKey="Outro_Tipo_Seleção"
+              dataKey="Outro_Tipo_Selecao"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
               radius={[4, 4, 0, 0]}
             >
               {filter !== 'Todos' && (
                 <LabelList
-                  dataKey="Outro_Tipo_Seleção"
+                  dataKey="Outro_Tipo_Selecao"
                   position="insideTop"
                   fill="#FFF"
                   className="font-bold text-xs font-Roboto"

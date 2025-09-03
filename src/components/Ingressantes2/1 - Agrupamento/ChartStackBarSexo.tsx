@@ -26,7 +26,7 @@ type ChartMultLineSexoProps = {
   chartData?: DataEntrantsSex;
 };
 
-export function StackedBarChartSexo({chartData}: ChartMultLineSexoProps) {
+export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<'Todos' | 'Masculino' | 'Feminino'>('Todos');

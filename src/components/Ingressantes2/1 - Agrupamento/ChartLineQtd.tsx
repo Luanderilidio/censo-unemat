@@ -28,8 +28,6 @@ type ChartLineQtdProps = {
 };
 
 export function ChartLineQtd({ chartData }: ChartLineQtdProps) {
-  console.log('ChartLineQtd', chartData);
-
   return (
     <ChartContainer config={chartConfig} className="h-[450px] p-4 w-full">
       <LineChart
