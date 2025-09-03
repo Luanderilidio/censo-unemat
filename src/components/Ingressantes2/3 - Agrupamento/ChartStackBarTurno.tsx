@@ -141,7 +141,7 @@ export function StackedBarChartTurno({ chartData }: StackedBarChartTurnoProps) {
             >
               <LabelList
                 dataKey="Noturno"
-                position="top"
+                position="insideTop"
                 fill="#FFF"
                 className="font-bold text-xs font-Roboto"
               />

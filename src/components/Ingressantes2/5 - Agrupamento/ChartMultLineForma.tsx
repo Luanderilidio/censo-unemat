@@ -76,13 +76,14 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <MenuItem value="Todos">Todos</MenuItem>
             <MenuItem value="Vestibular">Vestibular</MenuItem>
             <MenuItem value="Enem">Enem</MenuItem>
-            <MenuItem value="Avaliacao_Seriada">Avaliacao_Seriada</MenuItem>
-            <MenuItem value="Selecao_Simplificada">Selecao_Simplificada</MenuItem>
+            <MenuItem value="Avaliacao_Seriada">Avaliacao Seriada</MenuItem>
+            <MenuItem value="Selecao_Simplificada">Selecao Simplificada</MenuItem>
             <MenuItem value="EGR">EGR</MenuItem>
-            <MenuItem value="Outro_Tipo_Selecao">Outro_Tipo_Selecao</MenuItem>
-            <MenuItem value="Vaga_Remanescente">Outro_Tipo_Selecao</MenuItem>
-            <MenuItem value="Processo_Seletivo">Processo_Seletivo</MenuItem>
-            <MenuItem value="Programa_Especial">Programa_Especial</MenuItem>
+            <MenuItem value="Outro_Tipo_Selecao">Outro_Tipo Selecao</MenuItem>
+            <MenuItem value="Vaga_Remanescente">Vaga Remanescente</MenuItem>
+            <MenuItem value="Processo_Seletivo">Processo Seletivo</MenuItem>
+            <MenuItem value="Programa_Especial">Programa Especial</MenuItem>
+            <MenuItem value="Outra_Forma">Outra Forma</MenuItem>
           </Select>
         </FormControl>
       </div>

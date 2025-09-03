@@ -38,6 +38,30 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
     'Todos' | 'Branca' | 'Preta' | 'Parda' | 'Amarela' | 'Indigena' | 'Indefinido'
   >('Todos');
 
+  const formatedData = chartData?.map((d) => {
+    const total = d.Branca + d.Preta + d.Parda + d.Amarela + d.Indigena + d.Indefinido;
+
+    return {
+      year: d.year,
+      total,
+      // 👇 Percentuais só se filtro for "Todos"
+      Branca: filter === 'Todos' ? (d.Branca / total) * 100 : d.Branca,
+      Preta: filter === 'Todos' ? (d.Preta / total) * 100 : d.Preta,
+      Parda: filter === 'Todos' ? (d.Parda / total) * 100 : d.Parda,
+      Amarela: filter === 'Todos' ? (d.Amarela / total) * 100 : d.Amarela,
+      Indigena: filter === 'Todos' ? (d.Indigena / total) * 100 : d.Indigena,
+      Indefinido: filter === 'Todos' ? (d.Indefinido / total) * 100 : d.Indefinido,
+      abs: {
+        Branca: d.Branca,
+        Preta: d.Preta,
+        Parda: d.Parda,
+        Amarela: d.Amarela,
+        Indigena: d.Indigena,
+        Indefinido: d.Indefinido,
+      },
+    };
+  });
+
   return (
     <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
@@ -68,7 +92,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
         </FormControl>
       </div>
       <ChartContainer config={chartConfig4} className="h-[450px] px-4 pb-2 w-full">
-        <BarChart accessibilityLayer data={chartData}>
+        <BarChart accessibilityLayer data={formatedData}>
           <XAxis
             dataKey="year"
             tickLine={true}
@@ -85,6 +109,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
             />
           </XAxis>
           <YAxis
+            domain={filter === 'Todos' ? [0, 100] : [0, 'auto']}
             tickLine={true} // remove os traços dos ticks, opcional
             axisLine={false} // exibe a linha do eixo
             tick={false}
@@ -100,7 +125,32 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
               style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
             />
           </YAxis>
-          <ChartTooltip content={<ChartTooltipContent />} />
+          <ChartTooltip
+            content={({ payload }) => {
+              if (!payload || !payload.length) return null;
+              const data = payload[0].payload; // linha inteira do ano
+              return (
+                <div className="bg-white shadow p-2 rounded text-sm">
+                  <p className="w-full text-center mb-1 font-bold text-black/40">{data.year}</p>
+                  {payload.map((item) => {
+                    const key = item.dataKey as keyof typeof data.abs;
+                    return (
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex items-center justify-start gap-1">
+                          <div
+                            className="w-[10px] h-[10px] rounded-[2px] "
+                            style={{ backgroundColor: item.color }}
+                          />
+                          <span className="font-light text-xs text-black/50">{String(key)}:</span>
+                        </div>
+                        <span className="font-normal text-xs">{data.abs[key]}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            }}
+          />
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
@@ -127,16 +177,39 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
               dataKey="Branca"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 4, 4]}
+              radius={[0, 0, 0, 0]}
             >
-              {filter !== 'Todos' && (
-                <LabelList
-                  dataKey="Branca"
-                  position="insideTop"
-                  fill="#FFF"
-                  className="font-bold text-xs font-Roboto"
-                />
-              )}
+              <LabelList
+                dataKey="Branca"
+                position="insideTop"
+                fill="#FFF"
+                className="font-bold text-xs font-Roboto"
+                content={(props) => {
+                  const { x, y, width, height, value } = props;
+                  const numericValue = Number(value ?? 0);
+                  const numericHeight = Number(height ?? 0);
+                  const numericX = Number(x ?? 0);
+                  const numericY = Number(y ?? 0);
+                  const numericWidth = Number(width ?? 0);
+
+                  if (numericValue <= 0 || numericHeight < 15) return null;
+
+                  return (
+                    <text
+                      x={numericX + numericWidth / 2}
+                      y={numericY + numericHeight / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#FFF"
+                      fontSize={12}
+                      fontWeight="bold"
+                    >
+                      {numericValue.toFixed(0)}
+                      {filter === 'Todos' && '% '}
+                    </text>
+                  );
+                }}
+              />
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Preta') && (
@@ -144,16 +217,39 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
               dataKey="Preta"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[4, 4, 0, 0]}
+              radius={[0, 0, 0, 0]}
             >
-              {filter !== 'Todos' && (
-                <LabelList
-                  dataKey="Preta"
-                  position="insideTop"
-                  fill="#FFF"
-                  className="font-bold text-xs font-Roboto"
-                />
-              )}
+              <LabelList
+                dataKey="Preta"
+                position="insideTop"
+                fill="#FFF"
+                className="font-bold text-xs font-Roboto"
+                content={(props) => {
+                  const { x, y, width, height, value } = props;
+                  const numericValue = Number(value ?? 0);
+                  const numericHeight = Number(height ?? 0);
+                  const numericX = Number(x ?? 0);
+                  const numericY = Number(y ?? 0);
+                  const numericWidth = Number(width ?? 0);
+
+                  if (numericValue <= 0 || numericHeight < 15) return null;
+
+                  return (
+                    <text
+                      x={numericX + numericWidth / 2}
+                      y={numericY + numericHeight / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#FFF"
+                      fontSize={12}
+                      fontWeight="bold"
+                    >
+                      {numericValue.toFixed(0)}
+                      {filter === 'Todos' && '% '}
+                    </text>
+                  );
+                }}
+              />
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Parda') && (
@@ -161,16 +257,39 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
               dataKey="Parda"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[4, 4, 0, 0]}
+              radius={[0, 0, 0, 0]}
             >
-              {filter !== 'Todos' && (
-                <LabelList
-                  dataKey="Parda"
-                  position="insideTop"
-                  fill="#FFF"
-                  className="font-bold text-xs font-Roboto"
-                />
-              )}
+              <LabelList
+                dataKey="Parda"
+                position="insideTop"
+                fill="#FFF"
+                className="font-bold text-xs font-Roboto"
+                content={(props) => {
+                  const { x, y, width, height, value } = props;
+                  const numericValue = Number(value ?? 0);
+                  const numericHeight = Number(height ?? 0);
+                  const numericX = Number(x ?? 0);
+                  const numericY = Number(y ?? 0);
+                  const numericWidth = Number(width ?? 0);
+
+                  if (numericValue <= 0 || numericHeight < 15) return null;
+
+                  return (
+                    <text
+                      x={numericX + numericWidth / 2}
+                      y={numericY + numericHeight / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#FFF"
+                      fontSize={12}
+                      fontWeight="bold"
+                    >
+                      {numericValue.toFixed(0)}
+                      {filter === 'Todos' && '% '}
+                    </text>
+                  );
+                }}
+              />
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Amarela') && (
@@ -178,16 +297,39 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
               dataKey="Amarela"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[4, 4, 0, 0]}
+              radius={[0, 0, 0, 0]}
             >
-              {filter !== 'Todos' && (
-                <LabelList
-                  dataKey="Amarela"
-                  position="insideTop"
-                  fill="#FFF"
-                  className="font-bold text-xs font-Roboto"
-                />
-              )}
+              <LabelList
+                dataKey="Amarela"
+                position="insideTop"
+                fill="#FFF"
+                className="font-bold text-xs font-Roboto"
+                content={(props) => {
+                  const { x, y, width, height, value } = props;
+                  const numericValue = Number(value ?? 0);
+                  const numericHeight = Number(height ?? 0);
+                  const numericX = Number(x ?? 0);
+                  const numericY = Number(y ?? 0);
+                  const numericWidth = Number(width ?? 0);
+
+                  if (numericValue <= 0 || numericHeight < 15) return null;
+
+                  return (
+                    <text
+                      x={numericX + numericWidth / 2}
+                      y={numericY + numericHeight / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#FFF"
+                      fontSize={12}
+                      fontWeight="bold"
+                    >
+                      {numericValue.toFixed(0)}
+                      {filter === 'Todos' && '% '}
+                    </text>
+                  );
+                }}
+              />
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Indigena') && (
@@ -195,16 +337,39 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
               dataKey="Indigena"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[4, 4, 0, 0]}
+              radius={[0, 0, 0, 0]}
             >
-              {filter !== 'Todos' && (
-                <LabelList
-                  dataKey="Indigena"
-                  position="insideTop"
-                  fill="#FFF"
-                  className="font-bold text-xs font-Roboto"
-                />
-              )}
+              <LabelList
+                dataKey="Indigena"
+                position="insideTop"
+                fill="#FFF"
+                className="font-bold text-xs font-Roboto"
+                content={(props) => {
+                  const { x, y, width, height, value } = props;
+                  const numericValue = Number(value ?? 0);
+                  const numericHeight = Number(height ?? 0);
+                  const numericX = Number(x ?? 0);
+                  const numericY = Number(y ?? 0);
+                  const numericWidth = Number(width ?? 0);
+
+                  if (numericValue <= 0 || numericHeight < 15) return null;
+
+                  return (
+                    <text
+                      x={numericX + numericWidth / 2}
+                      y={numericY + numericHeight / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#FFF"
+                      fontSize={12}
+                      fontWeight="bold"
+                    >
+                      {numericValue.toFixed(0)}
+                      {filter === 'Todos' && '% '}
+                    </text>
+                  );
+                }}
+              />
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Indefinido') && (
@@ -212,16 +377,39 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
               dataKey="Indefinido"
               stackId="a"
               fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[4, 4, 0, 0]}
+              radius={[0, 0, 0, 0]}
             >
-              {filter !== 'Todos' && (
-                <LabelList
-                  dataKey="Indefinido"
-                  position="insideTop"
-                  fill="#FFF"
-                  className="font-bold text-xs font-Roboto"
-                />
-              )}
+              <LabelList
+                dataKey="Indefinido"
+                position="insideTop"
+                fill="#FFF"
+                className="font-bold text-xs font-Roboto"
+                content={(props) => {
+                  const { x, y, width, height, value } = props;
+                  const numericValue = Number(value ?? 0);
+                  const numericHeight = Number(height ?? 0);
+                  const numericX = Number(x ?? 0);
+                  const numericY = Number(y ?? 0);
+                  const numericWidth = Number(width ?? 0);
+
+                  if (numericValue <= 0 || numericHeight < 15) return null;
+
+                  return (
+                    <text
+                      x={numericX + numericWidth / 2}
+                      y={numericY + numericHeight / 2}
+                      textAnchor="middle"
+                      dominantBaseline="middle"
+                      fill="#FFF"
+                      fontSize={12}
+                      fontWeight="bold"
+                    >
+                      {numericValue.toFixed(0)}
+                      {filter === 'Todos' && '% '}
+                    </text>
+                  );
+                }}
+              />
             </Bar>
           )}
         </BarChart>

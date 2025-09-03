@@ -95,6 +95,8 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
             />
           </XAxis>
           <YAxis
+
+          
             tickLine={true} // remove os traços dos ticks, opcional
             axisLine={false} // exibe a linha do eixo
             tick={false}
@@ -140,16 +142,14 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
               strokeWidth={2}
               dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
               activeDot={{ r: 6 }}
-            >
-              {filter !== 'Todos' && (
+            > 
                 <LabelList
                   position="top"
-                  offset={15}
+                  offset={10}
                   fill={faker.color.rgb({ casing: 'upper' })}
-                  fontSize={15}
+                  fontSize={12}
                   fontWeight={'bold'}
-                />
-              )}
+                /> 
             </Line>
           )}
           {(filter === 'Todos' || filter === 'Noturno') && (
@@ -160,16 +160,14 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
               strokeWidth={2}
               dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
               activeDot={{ r: 6 }}
-            >
-              {filter !== 'Todos' && (
+            > 
                 <LabelList
                   position="top"
-                  offset={15}
+                  offset={10}
                   fill={faker.color.rgb({ casing: 'upper' })}
-                  fontSize={15}
+                  fontSize={12}
                   fontWeight={'bold'}
-                />
-              )}
+                /> 
             </Line>
           )}
         </LineChart>
