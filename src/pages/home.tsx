@@ -1,22 +1,13 @@
 import {
   Autocomplete,
-  Box,
   Button,
   CardContent,
   Collapse,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
   LinearProgress,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
   Slider,
   TextField,
-  Typography,
 } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import SchoolIcon from '@mui/icons-material/School';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -27,8 +18,6 @@ import WifiIcon from '@mui/icons-material/Wifi';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import { FaChalkboardTeacher } from 'react-icons/fa';
 import { MdWork } from 'react-icons/md';
-
-import { cities, courses } from '../utils/options';
 import { useMemo, useState } from 'react';
 import { dataFilters } from '../utils/dataFilters';
 import { ExpandMore } from '../utils/ExpandMore';
