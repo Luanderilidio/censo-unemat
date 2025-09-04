@@ -43,8 +43,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
 
     return {
       year: d.year,
-      total,
-      // 👇 Percentuais só se filtro for "Todos"
+      total, 
       Branca: filter === 'Todos' ? (d.Branca / total) * 100 : d.Branca,
       Preta: filter === 'Todos' ? (d.Preta / total) * 100 : d.Preta,
       Parda: filter === 'Todos' ? (d.Parda / total) * 100 : d.Parda,

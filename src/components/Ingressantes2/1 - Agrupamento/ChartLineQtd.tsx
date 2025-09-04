@@ -1,14 +1,9 @@
-'use client';
-
-import { TrendingUp } from 'lucide-react';
 import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { faker } from '@faker-js/faker';
 
 import {
   ChartConfig,
   ChartContainer,
   ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';
@@ -104,14 +99,7 @@ export function ChartLineQtd({ chartData }: ChartLineQtdProps) {
             r: 6,
           }}
         >
-          <LabelList
-            position="top"
-            offset={12}
-            // className="fill-foreground"
-            fill="#F54927"
-            fontSize={15}
-            fontWeight={'bold'}
-          />
+          <LabelList position="top" offset={12} fill="#F54927" fontSize={15} fontWeight={'bold'} />
         </Line>
       </LineChart>
     </ChartContainer>

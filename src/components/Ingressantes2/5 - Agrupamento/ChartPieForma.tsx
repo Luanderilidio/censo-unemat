@@ -104,7 +104,7 @@ export function ChartPieForma({ chartData }: ChartPieFormaProps) {
             dataKey="quantidade"
             nameKey="forma"
             labelLine={true}
-            label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+            label={({ cx, cy, midAngle, outerRadius, percent, index }) => {
               const RADIAN = Math.PI / 180;
               const radius = outerRadius + 20;
               const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -128,7 +128,7 @@ export function ChartPieForma({ chartData }: ChartPieFormaProps) {
               dataKey="quantidade"
               className="fill-background text-3xl font-semibold"
               stroke="none"
-              formatter={(value: number, entry: any) => {
+              formatter={(value: number, _entry: any) => {
                 const percent = value / total;
                 return percent >= 0.03 ? `${(percent * 100).toFixed(0)}%` : '';
               }}

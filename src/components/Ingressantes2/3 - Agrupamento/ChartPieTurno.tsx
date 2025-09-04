@@ -85,7 +85,7 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
             dataKey="quantidade"
             nameKey="turno"
             labelLine={true}
-            label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+            label={({ cx, cy, midAngle, outerRadius, index }) => {
               const RADIAN = Math.PI / 180;
               const radius = outerRadius + 20;
               const x = cx + radius * Math.cos(-midAngle * RADIAN);
