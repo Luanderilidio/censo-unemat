@@ -8,6 +8,7 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -33,9 +34,10 @@ import { dataFilters } from '../utils/dataFilters';
 import { ExpandMore } from '../utils/ExpandMore';
 import IngressantesMain from '../components/Ingressantes2/IngressantesMain';
 import api from '../services/api';
-import { EntrantsData, EntrantsDataSchema } from '../components/Ingressantes2/SchemaEntrants';
+import { EntrantsData } from '../components/Ingressantes2/SchemaEntrants';
 
 export default function Home2() {
+  const [loanding, setLoanding] = useState(false);
   const [data, setData] = useState<EntrantsData>();
   const [expanded, setExpanded] = useState(false);
   const [years, setYears] = useState<[number, number]>([2009, 2023]);
@@ -99,6 +101,7 @@ export default function Home2() {
   ];
 
   const fecthData = async () => {
+    setLoanding(true);
     const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
     console.log('apiUrl', apiUrl);
     try {
@@ -118,11 +121,14 @@ export default function Home2() {
       return response.data;
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoanding(false);
     }
   };
 
   return (
     <div className="grid grid-cols-12 p-4">
+      <div className="col-span-12 row-span-1">{loanding && <LinearProgress />}</div>
       <div className="col-span-12 grid grid-cols-15 gap-3 p-3 bg-gray-200/30 rounded-lg shadow-md">
         <div className="col-span-15 flex items-center justify-between text-black/50 mb-3">
           <div className="flex items-center justify-start">
@@ -286,7 +292,7 @@ export default function Home2() {
       </div>
 
       {/* INGRESSANTES */}
-      <div className="col-span-15">
+      <div className="col-span-15 mt-5">
         <IngressantesMain
           // entrants={data}
           data={data?.entrants}

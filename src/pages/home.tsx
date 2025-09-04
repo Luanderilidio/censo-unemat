@@ -21,18 +21,13 @@ import BarChartTest from '../components/Ingressantes/ChartStackedBar';
 import ChartLine from '../components/ChartLine';
 import CountUp from 'react-countup';
 import ChartFunnel from '../components/ChartFunnel';
-import { HorizontalBarChart, HorizontalBarProps } from '../components/ChartBarHorizontal';
+import { HorizontalBarChart } from '../components/ChartBarHorizontal';
 import { cities, courses } from '../utils/options';
 import ChartLineIng from '../components/Ingressantes/ChartLineIng';
 import ChartLineIngEnemVest from '../components/Ingressantes/ChartLineIngEnemVest';
 import ChartPieIng from '../components/Ingressantes/ChartPieIng';
 import ChartLineIngGen from '../components/Ingressantes/ChartLineIngGen';
 import ChartLineTurn from '../components/Ingressantes/ChartLineTurn';
-
-export interface DataStructure {
-  cards: CardsArray[];
-  horizontalBar: HorizontalBarProps;
-}
 
 export default function Home() {
   const [course, setCourse] = useState<string | null>('');

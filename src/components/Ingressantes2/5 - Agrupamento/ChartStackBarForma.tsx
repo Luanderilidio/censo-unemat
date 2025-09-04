@@ -191,16 +191,18 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 ">
+              <div className="flex items-center justify-center flex-wrap gap-2">
                 {payload?.map((entry, index) => {
                   const conf = chartConfig5[entry.value as keyof typeof chartConfig5];
                   return (
-                    <div key={index} className="flex items-center gap-2">
+                    <div key={index} className="flex items-center gap-1">
                       <span
-                        className="w-3 h-3 rounded-full"
+                        className="w-2 h-2 rounded-full"
                         style={{ backgroundColor: conf?.color ?? '#999' }}
                       />
-                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                      <span
+                        style={{ color: conf?.color ?? '#999', fontWeight: 'bold', fontSize: 11 }}
+                      >
                         {conf?.label ?? entry.value}
                       </span>
                     </div>

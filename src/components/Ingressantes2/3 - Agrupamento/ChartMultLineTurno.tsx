@@ -39,7 +39,6 @@ type ChartMultLineTurnoProps = {
 
 export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
-
   const [filter, setFilter] = useState<'Todos' | 'Diurno' | 'Noturno'>('Todos');
 
   return (
@@ -82,27 +81,24 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
           <XAxis
             dataKey="year"
             tickLine={true}
-            tickMargin={5} // espaço entre ticks e labels
+            tickMargin={5}
             axisLine={false}
             interval={1}
             tickFormatter={(val) => val.slice(0, 4)}
           >
             <Label
               value="Ano"
-              position="bottom" // label abaixo dos ticks, dentro do gráfico
-              offset={-5} // distância do label para os ticks
+              position="bottom"
+              offset={-5}
               style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
             />
           </XAxis>
           <YAxis
-
-          
-            tickLine={true} // remove os traços dos ticks, opcional
-            axisLine={false} // exibe a linha do eixo
+            tickLine={true}
+            axisLine={false}
             tick={false}
-            // tick={{ fontSize: 12, fontWeight: 'bold', fill: '#333' }}  // estilo do texto
-            tickFormatter={(val) => val} // formata os números se quiser (ex: 1k, 2k)
-            width={0} // largura reservada para os números
+            tickFormatter={(val) => val}
+            width={0}
           >
             <Label
               value="Quantidade"
@@ -115,7 +111,7 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 ">
+              <div className="flex items-center justify-center flex-wrap gap-4 mb-4">
                 {payload?.map((entry, index) => {
                   const conf = chartConfig3[entry.value as keyof typeof chartConfig3];
                   return (
@@ -142,14 +138,14 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
               strokeWidth={2}
               dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
               activeDot={{ r: 6 }}
-            > 
-                <LabelList
-                  position="top"
-                  offset={10}
-                  fill={faker.color.rgb({ casing: 'upper' })}
-                  fontSize={12}
-                  fontWeight={'bold'}
-                /> 
+            >
+              <LabelList
+                position="top"
+                offset={10}
+                fill={faker.color.rgb({ casing: 'upper' })}
+                fontSize={12}
+                fontWeight={'bold'}
+              />
             </Line>
           )}
           {(filter === 'Todos' || filter === 'Noturno') && (
@@ -160,14 +156,14 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
               strokeWidth={2}
               dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
               activeDot={{ r: 6 }}
-            > 
-                <LabelList
-                  position="top"
-                  offset={10}
-                  fill={faker.color.rgb({ casing: 'upper' })}
-                  fontSize={12}
-                  fontWeight={'bold'}
-                /> 
+            >
+              <LabelList
+                position="top"
+                offset={10}
+                fill={faker.color.rgb({ casing: 'upper' })}
+                fontSize={12}
+                fontWeight={'bold'}
+              />
             </Line>
           )}
         </LineChart>

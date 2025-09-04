@@ -22,6 +22,7 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig1 } from './data';
 import { DataEntrantsSex } from '../SchemaEntrants';
+import CountUp from 'react-countup';
 
 type ChartMultLineSexoProps = {
   chartData?: DataEntrantsSex;
@@ -55,6 +56,9 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
+  const total_fem = chartData?.reduce((acc, cur) => acc + cur.Feminino, 0);
+  const total_masc = chartData?.reduce((acc, cur) => acc + cur.Masculino, 0);
+
   return (
     <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
@@ -66,10 +70,24 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
           <FaQuestionCircle size={20} className="text-black/10" />
         </IconButton>
       </div>
-      <div className="flex px-4 pt-2  items-center justify-between gap-1 text-black/70">
+      <div className="flex px-4 pt-2 items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
           <h1 className="font-bold text-xl">title</h1>
           <h2 className="font-normal leading-none ">subtitle</h2>
+        </div>
+        <div className="flex items-center gap-6">
+          <div className="flex flex-col w-fit ">
+            <h1 className="font-normal text-sm text-black/70">Feminino</h1>
+            <h2 className=" font-black text-3xl leading-none text-black/80">
+              <CountUp start={0} duration={2.75} end={total_fem ?? 0} decimal="," separator="." />
+            </h2>
+          </div>
+          <div className="flex flex-col w-fit ">
+            <h1 className="font-normal text-sm text-black/70">Masculino</h1>
+            <h2 className=" font-black text-3xl leading-none text-black/80">
+              <CountUp start={0} duration={2.75} end={total_masc ?? 0} decimal="," separator="." />
+            </h2>
+          </div>
         </div>
       </div>
       <ChartContainer

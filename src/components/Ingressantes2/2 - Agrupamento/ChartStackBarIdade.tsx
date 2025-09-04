@@ -45,7 +45,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
     | 'Ing_40_49'
     | 'Ing_50_59'
     | 'Ing_60_mais'
-  >('Ing_0_17');
+  >('Todos');
 
   const formatedData = chartData?.map((d) => {
     const total =
@@ -167,7 +167,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                           <span className="font-light text-xs text-black/50">{String(key)}:</span>
                         </div>
                         <span className="font-normal text-xs">{data.abs[key]}</span>
-                      </div> 
+                      </div>
                     );
                   })}
                 </div>
@@ -177,13 +177,13 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 ">
+              <div className="flex items-center justify-center flex-wrap gap-3 mb-3">
                 {payload?.map((entry, index) => {
                   const conf = chartConfig2[entry.value as keyof typeof chartConfig2];
                   return (
-                    <div key={index} className="flex items-center gap-2">
+                    <div key={index} className="flex items-center gap-1">
                       <span
-                        className="w-3 h-3 rounded-full"
+                        className="w-2 h-2 rounded-full"
                         style={{ backgroundColor: conf?.color ?? '#999' }}
                       />
                       <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>

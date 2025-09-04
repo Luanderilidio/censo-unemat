@@ -23,6 +23,7 @@ import { StackedBarChartForma } from './5 - Agrupamento/ChartStackBarForma';
 import { ChartPieForma } from './5 - Agrupamento/ChartPieForma';
 import { ChartMultLineForma } from './5 - Agrupamento/ChartMultLineForma';
 import { EntrantsData } from './SchemaEntrants';
+import CountUp from 'react-countup';
 
 type IngressantesMainProps = {
   data?: EntrantsData['entrants'];
@@ -30,6 +31,8 @@ type IngressantesMainProps = {
 
 export default function IngressantesMain({ data }: IngressantesMainProps) {
   const [expanded, setExpanded] = useState(false);
+
+  const total_ing = data?.entrantsQtd.reduce((acc, cur) => acc + cur.Ingressantes, 0);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -64,7 +67,7 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                 </IconButton>
               </div>
             </div>
-            <div className="col-span-8  border-b ">
+            <div className="col-span-10  border-b ">
               <div className="flex p-4  items-center justify-between gap-1 text-black/70">
                 <div className="flex flex-col items-start gap-1 justify-start">
                   <h1 className="font-bold text-xl">Grafico de Barras</h1>
@@ -74,16 +77,24 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
             </div>
             <div className="col-span-2 border-b border-x flex flex-col items-center justify-center  ">
               <div className="flex flex-col w-fit ">
-                <h1 className="font-normal text-sm text-black/70">Qtd tal tal</h1>
-                <h2 className=" font-black text-3xl leading-none text-black/80">5151551</h2>
+                <h1 className="font-normal text-sm text-black/70">Total Ingressantes</h1>
+                <h2 className=" font-black text-3xl leading-none text-black/80">
+                  <CountUp
+                    start={0}
+                    duration={2.75}
+                    end={total_ing ?? 0}
+                    decimal=","
+                    separator="."
+                  />
+                </h2>
               </div>
             </div>
-            <div className="col-span-2 border-b flex flex-col items-center justify-center  ">
+            {/* <div className="col-span-2 border-b flex flex-col items-center justify-center  ">
               <div className="flex flex-col w-fit ">
                 <h1 className="font-normal text-sm text-black/70">Qtd tal tal</h1>
                 <h2 className=" font-black text-3xl leading-none text-black/80">5151551</h2>
               </div>
-            </div>
+            </div> */}
             <div className="col-span-12 border-purple-500 h-[450px]">
               <ChartLineQtd chartData={data?.entrantsQtd} />
             </div>

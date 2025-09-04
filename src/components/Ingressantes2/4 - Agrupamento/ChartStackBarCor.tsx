@@ -154,7 +154,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 ">
+              <div className="flex items-center justify-center flex-wrap gap-4 mb-4 ">
                 {payload?.map((entry, index) => {
                   const conf = chartConfig4[entry.value as keyof typeof chartConfig4];
                   return (

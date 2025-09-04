@@ -116,10 +116,9 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 ">
+              <div className="flex items-center justify-center flex-wrap gap-2">
                 {payload?.map((entry, index) => {
                   const conf = chartConfig3[entry.value as keyof typeof chartConfig3];
-
                   return (
                     <div key={index} className="flex items-center gap-2">
                       <span
