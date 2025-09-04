@@ -1,12 +1,12 @@
-import { useQuery } from '@tanstack/react-query';
-import api from '../services/api';
-import { useState } from 'react';
 import {
   Autocomplete,
+  Box,
   Button,
-  CircularProgress,
+  CardContent,
+  Collapse,
   FormControl,
   IconButton,
+  InputAdornment,
   InputLabel,
   LinearProgress,
   MenuItem,
@@ -14,243 +14,289 @@ import {
   SelectChangeEvent,
   Slider,
   TextField,
+  Typography,
 } from '@mui/material';
-import CardQtd, { CardsArray } from '../components/CardQtd';
-import ClearIcon from '@mui/icons-material/Clear';
-import BarChartTest from '../components/Ingressantes/ChartStackedBar';
-import ChartLine from '../components/ChartLine';
-import CountUp from 'react-countup';
-import ChartFunnel from '../components/ChartFunnel';
-import { HorizontalBarChart } from '../components/ChartBarHorizontal';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import SchoolIcon from '@mui/icons-material/School';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { TbTools } from 'react-icons/tb';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import WifiIcon from '@mui/icons-material/Wifi';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import { FaChalkboardTeacher } from 'react-icons/fa';
+import { MdWork } from 'react-icons/md';
+
 import { cities, courses } from '../utils/options';
-import ChartLineIng from '../components/Ingressantes/ChartLineIng';
-import ChartLineIngEnemVest from '../components/Ingressantes/ChartLineIngEnemVest';
-import ChartPieIng from '../components/Ingressantes/ChartPieIng';
-import ChartLineIngGen from '../components/Ingressantes/ChartLineIngGen';
-import ChartLineTurn from '../components/Ingressantes/ChartLineTurn';
+import { useMemo, useState } from 'react';
+import { dataFilters } from '../utils/dataFilters';
+import { ExpandMore } from '../utils/ExpandMore';
+import IngressantesMain from '../components/Ingressantes2/IngressantesMain';
+import api from '../services/api';
+import { EntrantsData } from '../components/Ingressantes2/SchemaEntrants';
 
-export default function Home() {
-  const [course, setCourse] = useState<string | null>('');
-  const [city, setCity] = useState<string | null>('');
-  const [modality, setModality] = useState<string>('');
-  const [degree, setDegree] = useState<string>('');
-  const [isLoading2, setIsLoading2] = useState(true);
+export default function Home2() {
+  const [loanding, setLoanding] = useState(false);
+  const [data, setData] = useState<EntrantsData>();
+  const [expanded, setExpanded] = useState(false);
+  const [years, setYears] = useState<[number, number]>([2009, 2023]);
+  const [city, setCity] = useState<string | null>(null);
+  const [course, setCourse] = useState<string | null>(null);
+  const [modality, setModality] = useState<string | null>(null);
+  const [degree, setDegree] = useState<string | null>(null);
 
-  const [year, setYear] = useState<number[]>([2010, 2022]);
-
-  const handleChange = (_event: Event, newValue: number | number[]) => {
-    setYear(newValue as number[]);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
+
+  const anos = useMemo(
+    () => Array.from(new Set(dataFilters.map((d) => Number(d.NU_ANO_CENSO)))).sort(),
+    [],
+  );
+
+  const handleYearChange = (_: Event, newValue: number | number[]) => {
+    if (Array.isArray(newValue)) {
+      setYears([newValue[0], newValue[1]]);
+    }
+  };
+
+  const filteredData = useMemo(() => {
+    let filtered = dataFilters.filter(
+      (d) => Number(d.NU_ANO_CENSO) >= years[0] && Number(d.NU_ANO_CENSO) <= years[1],
+    );
+    if (city) filtered = filtered.filter((d) => d.NO_MUNICIPIO === city);
+    if (course) filtered = filtered.filter((d) => d.NO_CURSO === course);
+    if (modality) filtered = filtered.filter((d) => d.TP_MODALIDADE_ENSINO === modality);
+    if (degree) filtered = filtered.filter((d) => d.TP_GRAU_ACADEMICO === degree);
+    return filtered;
+  }, [years, city, course, modality, degree]);
+
+  const municipios = useMemo(
+    () => Array.from(new Set(filteredData.map((d) => d.NO_MUNICIPIO))).sort(),
+    [filteredData],
+  );
+
+  const cursos = useMemo(
+    () => Array.from(new Set(filteredData.map((d) => d.NO_CURSO))).sort(),
+    [filteredData],
+  );
+
+  const modalidades = useMemo(
+    () => Array.from(new Set(filteredData.map((d) => d.TP_MODALIDADE_ENSINO))).sort(),
+    [filteredData],
+  );
+
+  const graus = useMemo(
+    () => Array.from(new Set(filteredData.map((d) => d.TP_GRAU_ACADEMICO))).sort(),
+    [filteredData],
+  );
+
+  const columns = [
+    { field: 'NU_ANO_CENSO', headerName: 'Ano', width: 100 },
+    { field: 'NO_MUNICIPIO', headerName: 'Município', width: 180 },
+    { field: 'NO_CURSO', headerName: 'Curso', width: 200 },
+    { field: 'TP_MODALIDADE_ENSINO', headerName: 'Modalidade', width: 150 },
+    { field: 'TP_GRAU_ACADEMICO', headerName: 'Grau Acadêmico', width: 180 },
+  ];
+
   const fecthData = async () => {
+    setLoanding(true);
     const apiUrl = import.meta.env.VITE_BACK_END_URL as string;
     console.log('apiUrl', apiUrl);
     try {
-      const response = await api.get(apiUrl, {
+      const response = await api.get<EntrantsData>(apiUrl, {
         params: {
-          action: 'getFiltered',
           course: course,
           city: city,
           modality: modality,
           degree: degree,
+          year_start: years[0],
+          year_end: years[1],
         },
       });
 
-      // console.log("API Response:", response.data);
-      setIsLoading2(false);
+      setData(response.data);
+
       return response.data;
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoanding(false);
     }
   };
 
-  const { data, error, isLoading, refetch } = useQuery({
-    queryKey: ['posts'],
-    queryFn: fecthData,
-    staleTime: 999999, // 5 segundos antes de marcar como stale
-  });
-
-  if (isLoading) return <LinearProgress />;
-  if (error) return <div>Something went wrong!</div>;
-
   return (
-    <div className="grid grid-cols-12 gap-5 bg-gray-100/20 px-4">
-      <div className="col-span-12 row-span-1">{isLoading2 && <LinearProgress />}</div>
-      <div className="col-span-12 row-span-1 text-center font-bold text-2xl flex items-center justify-center border-green-500">
-        DASHBOARD CENSO DA EDUCAÇÃO SUPERIOR - UNEMAT{' '}
-        <span className="ml-2 font-normal font-Montserrat italic ">2.0</span>
+    <div className="grid grid-cols-12 p-4">
+      <div className="col-span-12 row-span-1">{loanding && <LinearProgress />}</div>
+      <div className="col-span-12 grid grid-cols-15 gap-3 p-3 bg-gray-200/30 rounded-lg shadow-md">
+        <div className="col-span-15 flex items-center justify-between text-black/50 mb-3">
+          <div className="flex items-center justify-start">
+            <FilterAltIcon />
+            <p className="text-left font-Roboto font-bold text-2xl ">Filtros</p>
+          </div>
+          <div className="flex">
+            <Button
+              onClick={() => {
+                // console.log({
+                //   course: course,
+                //   city: city,
+                //   modality: modality,
+                //   degree: degree,
+                //   yearStart: years[0],
+                //   yearEnd: years[1],
+                // });
+
+                fecthData();
+              }}
+              endIcon={<SearchIcon />}
+              variant="contained"
+            >
+              Pesquisar
+            </Button>
+
+            <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </div>
+        </div>
+        <Autocomplete
+          className="col-span-3"
+          options={municipios}
+          value={city}
+          onChange={(_, newValue) => setCity(newValue)}
+          renderInput={(params) => <TextField {...params} label="Município" />}
+          renderOption={(props, option) => (
+            <li {...props} key={option}>
+              <div className="flex gap-1 items-center justify-center">
+                {option !== 'Selecionar tudo' && <FmdGoodIcon sx={{ fontSize: 12 }} />}
+                <p className={`!text-sm !font-semibold leading-none  `}>{option}</p>
+              </div>
+            </li>
+          )}
+        />
+
+        {/* Curso - Autocomplete */}
+        <Autocomplete
+          className="col-span-3"
+          options={cursos}
+          value={course}
+          onChange={(_, newValue) => setCourse(newValue)}
+          renderInput={(params) => <TextField {...params} label="Curso" />}
+          renderOption={(props, option) => (
+            <li {...props} key={option}>
+              <div className="flex gap-1 items-start justify-center">
+                {option !== 'Selecionar tudo' && <SchoolIcon sx={{ fontSize: 12 }} />}
+                <p
+                  className={`!text-xs !font-semibold leading-none ${
+                    option === 'Selecionar tudo' && 'text-black/40'
+                  }`}
+                >
+                  {option}
+                </p>
+              </div>
+            </li>
+          )}
+        />
+
+        {/* Modalidade - Select */}
+        <div className="col-span-2">
+          <Autocomplete
+            options={modalidades}
+            value={modality}
+            onChange={(_, newValue) => setModality(newValue)}
+            renderInput={(params) => <TextField {...params} label="Modalidade" />}
+            renderOption={(props, option) => (
+              <li {...props} key={option}>
+                <div className="flex gap-2 items-center justify-center">
+                  {option === 'DISTANCIA' ? (
+                    <WifiIcon sx={{ fontSize: 20 }} />
+                  ) : (
+                    <ApartmentIcon sx={{ fontSize: 20 }} />
+                  )}
+                  <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
+                </div>
+              </li>
+            )}
+          />
+        </div>
+
+        {/* Grau Acadêmico - Select */}
+        <div className="col-span-3">
+          <Autocomplete
+            options={graus}
+            value={degree}
+            onChange={(_, newValue) => setDegree(newValue)}
+            renderInput={(params) => <TextField {...params} label="Grau Acadêmico" />}
+            renderOption={(props, option) => (
+              <li {...props} key={option}>
+                <div className="flex gap-2 items-center justify-center">
+                  {option === 'BACHARELADO' && <MdWork size={15} />}
+                  {option === 'LICENCIATURA' && <FaChalkboardTeacher size={15} />}
+                  {option === 'TECNOLOGICO' && <TbTools size={15} />}
+                  <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
+                </div>
+              </li>
+            )}
+          />
+        </div>
+        <div className="col-span-4 px-2">
+          <div className="flex justify-between items-center w-full text-sm font-bold text-black/50 leading-none">
+            <p>Início</p>
+            <p>Fim</p>
+          </div>
+          <Slider
+            value={years}
+            onChange={handleYearChange}
+            valueLabelDisplay="auto"
+            min={Number(anos[0])}
+            max={Number(anos[anos.length - 1])}
+            step={1}
+            marks={[
+              ...Array.from({ length: 2023 - 2010 + 1 }, (_, i) => ({
+                value: 2010 + i,
+                //   label: String(2010 + i),
+              })),
+            ]}
+          />
+          <div className="flex justify-between items-center w-full text-sm font-bold text-black/50 leading-none">
+            <p> {years[0]}</p>
+            <p> {years[1]}</p>
+          </div>
+        </div>
       </div>
-      <div className="col-span-2">
-        <div className="flex flex-col gap-4 p-4 rounded-md border font-Roboto font-medium">
-          <p>Filtros</p>
-
-          <Autocomplete
-            className="col-span-3"
-            fullWidth
-            value={course}
-            options={courses}
-            onChange={(_event: any, newValue: string | null) => {
-              setCourse(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} label="Curso" />}
-          />
-          <Autocomplete
-            className="col-span-3"
-            fullWidth
-            value={city}
-            options={cities}
-            onChange={(_event: any, newValue: string | null) => {
-              setCity(newValue);
-            }}
-            renderInput={(params) => <TextField {...params} label="Município" />}
-          />
-          <FormControl fullWidth>
-            <InputLabel>Modalidade</InputLabel>
-            <Select
-              value={modality}
-              label="Modalidade"
-              onChange={(event: SelectChangeEvent) => {
-                setModality(event.target.value as string);
+      <div className="col-span-12 bg-gray-200/30">
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <DataGrid
+              rows={filteredData.map((row, i) => ({ id: i, ...row }))}
+              columns={columns}
+              rowHeight={50}
+              getRowId={(row) => row.id}
+              editMode="row"
+              initialState={{
+                pagination: {
+                  paginationModel: { pageSize: 10 },
+                },
               }}
-            >
-              <MenuItem value={1}>Presencial</MenuItem>
-              <MenuItem value={2}>Distância</MenuItem>
-            </Select>
-            {modality !== '' && (
-              <IconButton
-                onClick={() => setModality('')}
-                style={{
-                  position: 'absolute',
-                  right: 20,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                }}
-              >
-                <ClearIcon fontSize="small" />
-              </IconButton>
-            )}
-          </FormControl>
-          <FormControl fullWidth>
-            <InputLabel>Grau Acadêmico</InputLabel>
-            <Select
-              value={degree}
-              label="Grau Acadêmico"
-              onChange={(event: SelectChangeEvent) => {
-                setDegree(event.target.value as string);
-              }}
-            >
-              <MenuItem value={1}>Bacharelado</MenuItem>
-              <MenuItem value={2}>Licenciatura</MenuItem>
-            </Select>
-            {degree !== '' && (
-              <IconButton
-                onClick={() => setDegree('')}
-                style={{
-                  position: 'absolute',
-                  right: 20,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                }}
-              >
-                <ClearIcon fontSize="small" />
-              </IconButton>
-            )}
-          </FormControl>
-
-          <div className="px-1">
-            <p>Ano</p>
-
-            <Slider
-              disabled
-              getAriaLabel={() => 'Temperature range'}
-              value={year}
-              min={2010}
-              max={2022}
-              step={1}
-              onChange={handleChange}
-              valueLabelDisplay="auto"
-              getAriaValueText={() => `${year}`}
+              pageSizeOptions={[5, 10]}
+              disableRowSelectionOnClick
             />
-            <div className="flex justify-between items-center w-full">
-              <p>{year[0]}</p>
-              <p>{year[1]}</p>
-            </div>
-          </div>
-          <Button
-            variant="contained"
-            className="flex gap-2"
-            onClick={() => {
-              setIsLoading2(true);
-              refetch();
-            }}
-          >
-            {isLoading2 ? 'Gerando' : 'Gerar'}
-            {isLoading2 && <CircularProgress size={20} />}
-          </Button>
-        </div>
+          </CardContent>
+        </Collapse>
       </div>
-      <div className="grid grid-cols-12 gap-3  border-red-500 col-span-10 ">
-        {/* Graficos de Linha */}
-        <div className="grid grid-cols-5 grid-rows-5 !h-[500px] p-4 border rounded-3xl bg-white shadow-md shadow-black/10 col-span-7 !row-span-1">
-          <div className="col-span-2 row-span-2 flex items-center justify-center">
-            <div className="font-Bold flex flex-col items-start justify-start">
-              <p className="text-left font-bold text-md ">Quantidade de Ingressantes</p>
-              <p className="text-left font-black text-[5rem] text-[#008FFB]">
-                <CountUp
-                  start={0}
-                  duration={2.75}
-                  end={data[0]?.lineChartIng?.[0]?.qtd ?? 0}
-                  decimal="."
-                  separator=","
-                />
-              </p>
-            </div>
-          </div>
-          <div className="col-span-3 row-span-2 border-500-red">
-            <ChartLineIngEnemVest title="Ingressantes por Enem" data={data[5]} />
-          </div>
-          <div className="col-span-5 row-span-3">
-            <ChartLineIng data={data[0].lineChartIng} />
-          </div>
-          <div className="col-span-1 row-span-2 pr-2 border-500-red">
-            {/* <ChartLineIngEnemVest
-              title="Ingressantes por Vestibular"
-              data={data[5]?.lineChartEnemVest?.[1]}
-            /> */}
-          </div>
-        </div>
 
-        {/* BarVertical + Line */}
-        <div className="grid grid-cols-2 grid-rows-5 !h-[500px] col-span-5 p-4 border rounded-3xl bg-white shadow-md shadow-black/10">
-          <div className="col-span-2 h-full row-span-3 border-red-500">
-            <HorizontalBarChart data={data[1].horizontalBar} />
-          </div>
-          <div className="col-span-2 row-span-2 border-red-500">
-            <ChartLineTurn data={data[6]} />
-          </div>
-        </div>
-
-        {/* BarHorizontal */}
-        <div className="col-span-7 gap-3 !h-[500px] border p-4 rounded-3xl bg-white shadow-md shadow-black/10">
-          <BarChartTest data={data[4]} />
-        </div>
-
-        {/* BarPie + BarLine */}
-        <div className="grid grid-rows-5 border !h-[500px] p-4 rounded-3xl bg-white shadow-md shadow-black/10 col-span-5">
-          <div className="row-span-3 !h-[300px] border-red-500">
-            <ChartPieIng data={data[4]} />
-          </div>
-
-          <div className="row-span-2 !h-[200px]  border-red-500">
-            <ChartLineIngGen data={data[4]} />
-          </div>
-        </div>
-
-        <div className="col-span-8 !h-[450px] gap-3 border rounded-3xl bg-white shadow-md shadow-black/10">
-          <ChartLine data={data[2]} />
-        </div>
-        <div className="col-span-4 !h-[450px] rounded-3xl border bg-white shadow-md shadow-black/10">
-          <ChartFunnel data={data[3]} />
-        </div>
+      {/* INGRESSANTES */}
+      <div className="col-span-15 mt-5">
+        <IngressantesMain
+          // entrants={data}
+          data={data?.entrants}
+        />
       </div>
     </div>
   );
