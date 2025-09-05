@@ -54,8 +54,7 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
       </div>
       <div className="flex px-4 pt-4 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">title</h1>
-          <h2 className="font-normal leading-none ">subtitle</h2>
+          <h1 className="font-bold text-xl">Evolução do sexo dos ingressantes</h1> 
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -168,9 +167,9 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
         </LineChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>
-        <DialogTitle id="alert-dialog-title">titleDialog</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Evolução do sexo dos ingressantes</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">descriptionDialog</DialogContentText>
+          <DialogContentText id="alert-dialog-description">Mostra como a proporção de homens e mulheres variou ao longo dos anos</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

@@ -94,10 +94,9 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
           <FaQuestionCircle size={20} className="text-black/10" />
         </IconButton>
       </div>
-      <div className="flex px-4 pt-4 pb-2  items-center justify-between gap-1 text-black/70">
+      <div className="flex px-4 pt-2 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">title</h1>
-          <h2 className="font-normal leading-none ">subtitle</h2>
+          <h1 className="font-bold text-xl">Distribuição anual por faixa etária</h1> 
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -542,9 +541,9 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
         </BarChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>
-        <DialogTitle id="alert-dialog-title">titleDialog</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Distribuição anual por faixa etária</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">descriptionDialog</DialogContentText>
+          <DialogContentText id="alert-dialog-description">Quantidade de ingressantes em cada faixa etária, por ano</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

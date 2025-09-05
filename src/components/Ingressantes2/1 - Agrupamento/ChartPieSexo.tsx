@@ -72,8 +72,7 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
       </div>
       <div className="flex px-4 pt-2 items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">title</h1>
-          <h2 className="font-normal leading-none ">subtitle</h2>
+          <h1 className="font-bold text-xl">Comparativo geral por sexo</h1> 
         </div>
         <div className="flex items-center gap-6">
           <div className="flex flex-col w-fit ">
@@ -155,9 +154,9 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
         </PieChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>
-        <DialogTitle id="alert-dialog-title">titleDialog</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Comparativo geral por sexo</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">descriptionDialog</DialogContentText>
+          <DialogContentText id="alert-dialog-description">Quantidade geral de ingressantes masculinos e femininos</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

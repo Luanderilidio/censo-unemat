@@ -1,11 +1,9 @@
-import { Pie, PieChart, Label, LabelList } from 'recharts';
+import { Pie, PieChart,   LabelList } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
 import { faker } from '@faker-js/faker';
-import {
-  ChartConfig,
+import { 
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
+  ChartLegend, 
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';
@@ -84,8 +82,7 @@ export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
       </div>
       <div className="flex px-4 pt-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">title</h1>
-          <h2 className="font-normal leading-none ">subtitle</h2>
+          <h1 className="font-bold text-xl">Proporção total por faixa etária</h1>
         </div>
       </div>
       <ChartContainer
@@ -157,9 +154,9 @@ export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
         </PieChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>
-        <DialogTitle id="alert-dialog-title">titleDialog</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Proporção total por faixa etária</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">descriptionDialog</DialogContentText>
+          <DialogContentText id="alert-dialog-description">Percentual acumulado de ingressantes por faixa etária</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

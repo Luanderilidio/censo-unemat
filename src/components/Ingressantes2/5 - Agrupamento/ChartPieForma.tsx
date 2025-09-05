@@ -88,8 +88,7 @@ export function ChartPieForma({ chartData }: ChartPieFormaProps) {
       </div>
       <div className="flex px-4 pt-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">title</h1>
-          <h2 className="font-normal leading-none ">subtitle</h2>
+          <h1 className="font-bold text-xl">Proporção total por forma de ingresso</h1>
         </div>
       </div>
       <ChartContainer
@@ -162,9 +161,9 @@ export function ChartPieForma({ chartData }: ChartPieFormaProps) {
         </PieChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>
-        <DialogTitle id="alert-dialog-title">titleDialog</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Proporção total por forma de ingresso</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">descriptionDialog</DialogContentText>
+          <DialogContentText id="alert-dialog-description">Percentual acumulado das formas de ingresso entre todos os anos</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>
