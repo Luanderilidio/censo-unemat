@@ -117,6 +117,19 @@ export default function Home2() {
 
   return (
     <div className="grid grid-cols-12 p-4">
+      <div className="col-span-12 mb-5 text-black/50 ">
+        <h1 className="text-center  uppercase text-4xl font-bold">
+          Ferramenta de Visualização de dados dos cursos da UNEMAT
+        </h1>
+        <div className="flex items-center justify-center gap-3">
+          <h2>
+            <span className="font-bold">Orientador:</span> Prof. Me. Marcos Paulo de Mesquita
+          </h2>
+          <h2>
+            <span className="font-bold">Orientando:</span> Luander Ilidio de Arruda
+          </h2>
+        </div>
+      </div>
       <div className="col-span-12 row-span-1">{loanding && <LinearProgress />}</div>
       <div className="col-span-12 grid grid-cols-15 gap-3 p-3 bg-gray-200/30 rounded-lg shadow-md">
         <div className="col-span-15 flex items-center justify-between text-black/50 mb-3">
@@ -247,8 +260,8 @@ export default function Home2() {
             max={Number(anos[anos.length - 1])}
             step={1}
             marks={[
-              ...Array.from({ length: 2023 - 2010 + 1 }, (_, i) => ({
-                value: 2010 + i,
+              ...Array.from({ length: 2023 - 2009 + 1 }, (_, i) => ({
+                value: 2009 + i,
                 //   label: String(2010 + i),
               })),
             ]}
@@ -281,7 +294,7 @@ export default function Home2() {
       </div>
 
       {/* INGRESSANTES */}
-      <div className="col-span-15 mt-5">
+      <div className="col-span-12 mt-5 ">
         <IngressantesMain
           // entrants={data}
           data={data?.entrants}

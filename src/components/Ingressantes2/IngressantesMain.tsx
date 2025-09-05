@@ -45,17 +45,14 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
     setExpanded(!expanded);
   };
   return (
-    <div className=" bg-gray-200/30 rounded-lg shadow-md font-Roboto">
-      <div className="w-full flex p-4 items-center justify-between">
+    <div className=" bg-gray-300/40 rounded-lg shadow-md font-Roboto">
+      <div className="w-full flex p-4 items-center justify-between cursor-pointer" onClick={handleExpandClick} >
         <div className="flex items-center justify-start gap-2 text-black/60">
           <TiChartPie size={50} />
           <h1 className="text-4xl font-semibold ">Ingressantes</h1>
         </div>
         <ExpandMore
           expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
         >
           <ExpandMoreIcon fontSize="large" />
         </ExpandMore>
@@ -77,8 +74,8 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
             <div className="col-span-10  border-b ">
               <div className="flex p-4  items-center justify-between gap-1 text-black/70">
                 <div className="flex flex-col items-start gap-1 justify-start">
-                  <h1 className="font-bold text-xl">Grafico de Barras</h1>
-                  <h2 className="font-normal  text-sm leading-none">Grafico de Barras</h2>
+                  <h1 className="font-bold text-xl">Progressão anual dos ingressantes</h1>
+                  
                 </div>
               </div>
             </div>
