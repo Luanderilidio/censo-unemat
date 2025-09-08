@@ -1,4 +1,4 @@
-import { Pie, PieChart, Label, LabelList } from 'recharts';
+import { Pie, PieChart, Label, LabelList, Cell } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
 import { faker } from '@faker-js/faker';
 import {
@@ -49,7 +49,6 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
   const chartDataFomated = sexKeys.map((key) => ({
     sexo: key,
     quantidade: totals[key],
-    fill: faker.color.rgb({ casing: 'upper' }),
   }));
 
   const total = chartDataFomated.reduce((acc, cur) => acc + cur.quantidade, 0);
@@ -72,18 +71,18 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
       </div>
       <div className="flex px-4 pt-2 items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Comparativo geral por sexo</h1> 
+          <h1 className="font-bold text-xl">Comparativo geral por sexo</h1>
         </div>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 ">
           <div className="flex flex-col w-fit ">
-            <h1 className="font-normal text-sm text-black/70">Feminino</h1>
-            <h2 className=" font-black text-3xl leading-none text-black/80">
+            <h1 className="font-normal text-sm !text-[#DF536B]">Feminino</h1>
+            <h2 className=" font-black text-3xl leading-none !text-[#da3f59] ">
               <CountUp start={0} duration={2.75} end={total_fem ?? 0} decimal="," separator="." />
             </h2>
           </div>
           <div className="flex flex-col w-fit ">
-            <h1 className="font-normal text-sm text-black/70">Masculino</h1>
-            <h2 className=" font-black text-3xl leading-none text-black/80">
+            <h1 className="font-normal text-sm !text-[#2297E6]">Masculino</h1>
+            <h2 className=" font-black text-3xl leading-none !text-[#116fad]">
               <CountUp start={0} duration={2.75} end={total_masc ?? 0} decimal="," separator="." />
             </h2>
           </div>
@@ -110,7 +109,7 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
                 <text
                   x={x}
                   y={y}
-                  fill={chartDataFomated[index].fill}
+                  fill={chartDataFomated[index].sexo === 'Feminino' ? '#DF536B' : '#2297E6'}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={14}
@@ -121,11 +120,21 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
               );
             }}
           >
+            {chartDataFomated.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.sexo === 'Feminino' ? '#DF536B' : '#2297E6'} // define cor
+              />
+            ))}
+
             <LabelList
               dataKey="quantidade"
-              className="fill-background text-3xl font-semibold"
+              className="fill-background text-4xl font-semibold"
               stroke="none"
-              formatter={(value: number) => `${((value / total) * 100).toFixed(0)}%`}
+              formatter={(value: number) => {
+                const percent = value / total;
+                return percent >= 0.03 ? `${(percent * 100).toFixed(0)}%` : '';
+              }}
             />
           </Pie>
 
@@ -156,7 +165,9 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Comparativo geral por sexo</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Quantidade geral de ingressantes masculinos e femininos</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Quantidade geral de ingressantes masculinos e femininos
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

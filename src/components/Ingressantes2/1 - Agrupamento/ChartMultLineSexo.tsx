@@ -132,15 +132,15 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
             <Line
               dataKey="Feminino"
               type="linear"
-              stroke="#F54927"
-              strokeWidth={2}
-              dot={{ fill: '#F54927' }}
-              activeDot={{ r: 6 }}
+              stroke="#DF536B"
+              strokeWidth={3}
+              dot={{ fill: '#DF536B' }}
+              activeDot={{ r: 7 }}
             >
               <LabelList
                 position="top"
                 offset={15}
-                fill="#F54927"
+                fill="#DF536B"
                 fontSize={15}
                 fontWeight={'bold'}
               />
@@ -150,15 +150,15 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
             <Line
               dataKey="Masculino"
               type="linear"
-              stroke="#2787F5"
-              strokeWidth={2}
-              dot={{ fill: '#2787F5' }}
-              activeDot={{ r: 6 }}
+              stroke="#2297E6"
+              strokeWidth={3}
+              dot={{ fill: '#2297E6' }}
+              activeDot={{ r: 7 }}
             >
               <LabelList
                 position="bottom"
                 offset={15}
-                fill="#2787F5"
+                fill="#2297E6"
                 fontSize={15}
                 fontWeight={'bold'}
               />

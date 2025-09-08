@@ -95,6 +95,6 @@ export const chartData1 = [
 ];
 
 export const chartConfig1 = {
-  Masculino: { label: 'Masculino', color: faker.color.rgb({ casing: 'upper' }) },
-  Feminino: { label: 'Feminino', color: faker.color.rgb({ casing: 'upper' }) },
+  Masculino: { label: 'Masculino', color: '#2297E6' },
+  Feminino: { label: 'Feminino', color: '#DF536B' },
 } satisfies ChartConfig;
