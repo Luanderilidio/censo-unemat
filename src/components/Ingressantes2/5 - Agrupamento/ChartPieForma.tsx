@@ -1,14 +1,7 @@
-import { Pie, PieChart, Label, LabelList } from 'recharts';
+import { Pie, PieChart, LabelList, Cell } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
 import { faker } from '@faker-js/faker';
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '../../ui/chart';
+import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '../../ui/chart';
 import {
   Button,
   Dialog,
@@ -23,11 +16,11 @@ import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig5 } from './data';
 import { DataEntrantsForm } from '../SchemaEntrants';
 
-type ChartPieFormaProps = {
+type ChartMultLineFormaProps = {
   chartData?: DataEntrantsForm;
 };
 
-export function ChartPieForma({ chartData }: ChartPieFormaProps) {
+export function ChartPieForma({ chartData }: ChartMultLineFormaProps) {
   const originalData = chartData || [];
 
   const formKeys = [
@@ -64,16 +57,64 @@ export function ChartPieForma({ chartData }: ChartPieFormaProps) {
     });
   }
 
-  // transformar no formato desejado
-  const chartDataFomated = formKeys.map((key) => ({
-    forma: key,
-    quantidade: totals[key],
-    fill: faker.color.rgb({ casing: 'upper' }),
-  }));
+  // Filtrar apenas as formas com quantidade maior que 0
+  const chartDataFomated = formKeys
+    .filter((key) => totals[key] > 0)
+    .map((key) => ({
+      forma: key,
+      quantidade: totals[key],
+    }));
 
   const total = chartDataFomated.reduce((acc, cur) => acc + cur.quantidade, 0);
 
+  // Se não houver dados, mostrar mensagem
+  if (total === 0) {
+    return (
+      <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md flex items-center justify-center">
+        <div className="text-gray-500 text-lg">Nenhum dado disponível</div>
+      </div>
+    );
+  }
+
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
+
+  // Função personalizada para renderizar os labels dentro das fatias
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+  }: any) => {
+    // Verificação adicional de segurança
+    if (!chartDataFomated[index] || chartDataFomated[index].quantidade === 0) return null;
+
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    const percentValue = percent * 100;
+
+    // Só mostra o percentual se for maior ou igual a 3%
+    if (percentValue < 3) return null;
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={percentValue > 20 ? 25 : percentValue > 10 ? 18 : 15}
+        fontWeight="bold"
+      >
+        {`${percentValue.toFixed(0)}%`}
+      </text>
+    );
+  };
 
   return (
     <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md">
@@ -98,63 +139,78 @@ export function ChartPieForma({ chartData }: ChartPieFormaProps) {
         <PieChart>
           <ChartTooltip content={<ChartTooltipContent nameKey="forma" />} />
 
+          {/* Primeira camada (externa) */}
           <Pie
             data={chartDataFomated}
             dataKey="quantidade"
             nameKey="forma"
             labelLine={true}
+            // Labels externos (nomes das formas de ingresso)
             label={({ cx, cy, midAngle, outerRadius, percent, index }) => {
               const RADIAN = Math.PI / 180;
               const radius = outerRadius + 20;
               const x = cx + radius * Math.cos(-midAngle * RADIAN);
               const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+              // Verificação de segurança
+              if (!chartDataFomated[index]) return null;
+
               return (
                 <text
                   x={x}
                   y={y}
-                  fill={chartDataFomated[index].fill}
+                  fill={chartConfig5[chartDataFomated[index].forma].color}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={percent <= 0.03 ? 10 : 14}
                   fontWeight="bold"
                 >
-                  {chartDataFomated[index].forma}
+                  {chartConfig5[chartDataFomated[index].forma].label}
                 </text>
               );
             }}
           >
-            <LabelList
-              dataKey="quantidade"
-              className="fill-background text-3xl font-semibold"
-              stroke="none"
-              formatter={(value: number, _entry: any) => {
-                const percent = value / total;
-                return percent >= 0.03 ? `${(percent * 100).toFixed(0)}%` : '';
-              }}
-            />
+            {chartDataFomated.map((entry, idx) => (
+              <Cell key={`cell-${idx}`} fill={chartConfig5[entry.forma].color} />
+            ))}
+          </Pie>
+
+          {/* Segunda camada (interna) - para porcentagens */}
+          <Pie
+            data={chartDataFomated}
+            dataKey="quantidade"
+            nameKey="forma"
+            outerRadius="70%"
+            innerRadius="50%"
+            label={renderCustomizedLabel}
+            labelLine={false}
+          >
+            {chartDataFomated.map((idx) => (
+              <Cell key={`inner-cell-${idx}`} fill="transparent" />
+            ))}
           </Pie>
 
           <ChartLegend
             verticalAlign="top"
-            content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-2">
-                {payload?.map((entry, index) => {
-                  const conf = chartConfig5[entry.value as keyof typeof chartConfig5];
-                  return (
-                    <div key={index} className="flex items-center gap-1">
-                      <span
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: conf?.color ?? '#999' }}
-                      />
-                      <span
-                        className="!text-xs"
-                        style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}
-                      >
-                        {conf?.label ?? entry.value}
-                      </span>
-                    </div>
-                  );
-                })}
+            content={( ) => (
+              <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2 mt-3">
+                 {Object.entries(chartConfig5).map(([key, conf]) => (
+                  <div key={key} className="flex items-center gap-1">
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: conf?.color ?? '#999' }}
+                    />
+                    <span
+                      style={{
+                        color: conf?.color ?? '#999',
+                        fontWeight: 'bold',
+                        fontSize: 11,
+                      }}
+                    >
+                      {conf?.label ?? key}
+                    </span>
+                  </div>
+                ))}
               </div>
             )}
           />
@@ -163,7 +219,9 @@ export function ChartPieForma({ chartData }: ChartPieFormaProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Proporção total por forma de ingresso</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Percentual acumulado das formas de ingresso entre todos os anos</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Percentual acumulado de ingressantes por forma de ingresso
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

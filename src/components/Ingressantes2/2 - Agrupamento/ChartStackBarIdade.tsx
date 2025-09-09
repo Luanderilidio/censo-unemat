@@ -198,7 +198,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
             <Bar
               dataKey="Ing_0_17"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig2['Ing_0_17'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -238,7 +238,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
             <Bar
               dataKey="Ing_18_24"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig2['Ing_18_24'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -271,31 +271,6 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                     </text>
                   );
                 }}
-                // content={(props) => {
-                //   const { x, y, width, height, value } = props;
-
-                //   const numericValue = Number(value ?? 0);
-                //   const numericHeight = Number(height ?? 0);
-                //   const numericX = Number(x ?? 0);
-                //   const numericY = Number(y ?? 0);
-                //   const numericWidth = Number(width ?? 0);
-
-                //   if (numericValue <= 0 || numericHeight < 15) return null;
-
-                //   return (
-                //     <text
-                //       x={numericX + numericWidth / 2}
-                //       y={numericY + numericHeight / 2}
-                //       textAnchor="middle"
-                //       dominantBaseline="middle"
-                //       fill="#FFF"
-                //       fontSize={12}
-                //       fontWeight="bold"
-                //     >
-                //       {numericValue}
-                //     </text>
-                //   );
-                // }}
               />
             </Bar>
           )}{' '}
@@ -303,7 +278,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
             <Bar
               dataKey="Ing_25_29"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig2['Ing_25_29'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -343,7 +318,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
             <Bar
               dataKey="Ing_30_34"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig2['Ing_30_34'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -382,7 +357,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
             <Bar
               dataKey="Ing_35_39"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig2['Ing_35_39'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -422,7 +397,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
             <Bar
               dataKey="Ing_40_49"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig2['Ing_40_49'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -462,7 +437,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
             <Bar
               dataKey="Ing_50_59"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig2['Ing_50_59'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -502,7 +477,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
             <Bar
               dataKey="Ing_60_mais"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig2['Ing_60_mais'].color}
               radius={[0, 0, 4, 4]}
             >
               <LabelList

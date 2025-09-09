@@ -108,22 +108,24 @@ export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
             )}
           />
           {(filter === 'Todos' || filter === 'Feminino') && (
-            <Bar dataKey="Feminino" stackId="a" fill="#DF536B" radius={[0, 0, 4, 4]}>
+            <Bar dataKey="Feminino" stackId="a" fill={chartConfig1['Feminino'].color} radius={[0, 0, 4, 4]}>
               <LabelList
                 dataKey="Feminino"
                 position="insideTop"
                 fill="#FFF"
                 className="font-bold text-xs font-Roboto"
+                formatter={(value: number) => value > 0 ? value : ''}
               />
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Masculino') && (
-            <Bar dataKey="Masculino" stackId="a" fill="#2297E6" radius={[4, 4, 0, 0]}>
+            <Bar dataKey="Masculino" stackId="a" fill={chartConfig1['Masculino'].color} radius={[4, 4, 0, 0]}>
               <LabelList
                 dataKey="Masculino"
                 position="insideTop"
                 fill="#FFF"
                 className="font-bold text-xs font-Roboto"
+                formatter={(value: number) => value > 0 ? value : ''}
               />
             </Bar>
           )}

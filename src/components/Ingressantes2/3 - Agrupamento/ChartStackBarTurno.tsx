@@ -50,7 +50,7 @@ export function StackedBarChartTurno({ chartData }: StackedBarChartTurnoProps) {
       </div>
       <div className="flex px-4 pt-2 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Comparativo anual por turno</h1> 
+          <h1 className="font-bold text-xl">Comparativo anual por turno</h1>
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -117,32 +117,24 @@ export function StackedBarChartTurno({ chartData }: StackedBarChartTurnoProps) {
             )}
           />
           {(filter === 'Todos' || filter === 'Diurno') && (
-            <Bar
-              dataKey="Diurno"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 4, 4]}
-            >
+            <Bar dataKey="Diurno" stackId="a" fill={chartConfig3['Diurno'].color} radius={[0, 0, 4, 4]}>
               <LabelList
                 dataKey="Diurno"
                 position="insideTop"
                 fill="#FFF"
                 className="font-bold text-xs font-Roboto"
+                formatter={(value: number) => value > 0 ? value : ''}
               />
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Noturno') && (
-            <Bar
-              dataKey="Noturno"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[4, 4, 0, 0]}
-            >
+            <Bar dataKey="Noturno" stackId="a" fill={chartConfig3['Noturno'].color} radius={[4, 4, 0, 0]}>
               <LabelList
                 dataKey="Noturno"
                 position="insideTop"
                 fill="#FFF"
                 className="font-bold text-xs font-Roboto"
+                formatter={(value: number) => value > 0 ? value : ''}
               />
             </Bar>
           )}
@@ -151,7 +143,9 @@ export function StackedBarChartTurno({ chartData }: StackedBarChartTurnoProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Comparativo anual por turno</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Quantidade de ingressantes no diurno e noturno em cada ano</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Quantidade de ingressantes no diurno e noturno em cada ano
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

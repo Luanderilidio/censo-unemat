@@ -54,7 +54,7 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
       </div>
       <div className="flex px-4 pt-4 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Evolução do turno dos ingressantes</h1> 
+          <h1 className="font-bold text-xl">Evolução do turno dos ingressantes</h1>
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -133,15 +133,15 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
             <Line
               dataKey="Diurno"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig3['Diurno'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig3['Diurno'].color }}
               activeDot={{ r: 6 }}
             >
               <LabelList
                 position="top"
                 offset={10}
-                fill={faker.color.rgb({ casing: 'upper' })}
+                fill={chartConfig3['Diurno'].color}
                 fontSize={12}
                 fontWeight={'bold'}
               />
@@ -151,15 +151,15 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
             <Line
               dataKey="Noturno"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig3['Noturno'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig3['Noturno'].color }}
               activeDot={{ r: 6 }}
             >
               <LabelList
                 position="top"
                 offset={10}
-                fill={faker.color.rgb({ casing: 'upper' })}
+                fill={chartConfig3['Noturno'].color}
                 fontSize={12}
                 fontWeight={'bold'}
               />
@@ -170,7 +170,9 @@ export function ChartMultLineTurno({ chartData }: ChartMultLineTurnoProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Evolução do turno dos ingressantes</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Mostra a variação no número de ingressantes do turno diurno e noturno</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Mostra a variação no número de ingressantes do turno diurno e noturno
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

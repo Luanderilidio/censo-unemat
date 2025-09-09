@@ -172,7 +172,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
             <Bar
               dataKey="Branca"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig4['Branca'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -212,7 +212,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
             <Bar
               dataKey="Preta"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig4['Preta'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -252,7 +252,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
             <Bar
               dataKey="Parda"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig4['Parda'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -292,7 +292,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
             <Bar
               dataKey="Amarela"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig4['Amarela'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -332,7 +332,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
             <Bar
               dataKey="Indigena"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig4['Indigena'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList
@@ -372,7 +372,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
             <Bar
               dataKey="Indefinido"
               stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
+              fill={chartConfig4['Indefinido'].color}
               radius={[0, 0, 0, 0]}
             >
               <LabelList

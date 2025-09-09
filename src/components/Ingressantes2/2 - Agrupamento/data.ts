@@ -156,30 +156,34 @@ export const chartData2 = [
 export const chartConfig2 = {
   Ing_0_17: {
     label: 'Ing_0_17',
-    color: faker.color.rgb({ casing: 'upper' }),
+    color: '#b2b2ff',
   },
   Ing_18_24: {
     label: 'Ing_18_24',
-    color: faker.color.rgb({ casing: 'upper' }),
+    color: '#9999ff',
   },
   Ing_25_29: {
     label: 'Ing_25_29',
-    color: faker.color.rgb({ casing: 'upper' }),
+    color: '#6666ff',
   },
-  Ing_30_39: {
+  Ing_30_34: {
     label: 'Ing_30_39',
-    color: faker.color.rgb({ casing: 'upper' }),
+    color: '#6666ff',
+  },
+  Ing_35_39: {
+    label: 'Ing_30_39',
+    color: '#4c4cff',
   },
   Ing_40_49: {
     label: 'Ing_40_49',
-    color: faker.color.rgb({ casing: 'upper' }),
+    color: '#3232ff',
   },
   Ing_50_59: {
     label: 'Ing_50_59',
-    color: faker.color.rgb({ casing: 'upper' }),
+    color: '#1919ff',
   },
   Ing_60_mais: {
     label: 'Ing_60_mais',
-    color: faker.color.rgb({ casing: 'upper' }),
+    color: '#0000ff',
   },
 } satisfies ChartConfig;

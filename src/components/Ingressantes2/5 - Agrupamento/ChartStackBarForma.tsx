@@ -91,6 +91,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
         Outro_Tipo_Selecao: d.Outro_Tipo_Selecao,
         Processo_Seletivo: d.Processo_Seletivo,
         Vaga_Remanescente: d.Vaga_Remanescente,
+        Programa_Especial: d.Programa_Especial,
         Outra_Forma: d.Outra_Forma,
       },
     };
@@ -211,12 +212,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             )}
           />
           {(filter === 'Todos' || filter === 'Vestibular') && (
-            <Bar
-              dataKey="Vestibular"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Vestibular" stackId="a" fill="#7CD23C" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Vestibular"
                 position="insideTop"
@@ -251,12 +247,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Enem') && (
-            <Bar
-              dataKey="Enem"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Enem" stackId="a" fill="#EC167C" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Enem"
                 position="insideTop"
@@ -291,12 +282,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}{' '}
           {(filter === 'Todos' || filter === 'Avaliacao_Seriada') && (
-            <Bar
-              dataKey="Avaliacao_Seriada"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Avaliacao_Seriada" stackId="a" fill="#FAB70C" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Avaliacao_Seriada"
                 position="insideTop"
@@ -331,12 +317,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Selecao_Simplificada') && (
-            <Bar
-              dataKey="Selecao_Simplificada"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Selecao_Simplificada" stackId="a" fill="#04ACDA" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Selecao_Simplificada"
                 position="insideTop"
@@ -371,12 +352,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'EGR') && (
-            <Bar
-              dataKey="EGR"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="EGR" stackId="a" fill="#718EC6" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="EGR"
                 position="insideTop"
@@ -411,12 +387,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Outro_Tipo_Selecao') && (
-            <Bar
-              dataKey="Outro_Tipo_Selecao"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Outro_Tipo_Selecao" stackId="a" fill="#1A6674" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Outro_Tipo_Selecao"
                 position="insideTop"
@@ -451,12 +422,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Processo_Seletivo') && (
-            <Bar
-              dataKey="Processo_Seletivo"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Processo_Seletivo" stackId="a" fill="#890117" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Processo_Seletivo"
                 position="insideTop"
@@ -491,12 +457,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Vaga_Remanescente') && (
-            <Bar
-              dataKey="Vaga_Remanescente"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Vaga_Remanescente" stackId="a" fill="#8F479B" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Vaga_Remanescente"
                 position="insideTop"
@@ -531,12 +492,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Programa_Especial') && (
-            <Bar
-              dataKey="Programa_Especial"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Programa_Especial" stackId="a" fill="#FF8027" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Programa_Especial"
                 position="insideTop"
@@ -571,12 +527,7 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
             </Bar>
           )}
           {(filter === 'Todos' || filter === 'Outra_Forma') && (
-            <Bar
-              dataKey="Outra_Forma"
-              stackId="a"
-              fill={faker.color.rgb({ casing: 'upper' })}
-              radius={[0, 0, 0, 0]}
-            >
+            <Bar dataKey="Outra_Forma" stackId="a" fill="#F30D0D" radius={[0, 0, 0, 0]}>
               <LabelList
                 dataKey="Outra_Forma"
                 position="insideTop"
@@ -615,7 +566,9 @@ export function StackedBarChartForma({ chartData }: StackedBarChartFormaProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Comparativo anual por forma de ingresso</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Quantidade de ingressantes por cada forma de ingresso em cada ano</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Quantidade de ingressantes por cada forma de ingresso em cada ano
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

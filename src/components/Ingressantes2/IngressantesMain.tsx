@@ -19,12 +19,12 @@ import { ChartPieTurno } from './3 - Agrupamento/ChartPieTurno';
 import { ChartMultLineCor } from './4 - Agrupamento/ChartMultLineCor';
 import { ChartPieCor } from './4 - Agrupamento/ChartPieCor';
 import { StackedBarChartCor } from './4 - Agrupamento/ChartStackBarCor';
-import { StackedBarChartForma } from './5 - Agrupamento/ChartStackBarForma';
-import { ChartPieForma } from './5 - Agrupamento/ChartPieForma';
+import { StackedBarChartForma } from './5 - Agrupamento/ChartStackBarForma'; 
 import { ChartMultLineForma } from './5 - Agrupamento/ChartMultLineForma';
 import { EntrantsData } from './SchemaEntrants';
 import CountUp from 'react-countup';
 import { useBoolean } from 'react-hooks-shareable';
+import { ChartPieForma } from './5 - Agrupamento/ChartPieForma';
 
 type IngressantesMainProps = {
   data?: EntrantsData['entrants'];

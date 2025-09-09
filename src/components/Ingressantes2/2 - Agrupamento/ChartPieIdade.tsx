@@ -1,12 +1,7 @@
-import { Pie, PieChart,   LabelList } from 'recharts';
+import { Pie, PieChart, LabelList, Cell } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
 import { faker } from '@faker-js/faker';
-import { 
-  ChartContainer,
-  ChartLegend, 
-  ChartTooltip,
-  ChartTooltipContent,
-} from '../../ui/chart';
+import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '../../ui/chart';
 import {
   Button,
   Dialog,
@@ -62,12 +57,48 @@ export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
   const chartDataFomated = ageKeys.map((key) => ({
     idade: key,
     quantidade: totals[key],
-    fill: faker.color.rgb({ casing: 'upper' }),
   }));
 
   const total = chartDataFomated.reduce((acc, cur) => acc + cur.quantidade, 0);
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
+
+  // Função personalizada para renderizar os labels dentro das fatias
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+  }: any) => {
+    if (chartDataFomated[index].quantidade === 0) return null;
+
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    const percentValue = percent * 100;
+
+    // Só mostra o percentual se for maior ou igual a 3%
+    if (percentValue < 3) return null;
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={percentValue > 20 ? 25 : percentValue > 10 ? 18 : 15}
+        fontWeight="bold"
+      >
+        {`${percentValue.toFixed(0)}%`}
+      </text>
+    );
+  };
 
   return (
     <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md">
@@ -96,67 +127,106 @@ export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
             dataKey="quantidade"
             nameKey="idade"
             labelLine={true}
+            // Labels externos (nomes das faixas etárias)
             label={({ cx, cy, midAngle, outerRadius, percent, index }) => {
               const RADIAN = Math.PI / 180;
               const radius = outerRadius + 20;
               const x = cx + radius * Math.cos(-midAngle * RADIAN);
               const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+              if (chartDataFomated[index].quantidade === 0) return null;
+
               return (
                 <text
                   x={x}
                   y={y}
-                  fill={chartDataFomated[index].fill}
+                  fill={chartConfig2[chartDataFomated[index].idade].color}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={percent <= 0.03 ? 10 : 14}
                   fontWeight="bold"
                 >
-                  {chartDataFomated[index].idade}
+                  {chartConfig2[chartDataFomated[index].idade].label}
                 </text>
               );
             }}
           >
-            <LabelList
-              dataKey="quantidade"
-              className="fill-background text-3xl font-semibold"
-              stroke="none"
-              formatter={(value: number, _entry: any) => {
-                const percent = value / total;
-                return percent >= 0.03 ? `${(percent * 100).toFixed(0)}%` : '';
-              }}
-            />
+            {chartDataFomated.map((entry, idx) => (
+              <Cell key={`cell-${idx}`} fill={chartConfig2[entry.idade].color} />
+            ))}
+          </Pie>
+
+          <Pie
+            data={chartDataFomated}
+            dataKey="quantidade"
+            nameKey="idade"
+            outerRadius="70%"
+            innerRadius="50%" 
+            label={renderCustomizedLabel}
+            labelLine={false}
+          >
+            {chartDataFomated.map((idx) => (
+              <Cell key={`inner-cell-${idx}`} fill="transparent" />
+            ))}
           </Pie>
 
           <ChartLegend
             verticalAlign="top"
-            content={({ payload }) => (
-              <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2  mt-3">
-                {payload?.map((entry, index) => {
-                  const conf = chartConfig2[entry.value as keyof typeof chartConfig2];
-
-                  return (
-                    <div key={index} className="flex items-center gap-1">
-                      <span
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: conf?.color ?? '#999' }}
-                      />
-                      <span
-                        style={{ color: conf?.color ?? '#999', fontWeight: 'bold', fontSize: 11 }}
-                      >
-                        {conf?.label ?? entry.value}
-                      </span>
-                    </div>
-                  );
-                })}
+            content={() => (
+              <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2 mt-3">
+                {Object.entries(chartConfig2).map(([key, conf]) => (
+                  <div key={key} className="flex items-center gap-1">
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: conf?.color ?? '#999' }}
+                    />
+                    <span
+                      style={{
+                        color: conf?.color ?? '#999',
+                        fontWeight: 'bold',
+                        fontSize: 11,
+                      }}
+                    >
+                      {conf?.label ?? key}
+                    </span>
+                  </div>
+                ))}
               </div>
             )}
           />
+
+          {/* <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2 mt-3 !border-2 h-10">
+            {chartDataFomated.map((entry, index) => {
+              const conf = chartConfig2[entry.idade as keyof typeof chartConfig2];
+              if (entry.quantidade === 0) return null;
+
+              return (
+                <div key={index} className="flex items-center gap-1">
+                  <span
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: conf?.color ?? '#999' }}
+                  />
+                  <span
+                    style={{
+                      color: conf?.color ?? '#999',
+                      fontWeight: 'bold',
+                      fontSize: 11,
+                    }}
+                  >
+                    {conf?.label ?? entry.idade}
+                  </span>
+                </div>
+              );
+            })}
+          </div> */}
         </PieChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Proporção total por faixa etária</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Percentual acumulado de ingressantes por faixa etária</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Percentual acumulado de ingressantes por faixa etária
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

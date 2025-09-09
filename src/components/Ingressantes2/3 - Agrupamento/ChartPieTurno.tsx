@@ -1,4 +1,4 @@
-import { Pie, PieChart, Label, LabelList } from 'recharts';
+import { Pie, PieChart, Label, LabelList, Cell } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
 import { faker } from '@faker-js/faker';
 import {
@@ -45,14 +45,25 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
     });
   }
 
-  // transformar no formato desejado
-  const chartDataFomated = shiftKeys.map((key) => ({
-    turno: key,
-    quantidade: totals[key],
-    fill: faker.color.rgb({ casing: 'upper' }),
-  }));
+  // Filtrar apenas os turnos com valor maior que zero
+  const chartDataFomated = shiftKeys
+    .filter(key => totals[key] > 0)
+    .map((key) => ({
+      turno: key,
+      quantidade: totals[key],
+      fill: faker.color.rgb({ casing: 'upper' }),
+    }));
 
   const total = chartDataFomated.reduce((acc, cur) => acc + cur.quantidade, 0);
+
+  // Se não houver dados, mostrar mensagem
+  if (total === 0) {
+    return (
+      <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md flex items-center justify-center">
+        <div className="text-gray-500 text-lg">Nenhum dado disponível</div>
+      </div>
+    );
+  }
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
@@ -69,7 +80,7 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
       </div>
       <div className="flex px-4 pt-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Distribuição total por turno</h1> 
+          <h1 className="font-bold text-xl">Distribuição total por turno</h1>
         </div>
       </div>
       <ChartContainer
@@ -89,11 +100,15 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
               const radius = outerRadius + 20;
               const x = cx + radius * Math.cos(-midAngle * RADIAN);
               const y = cy + radius * Math.sin(-midAngle * RADIAN);
+              
+              // Verificar se há dados para evitar erros
+              if (!chartDataFomated[index]) return null;
+              
               return (
                 <text
                   x={x}
                   y={y}
-                  fill={chartDataFomated[index].fill}
+                  fill={chartDataFomated[index].turno === 'Diurno' ? '#E69F00' : '#0072B2'}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={14}
@@ -104,6 +119,12 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
               );
             }}
           >
+            {chartDataFomated.map((entry, index) => (
+              <Cell
+                key={`cell-${index}`}
+                fill={entry.turno === 'Diurno' ? '#E69F00' : '#0072B2'}
+              />
+            ))}
             <LabelList
               dataKey="quantidade"
               className="fill-background text-3xl font-semibold"
@@ -138,7 +159,9 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Distribuição total por turno</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Percentual acumulado de ingressantes no diurno e noturno</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Percentual acumulado de ingressantes no diurno e noturno
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

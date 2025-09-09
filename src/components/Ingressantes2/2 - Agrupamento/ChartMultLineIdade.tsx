@@ -65,7 +65,7 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
       </div>
       <div className="flex px-4 pt-4 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Evolução das faixas etárias dos ingressantes</h1> 
+          <h1 className="font-bold text-xl">Evolução das faixas etárias dos ingressantes</h1>
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -153,16 +153,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
             <Line
               dataKey="Ing_0_17"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig2['Ing_0_17'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig2['Ing_0_17'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig2['Ing_0_17'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -173,16 +173,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
             <Line
               dataKey="Ing_18_24"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig2['Ing_18_24'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig2['Ing_18_24'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig2['Ing_18_24'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -193,16 +193,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
             <Line
               dataKey="Ing_25_29"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig2['Ing_25_29'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig2['Ing_25_29'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig2['Ing_25_29'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -213,16 +213,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
             <Line
               dataKey="Ing_30_34"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig2['Ing_30_34'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig2['Ing_30_34'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig2['Ing_30_34'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -233,16 +233,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
             <Line
               dataKey="Ing_35_39"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig2['Ing_35_39'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig2['Ing_35_39'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig2['Ing_35_39'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -253,16 +253,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
             <Line
               dataKey="Ing_40_49"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig2['Ing_40_49'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig2['Ing_40_49'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig2['Ing_40_49'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -273,16 +273,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
             <Line
               dataKey="Ing_50_59"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig2['Ing_50_59'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig2['Ing_50_59'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig2['Ing_50_59'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -293,16 +293,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
             <Line
               dataKey="Ing_60_mais"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig2['Ing_60_mais'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig2['Ing_60_mais'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig2['Ing_60_mais'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -312,9 +312,13 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
         </LineChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>
-        <DialogTitle id="alert-dialog-title">Evolução das faixas etárias dos ingressantes</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          Evolução das faixas etárias dos ingressantes
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Mostra como a distribuição por idade mudou ao longo dos anos</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Mostra como a distribuição por idade mudou ao longo dos anos
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

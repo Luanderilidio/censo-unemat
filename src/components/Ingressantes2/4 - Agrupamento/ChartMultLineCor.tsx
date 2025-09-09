@@ -2,13 +2,9 @@
 
 import { TrendingUp } from 'lucide-react';
 import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { faker } from '@faker-js/faker';
-
-import {
-  ChartConfig,
+import { 
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
+  ChartLegend, 
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';
@@ -45,7 +41,7 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
   >('Todos');
 
   return (
-    <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
+    <div className="!h-[600px]  border-red-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
           <FaChartLine size={18} />
@@ -57,7 +53,7 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
       </div>
       <div className="flex px-4 pt-4 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Evolução da cor/raça dos ingressantes</h1> 
+          <h1 className="font-bold text-xl">Evolução da cor/raça dos ingressantes</h1>
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -142,16 +138,16 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
             <Line
               dataKey="Branca"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig4['Branca'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig4['Branca'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig4['Branca'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -162,16 +158,16 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
             <Line
               dataKey="Preta"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig4['Preta'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig4['Preta'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig4['Preta'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -182,16 +178,16 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
             <Line
               dataKey="Parda"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig4['Parda'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig4['Parda'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig4['Parda'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -202,16 +198,16 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
             <Line
               dataKey="Amarela"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig4['Amarela'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig4['Amarela'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig4['Amarela'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -222,16 +218,16 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
             <Line
               dataKey="Indigena"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig4['Indigena'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig4['Indigena'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig4['Indigena'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -242,16 +238,16 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
             <Line
               dataKey="Indefinido"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig4['Indefinido'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig4['Indefinido'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig4['Indefinido'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -263,7 +259,9 @@ export function ChartMultLineCor({ chartData }: ChartMultLineCorProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Evolução da cor/raça dos ingressantes</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Mostra como a proporção de cada grupo de cor/raça variou ao longo dos anos</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Mostra como a proporção de cada grupo de cor/raça variou ao longo dos anos
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

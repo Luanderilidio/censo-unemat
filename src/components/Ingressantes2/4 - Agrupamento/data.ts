@@ -155,10 +155,10 @@ export const chartData4 = [
 ];
 
 export const chartConfig4 = {
-  Branca: { label: 'Branca', color: faker.color.rgb({ casing: 'upper' }) },
-  Preta: { label: 'Preta', color: faker.color.rgb({ casing: 'upper' }) },
-  Parda: { label: 'Parda', color: faker.color.rgb({ casing: 'upper' }) },
-  Amarela: { label: 'Amarela', color: faker.color.rgb({ casing: 'upper' }) },
-  Indigena: { label: 'Indigena', color: faker.color.rgb({ casing: 'upper' }) },
-  Indefinido: { label: 'Indefinido', color: faker.color.rgb({ casing: 'upper' }) },
+  Branca: { label: 'Branca', color: '#9ca3af' },
+  Preta: { label: 'Preta', color: "#ef4444" },
+  Parda: { label: 'Parda', color: '#f97316' },
+  Amarela: { label: 'Amarela', color: '#eab308' },
+  Indigena: { label: 'Indigena', color: '#22c55e' },
+  Indefinido: { label: 'Indefinido', color: '#3b82f6' },
 } satisfies ChartConfig;

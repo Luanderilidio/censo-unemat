@@ -123,7 +123,7 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
             {chartDataFomated.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={entry.sexo === 'Feminino' ? '#DF536B' : '#2297E6'} // define cor
+                fill={entry.sexo === 'Feminino' ? chartConfig1['Feminino'].color : chartConfig1['Masculino'].color} // define cor
               />
             ))}
 
@@ -138,7 +138,7 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
             />
           </Pie>
 
-          <ChartLegend
+          {/* <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
               <div className="flex items-center justify-center flex-wrap gap-4 ">
@@ -159,7 +159,7 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
                 })}
               </div>
             )}
-          />
+          /> */}
         </PieChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>

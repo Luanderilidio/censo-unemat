@@ -1,4 +1,4 @@
-import { Pie, PieChart, Label, LabelList } from 'recharts';
+import { Pie, PieChart, Label, LabelList, Cell } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
 import { faker } from '@faker-js/faker';
 import {
@@ -31,7 +31,6 @@ export function ChartPieCor({ chartData }: ChartPieCorProps) {
   const originalData = chartData || [];
   const colorKeys = ['Branca', 'Preta', 'Parda', 'Amarela', 'Indigena', 'Indefinido'] as const;
 
-  // inicializar acumulador
   const totals: Record<(typeof colorKeys)[number], number> = {
     Branca: 0,
     Preta: 0,
@@ -59,6 +58,42 @@ export function ChartPieCor({ chartData }: ChartPieCorProps) {
 
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
+  const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+  }: any) => {
+    if (chartDataFomated[index].quantidade === 0) return null;
+
+    const RADIAN = Math.PI / 180;
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    const percentValue = percent * 100;
+
+    // Só mostra o percentual se for maior ou igual a 3%
+    if (percentValue < 3) return null;
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="white"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={percentValue > 20 ? 25 : percentValue > 10 ? 18 : 15}
+        fontWeight="bold"
+      >
+        {`${percentValue.toFixed(0)}%`}
+      </text>
+    );
+  };
+
   return (
     <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
@@ -72,7 +107,7 @@ export function ChartPieCor({ chartData }: ChartPieCorProps) {
       </div>
       <div className="flex px-4 pt-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Distribuição total por cor/raça</h1> 
+          <h1 className="font-bold text-xl">Distribuição total por cor/raça</h1>
         </div>
       </div>
       <ChartContainer
@@ -80,65 +115,76 @@ export function ChartPieCor({ chartData }: ChartPieCorProps) {
         className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[500px] px-4 pb-2 w-full"
       >
         <PieChart>
-          <ChartTooltip content={<ChartTooltipContent nameKey="cor" />} />
-
+          <ChartTooltip content={<ChartTooltipContent nameKey="idade" />} />
           <Pie
             data={chartDataFomated}
             dataKey="quantidade"
             nameKey="cor"
             labelLine={true}
+            // Labels externos (nomes das faixas etárias)
             label={({ cx, cy, midAngle, outerRadius, percent, index }) => {
               const RADIAN = Math.PI / 180;
               const radius = outerRadius + 20;
               const x = cx + radius * Math.cos(-midAngle * RADIAN);
               const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+              if (chartDataFomated[index].quantidade === 0) return null;
+
               return (
                 <text
                   x={x}
                   y={y}
-                  fill={chartDataFomated[index].fill}
+                  fill={chartConfig4[chartDataFomated[index].cor].color}
                   textAnchor={x > cx ? 'start' : 'end'}
                   dominantBaseline="central"
                   fontSize={percent <= 0.03 ? 10 : 14}
                   fontWeight="bold"
                 >
-                  {chartDataFomated[index].cor}
+                  {chartConfig4[chartDataFomated[index].cor].label}
                 </text>
               );
             }}
           >
-            <LabelList
-              dataKey="quantidade"
-              className="fill-background text-2xl font-semibold"
-              stroke="none"
-              formatter={(value: number) => {
-                const percent = value / total;
-                return percent >= 0.03 ? `${(percent * 100).toFixed(0)}%` : '';
-              }}
-            />
+            {chartDataFomated.map((entry, idx) => (
+              <Cell key={`cell-${idx}`} fill={chartConfig4[entry.cor].color} />
+            ))}
+          </Pie>
+
+          <Pie
+            data={chartDataFomated}
+            dataKey="quantidade"
+            nameKey="idade"
+            outerRadius="70%"
+            innerRadius="50%"
+            label={renderCustomizedLabel}
+            labelLine={false}
+          >
+            {chartDataFomated.map((idx) => (
+              <Cell key={`inner-cell-${idx}`} fill="transparent" />
+            ))}
           </Pie>
 
           <ChartLegend
             verticalAlign="top"
-            content={({ payload }) => (
-              <div className="w-full flex items-center justify-center flex-wrap gap-3">
-                {payload?.map((entry, index) => {
-                  const conf = chartConfig4[entry.value as keyof typeof chartConfig4];
-                  return (
-                    <div key={index} className="flex items-center gap-1">
-                      <span
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: conf?.color ?? '#999' }}
-                      />
-                      <span
-                        className="!text-xs"
-                        style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}
-                      >
-                        {conf?.label ?? entry.value}
-                      </span>
-                    </div>
-                  );
-                })}
+            content={() => (
+              <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2 mt-3">
+                {Object.entries(chartConfig4).map(([key, conf]) => (
+                  <div key={key} className="flex items-center gap-1">
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: conf?.color ?? '#999' }}
+                    />
+                    <span
+                      style={{
+                        color: conf?.color ?? '#999',
+                        fontWeight: 'bold',
+                        fontSize: 11,
+                      }}
+                    >
+                      {conf?.label ?? key}
+                    </span>
+                  </div>
+                ))}
               </div>
             )}
           />
@@ -147,7 +193,9 @@ export function ChartPieCor({ chartData }: ChartPieCorProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Distribuição total por cor/raça</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Percentual acumulado de ingressantes por cor/raça no período analisado</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Percentual acumulado de ingressantes por cor/raça no período analisado
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

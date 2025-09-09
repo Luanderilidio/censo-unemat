@@ -200,17 +200,17 @@ export const chartData5 = [
 ];
 
 export const chartConfig5 = {
-  Vestibular: { label: 'Vestibular', color: faker.color.rgb({ casing: 'upper' }) },
-  Enem: { label: 'Enem', color: faker.color.rgb({ casing: 'upper' }) },
-  Avaliação_Seriada: { label: 'Avaliação_Seriada', color: faker.color.rgb({ casing: 'upper' }) },
-  Seleção_Simplificada: {
-    label: 'Seleção_Simplificada',
-    color: faker.color.rgb({ casing: 'upper' }),
+  Vestibular: { label: 'Vestibular', color: '#7CD23C' },
+  Enem: { label: 'Enem', color: '#EC167C' },
+  Avaliacao_Seriada: { label: 'Avaliacao_Seriada', color: '#FAB70C' },
+  Selecao_Simplificada: {
+    label: 'Selecao_Simplificada',
+    color: '#04ACDA',
   },
-  EGR: { label: 'EGR', color: faker.color.rgb({ casing: 'upper' }) },
-  Outro_Tipo_Seleção: { label: 'Outro_Tipo_Seleção', color: faker.color.rgb({ casing: 'upper' }) },
-  Processo_Seletivo: { label: 'Processo_Seletivo', color: faker.color.rgb({ casing: 'upper' }) },
-  Vaga_Remanescente: { label: 'Vaga_Remanescente', color: faker.color.rgb({ casing: 'upper' }) },
-  Programa_Especial: { label: 'Programa_Especial', color: faker.color.rgb({ casing: 'upper' }) },
-  Outra_Forma: { label: 'Outra_Forma', color: faker.color.rgb({ casing: 'upper' }) },
+  EGR: { label: 'EGR', color: '#718EC6' },
+  Outro_Tipo_Selecao: { label: 'Outro_Tipo_Selecao', color: '#1A6674' },
+  Processo_Seletivo: { label: 'Processo_Seletivo', color: '#890117' },
+  Vaga_Remanescente: { label: 'Vaga_Remanescente', color: '#8F479B' },
+  Programa_Especial: { label: 'Programa_Especial', color: '#FF8027' },
+  Outra_Forma: { label: 'Outra_Forma', color: '#F30D0D' },
 } satisfies ChartConfig;

@@ -3,12 +3,7 @@
 import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
 import { faker } from '@faker-js/faker';
 
-import { 
-  ChartContainer,
-  ChartLegend, 
-  ChartTooltip,
-  ChartTooltipContent,
-} from '../../ui/chart';
+import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '../../ui/chart';
 import { useState } from 'react';
 import {
   Button,
@@ -128,22 +123,25 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
           </YAxis>
           <ChartLegend
             verticalAlign="top"
-            content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 mb-4">
-                {payload?.map((entry, index) => {
-                  const conf = chartConfig5[entry.value as keyof typeof chartConfig5];
-                  return (
-                    <div key={index} className="flex items-center gap-2">
-                      <span
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: conf?.color ?? '#999' }}
-                      />
-                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
-                        {conf?.label ?? entry.value}
-                      </span>
-                    </div>
-                  );
-                })}
+            content={() => (
+              <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2 mt-3">
+                {Object.entries(chartConfig5).map(([key, conf]) => (
+                  <div key={key} className="flex items-center gap-1">
+                    <span
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: conf?.color ?? '#999' }}
+                    />
+                    <span
+                      style={{
+                        color: conf?.color ?? '#999',
+                        fontWeight: 'bold',
+                        fontSize: 11,
+                      }}
+                    >
+                      {conf?.label ?? key}
+                    </span>
+                  </div>
+                ))}
               </div>
             )}
           />
@@ -153,56 +151,52 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <Line
               dataKey="Vestibular"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Vestibular'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Vestibular'].color }}
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
-                <LabelList
-                  position="top"
-                  offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
-                  fontSize={15}
-                  fontWeight={'bold'}
-                />
-              )}
+              <LabelList
+                position="top"
+                offset={15}
+                fill={chartConfig5['Vestibular'].color}
+                fontSize={15}
+                fontWeight={'bold'}
+              />
             </Line>
           )}
           {(filter === 'Todos' || filter === 'Enem') && (
             <Line
               dataKey="Enem"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Enem'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Enem'].color }}
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
-                <LabelList
-                  position="top"
-                  offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
-                  fontSize={15}
-                  fontWeight={'bold'}
-                />
-              )}
+              <LabelList
+                position="top"
+                offset={10}
+                fill={chartConfig5['Enem'].color}
+                fontSize={15}
+                fontWeight={'bold'}
+              />
             </Line>
           )}
           {(filter === 'Todos' || filter === 'Avaliacao_Seriada') && (
             <Line
               dataKey="Avaliacao_Seriada"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Avaliacao_Seriada'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Avaliacao_Seriada'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig5['Avaliacao_Seriada'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -213,16 +207,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <Line
               dataKey="Selecao_Simplificada"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Selecao_Simplificada'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Selecao_Simplificada'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig5['Selecao_Simplificada'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -233,16 +227,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <Line
               dataKey="EGR"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['EGR'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['EGR'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig5['EGR'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -253,16 +247,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <Line
               dataKey="Outro_Tipo_Selecao"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Outro_Tipo_Selecao'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Outro_Tipo_Selecao'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig5['Outro_Tipo_Selecao'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -273,16 +267,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <Line
               dataKey="Processo_Seletivo"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Processo_Seletivo'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Processo_Seletivo'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig5['Processo_Seletivo'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -294,16 +288,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <Line
               dataKey="Vaga_Remanescente"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Vaga_Remanescente'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Vaga_Remanescente'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig5['Vaga_Remanescente'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -314,16 +308,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <Line
               dataKey="Programa_Especial"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Programa_Especial'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Programa_Especial'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig5['Programa_Especial'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -334,16 +328,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
             <Line
               dataKey="Outra_Forma"
               type="linear"
-              stroke={faker.color.rgb({ casing: 'upper' })}
+              stroke={chartConfig5['Outra_Forma'].color}
               strokeWidth={2}
-              dot={{ fill: faker.color.rgb({ casing: 'upper' }) }}
+              dot={{ fill: chartConfig5['Outra_Forma'].color }}
               activeDot={{ r: 6 }}
             >
               {filter !== 'Todos' && (
                 <LabelList
                   position="top"
                   offset={15}
-                  fill={faker.color.rgb({ casing: 'upper' })}
+                  fill={chartConfig5['Outra_Forma'].color}
                   fontSize={15}
                   fontWeight={'bold'}
                 />
@@ -355,7 +349,9 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Evolução das formas de ingresso</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Mostra como cada forma de ingresso variou ao longo dos anos</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Mostra como cada forma de ingresso variou ao longo dos anos
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

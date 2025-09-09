@@ -95,6 +95,6 @@ export const chartData3 = [
 ];
 
 export const chartConfig3 = {
-  Diurno: { label: 'Diurno', color: faker.color.rgb({ casing: 'upper' }) },
-  Noturno: { label: 'Noturno', color: faker.color.rgb({ casing: 'upper' }) },
+  Diurno: { label: 'Diurno', color: '#E69F00' },
+  Noturno: { label: 'Noturno', color: '#0072B2' },
 } satisfies ChartConfig;
