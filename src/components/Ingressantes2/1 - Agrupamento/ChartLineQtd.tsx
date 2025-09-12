@@ -1,5 +1,6 @@
 import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
-
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import {
   ChartConfig,
   ChartContainer,
@@ -23,8 +24,10 @@ type ChartLineQtdProps = {
 };
 
 export function ChartLineQtd({ chartData }: ChartLineQtdProps) {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   return (
-    <ChartContainer config={chartConfig} className="h-[450px] p-4 w-full">
+    <ChartContainer config={chartConfig} className="h-[300px] md:h-[450px] p-4 w-full">
       <LineChart
         accessibilityLayer
         data={chartData}
@@ -41,7 +44,7 @@ export function ChartLineQtd({ chartData }: ChartLineQtdProps) {
           tickLine={true}
           tickMargin={5} // espaço entre ticks e labels
           axisLine={false}
-          interval={0}
+          interval={isMobile ? 3 : 0}
           tickFormatter={(val) => val.slice(0, 4)}
         >
           <Label
@@ -99,7 +102,16 @@ export function ChartLineQtd({ chartData }: ChartLineQtdProps) {
             r: 6,
           }}
         >
-          <LabelList position="top" offset={12} fill="#F54927" fontSize={15} fontWeight={'bold'} />
+           
+          {!isMobile && (
+            <LabelList
+              position="top"
+              offset={12}
+              fill="#F54927"
+              fontSize={15}
+              fontWeight={'bold'}
+            />
+          )}
         </Line>
       </LineChart>
     </ChartContainer>

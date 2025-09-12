@@ -6,6 +6,8 @@ import {
   LinearProgress,
   Slider,
   TextField,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
@@ -29,6 +31,7 @@ export default function Home2() {
   const [loanding, setLoanding] = useState(false);
   const [data, setData] = useState<EntrantsData>();
   const [expanded, setExpanded] = useState(false);
+  const [expandedFilter, setExpandedFilter] = useState(false);
   const [years, setYears] = useState<[number, number]>([2009, 2023]);
   const [city, setCity] = useState<string | null>(null);
   const [course, setCourse] = useState<string | null>(null);
@@ -37,6 +40,10 @@ export default function Home2() {
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleExpandClickFilter = () => {
+    setExpandedFilter(!expandedFilter);
   };
 
   const anos = useMemo(
@@ -115,13 +122,15 @@ export default function Home2() {
     }
   };
 
+  
+
   return (
-    <div className="grid grid-cols-12 p-4">
-      <div className="col-span-12 mb-5 text-black/50 ">
-        <h1 className="text-center  uppercase text-4xl font-bold">
+    <div className="grid grid-cols-12 p-2 md:p-4">
+      <div className="col-span-12 mb-5 text-black/50">
+        <h1 className="text-center  uppercase md:text-4xl text-xl font-bold">
           Ferramenta de Visualização de dados dos cursos da UNEMAT
         </h1>
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center md:flex-row flex-col justify-center text-xs mt-1 md:text-lg md:gap-3 gap-0">
           <h2>
             <span className="font-bold">Orientador:</span> Prof. Me. Marcos Paulo de Mesquita
           </h2>
@@ -131,145 +140,152 @@ export default function Home2() {
         </div>
       </div>
       <div className="col-span-12 row-span-1">{loanding && <LinearProgress />}</div>
-      <div className="col-span-12 grid grid-cols-15 gap-3 p-3 bg-gray-200/30 rounded-lg shadow-md">
-        <div className="col-span-15 flex items-center justify-between text-black/50 mb-3">
+      <div className="col-span-12 grid grid-cols-15   p-3 bg-gray-200/30 rounded-lg shadow-md  border-red-500">
+        <div className="col-span-15 flex items-center justify-between text-black/50  border-blue-500">
           <div className="flex items-center justify-start">
             <FilterAltIcon />
             <p className="text-left font-Roboto font-bold text-2xl ">Filtros</p>
           </div>
           <div className="flex">
-            <Button
-              onClick={() => {
-                // console.log({
-                //   course: course,
-                //   city: city,
-                //   modality: modality,
-                //   degree: degree,
-                //   yearStart: years[0],
-                //   yearEnd: years[1],
-                // });
-
-                fecthData();
-              }}
-              endIcon={<SearchIcon />}
-              variant="contained"
-            >
-              Pesquisar
-            </Button>
-
+            <div className="hidden md:block">
+              <Button
+                onClick={() => {
+                  fecthData();
+                }}
+                endIcon={<SearchIcon />}
+                variant="contained"
+              >
+                Pesquisar
+              </Button>
+            </div>
+            {/* <div className="flex items-center justify-center">
+              <ExpandMoreIcon />
+            </div> */}
             <ExpandMore
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
+              className="block md:hidden"
+              expand={expandedFilter}
+              onClick={handleExpandClickFilter}
+              aria-expanded={expandedFilter}
             >
               <ExpandMoreIcon />
             </ExpandMore>
           </div>
         </div>
-        <Autocomplete
-          className="col-span-3"
-          options={municipios}
-          value={city}
-          onChange={(_, newValue) => setCity(newValue)}
-          renderInput={(params) => <TextField {...params} label="Município" />}
-          renderOption={(props, option) => (
-            <li {...props} key={option}>
-              <div className="flex gap-1 items-center justify-center">
-                {option !== 'Selecionar tudo' && <FmdGoodIcon sx={{ fontSize: 12 }} />}
-                <p className={`!text-sm !font-semibold leading-none  `}>{option}</p>
-              </div>
-            </li>
-          )}
-        />
-
-        {/* Curso - Autocomplete */}
-        <Autocomplete
-          className="col-span-3"
-          options={cursos}
-          value={course}
-          onChange={(_, newValue) => setCourse(newValue)}
-          renderInput={(params) => <TextField {...params} label="Curso" />}
-          renderOption={(props, option) => (
-            <li {...props} key={option}>
-              <div className="flex gap-1 items-start justify-center">
-                {option !== 'Selecionar tudo' && <SchoolIcon sx={{ fontSize: 12 }} />}
-                <p
-                  className={`!text-xs !font-semibold leading-none ${
-                    option === 'Selecionar tudo' && 'text-black/40'
-                  }`}
-                >
-                  {option}
-                </p>
-              </div>
-            </li>
-          )}
-        />
-
-        {/* Modalidade - Select */}
-        <div className="col-span-2">
-          <Autocomplete
-            options={modalidades}
-            value={modality}
-            onChange={(_, newValue) => setModality(newValue)}
-            renderInput={(params) => <TextField {...params} label="Modalidade" />}
-            renderOption={(props, option) => (
-              <li {...props} key={option}>
-                <div className="flex gap-2 items-center justify-center">
-                  {option === 'DISTANCIA' ? (
-                    <WifiIcon sx={{ fontSize: 20 }} />
-                  ) : (
-                    <ApartmentIcon sx={{ fontSize: 20 }} />
+        <div className="col-span-15   border-green-500 ">
+          <Collapse in={expandedFilter} timeout="auto" unmountOnExit>
+            <div className="grid grid-cols-15 gap-3 mt-3">
+              <Autocomplete
+                className="col-span-15 md:col-span-3"
+                options={municipios}
+                value={city}
+                onChange={(_, newValue) => setCity(newValue)}
+                renderInput={(params) => <TextField {...params} label="Município" />}
+                renderOption={(props, option) => (
+                  <li {...props} key={option}>
+                    <div className="flex gap-1 items-center justify-center">
+                      {option !== 'Selecionar tudo' && <FmdGoodIcon sx={{ fontSize: 12 }} />}
+                      <p className={`!text-sm !font-semibold leading-none  `}>{option}</p>
+                    </div>
+                  </li>
+                )}
+              />
+              <Autocomplete
+                className="col-span-15 md:col-span-3"
+                options={cursos}
+                value={course}
+                onChange={(_, newValue) => setCourse(newValue)}
+                renderInput={(params) => <TextField {...params} label="Curso" />}
+                renderOption={(props, option) => (
+                  <li {...props} key={option}>
+                    <div className="flex gap-1 items-start justify-center">
+                      {option !== 'Selecionar tudo' && <SchoolIcon sx={{ fontSize: 12 }} />}
+                      <p
+                        className={`!text-xs !font-semibold leading-none ${
+                          option === 'Selecionar tudo' && 'text-black/40'
+                        }`}
+                      >
+                        {option}
+                      </p>
+                    </div>
+                  </li>
+                )}
+              />
+              <div className="col-span-15 md:col-span-2">
+                <Autocomplete
+                  options={modalidades}
+                  value={modality}
+                  onChange={(_, newValue) => setModality(newValue)}
+                  renderInput={(params) => <TextField {...params} label="Modalidade" />}
+                  renderOption={(props, option) => (
+                    <li {...props} key={option}>
+                      <div className="flex gap-2 items-center justify-center">
+                        {option === 'DISTANCIA' ? (
+                          <WifiIcon sx={{ fontSize: 20 }} />
+                        ) : (
+                          <ApartmentIcon sx={{ fontSize: 20 }} />
+                        )}
+                        <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
+                      </div>
+                    </li>
                   )}
-                  <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
+                />
+              </div>
+              <div className="col-span-15 md:col-span-3">
+                <Autocomplete
+                  options={graus}
+                  value={degree}
+                  onChange={(_, newValue) => setDegree(newValue)}
+                  renderInput={(params) => <TextField {...params} label="Grau Acadêmico" />}
+                  renderOption={(props, option) => (
+                    <li {...props} key={option}>
+                      <div className="flex gap-2 items-center justify-center">
+                        {option === 'BACHARELADO' && <MdWork size={15} />}
+                        {option === 'LICENCIATURA' && <FaChalkboardTeacher size={15} />}
+                        {option === 'TECNOLOGICO' && <TbTools size={15} />}
+                        <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
+                      </div>
+                    </li>
+                  )}
+                />
+              </div>
+              <div className="col-span-15 md:col-span-4 px-2">
+                <div className="flex justify-between items-center w-full text-sm font-bold text-black/50 leading-none">
+                  <p>Início</p>
+                  <p>Fim</p>
                 </div>
-              </li>
-            )}
-          />
-        </div>
-
-        {/* Grau Acadêmico - Select */}
-        <div className="col-span-3">
-          <Autocomplete
-            options={graus}
-            value={degree}
-            onChange={(_, newValue) => setDegree(newValue)}
-            renderInput={(params) => <TextField {...params} label="Grau Acadêmico" />}
-            renderOption={(props, option) => (
-              <li {...props} key={option}>
-                <div className="flex gap-2 items-center justify-center">
-                  {option === 'BACHARELADO' && <MdWork size={15} />}
-                  {option === 'LICENCIATURA' && <FaChalkboardTeacher size={15} />}
-                  {option === 'TECNOLOGICO' && <TbTools size={15} />}
-                  <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
+                <Slider
+                  value={years}
+                  onChange={handleYearChange}
+                  valueLabelDisplay="auto"
+                  min={Number(anos[0])}
+                  max={Number(anos[anos.length - 1])}
+                  step={1}
+                  marks={[
+                    ...Array.from({ length: 2023 - 2009 + 1 }, (_, i) => ({
+                      value: 2009 + i,
+                      //   label: String(2010 + i),
+                    })),
+                  ]}
+                />
+                <div className="flex justify-between items-center w-full text-sm font-bold text-black/50 leading-none">
+                  <p> {years[0]}</p>
+                  <p> {years[1]}</p>
                 </div>
-              </li>
-            )}
-          />
-        </div>
-        <div className="col-span-4 px-2">
-          <div className="flex justify-between items-center w-full text-sm font-bold text-black/50 leading-none">
-            <p>Início</p>
-            <p>Fim</p>
-          </div>
-          <Slider
-            value={years}
-            onChange={handleYearChange}
-            valueLabelDisplay="auto"
-            min={Number(anos[0])}
-            max={Number(anos[anos.length - 1])}
-            step={1}
-            marks={[
-              ...Array.from({ length: 2023 - 2009 + 1 }, (_, i) => ({
-                value: 2009 + i,
-                //   label: String(2010 + i),
-              })),
-            ]}
-          />
-          <div className="flex justify-between items-center w-full text-sm font-bold text-black/50 leading-none">
-            <p> {years[0]}</p>
-            <p> {years[1]}</p>
-          </div>
+              </div>
+              <div className="col-span-15 flex items-center justify-end md:hidden">
+                <Button
+                  fullWidth
+                  onClick={() => {
+                    fecthData();
+                  }}
+                  endIcon={<SearchIcon />}
+                  variant="contained"
+                >
+                  Pesquisar
+                </Button>
+              </div>
+            </div>
+          </Collapse>
         </div>
       </div>
       <div className="col-span-12 bg-gray-200/30">
@@ -294,7 +310,7 @@ export default function Home2() {
       </div>
 
       {/* INGRESSANTES */}
-      <div className="col-span-12 mt-5 ">
+      <div className=" col-span-12 mt-5 ">
         <IngressantesMain
           // entrants={data}
           data={data?.entrants}

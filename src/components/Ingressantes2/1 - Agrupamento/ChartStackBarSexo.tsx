@@ -1,9 +1,6 @@
-'use client';
-
 import React, { useState } from 'react';
 import { Bar, BarChart, Label, LabelList, XAxis, YAxis } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend } from '../../ui/chart';
-import { faker } from '@faker-js/faker';
 import {
   Button,
   Dialog,
@@ -21,49 +18,70 @@ import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig1 } from './data';
 import { DataEntrantsSex } from '../SchemaEntrants';
+import { useDeviceType } from '../../../utils/mediaQuery';
 
 type ChartMultLineSexoProps = {
+  // NOTE: seu DataEntrantsSex já é um array (conforme seu uso anterior)
   chartData?: DataEntrantsSex;
 };
 
 export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
+  const { isMobile } = useDeviceType();
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
-
   const [filter, setFilter] = useState<'Todos' | 'Masculino' | 'Feminino'>('Todos');
 
+  // Formatter robusto: tenta extrair a linha correta (dataEntry) de várias formas,
+  // e retorna '' se não conseguir calcular ou total for 0.
+  const chartDataWithPercent = chartData?.map((d) => {
+    const total = d.Masculino + d.Feminino;
+    return {
+      ...d,
+      MasculinoPercent: total ? (d.Masculino / total) * 100 : 0,
+      FemininoPercent: total ? (d.Feminino / total) * 100 : 0,
+    };
+  });
   return (
-    <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
+    <div className="h-[430px] md:!h-[600px] border rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
-          <FaChartBar size={18} />
+          <FaChartBar size={isMobile ? 10 : 18} />
           <h1 className="font-semibold text-sm">Gráfico de Barras</h1>
         </div>
         <IconButton onClick={openDialog}>
           <FaQuestionCircle size={20} className="text-black/10" />
         </IconButton>
       </div>
-      <div className="flex px-4 pt-2 pb-2  items-center justify-between gap-1 text-black/70">
+
+      <div className="flex px-4 pt-2 pb-2 items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Comparativo anual por sexo</h1> 
+          <h1 className="font-bold text-sm md:text-xl leading-none">
+            Comparativo <br className="block md:hidden" /> anual por sexo
+          </h1>
         </div>
-        <FormControl size="small" className="w-40">
+        <FormControl size="small" className="">
           <InputLabel>Filtro</InputLabel>
-          <Select value={filter} label="Filtro" onChange={(e) => setFilter(e.target.value as any)}>
+          <Select
+            value={filter}
+            label="Filtro"
+            size={isMobile ? 'small' : 'medium'}
+            onChange={(e) => setFilter(e.target.value as any)}
+          >
             <MenuItem value="Todos">Todos</MenuItem>
             <MenuItem value="Masculino">Masculino</MenuItem>
             <MenuItem value="Feminino">Feminino</MenuItem>
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig1} className="h-[450px] px-4 pb-2 w-full">
-        <BarChart accessibilityLayer data={chartData}>
+
+      <ChartContainer config={chartConfig1} className="h-[300px] md:h-[450px] px-4 pb-2 w-full">
+        <BarChart accessibilityLayer data={chartDataWithPercent}>
           <XAxis
             dataKey="year"
             tickLine={true}
             tickMargin={5}
             axisLine={true}
             interval={1}
-            tickFormatter={(val) => val.slice(0, 4)}
+            tickFormatter={(val) => String(val).slice(0, 4)}
           >
             <Label
               value="Ano"
@@ -72,29 +90,32 @@ export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
               style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
             />
           </XAxis>
+
           <YAxis
-            tickLine={true} // remove os traços dos ticks, opcional
-            axisLine={false} // exibe a linha do eixo
-            tick={false}
-            // tick={{ fontSize: 12, fontWeight: 'bold', fill: '#333' }}  // estilo do texto
-            tickFormatter={(val) => val} // formata os números se quiser (ex: 1k, 2k)
-            width={20} // largura reservada para os números
+            tickLine={true}
+            axisLine={false}
+            tickFormatter={(val) => val} // mantém valores absolutos
+            width={isMobile ? 0 : 40}
           >
-            <Label
-              value="Quantidade"
-              offset={0}
-              angle={-90}
-              position="center"
-              style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
-            />
+            {!isMobile && (
+              <Label
+                value="Quantidade"
+                offset={0}
+                angle={-90}
+                position="center"
+                style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
+              />
+            )}
           </YAxis>
+
           <ChartTooltip content={<ChartTooltipContent />} />
+
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 ">
-                {payload?.map((entry, index) => (
-                  <div key={index} className="flex items-center gap-2">
+              <div className="flex items-center justify-center flex-wrap gap-4">
+                {payload?.map((entry, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
                     <span
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: chartConfig1[entry.value].color }}
@@ -107,34 +128,51 @@ export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
               </div>
             )}
           />
+
           {(filter === 'Todos' || filter === 'Feminino') && (
-            <Bar dataKey="Feminino" stackId="a" fill={chartConfig1['Feminino'].color} radius={[0, 0, 4, 4]}>
+            <Bar
+              dataKey="Feminino"
+              stackId="a"
+              fill={chartConfig1['Feminino'].color}
+              radius={[0, 0, 0, 0]}
+            >
               <LabelList
-                dataKey="Feminino"
+                dataKey="FemininoPercent"
                 position="insideTop"
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
-                formatter={(value: number) => value > 0 ? value : ''}
+                fontSize={isMobile ? 6 : 12}
+                className="font-bold font-Roboto"
+                formatter={(val) => `${val.toFixed(0)}%`}
               />
             </Bar>
           )}
+
           {(filter === 'Todos' || filter === 'Masculino') && (
-            <Bar dataKey="Masculino" stackId="a" fill={chartConfig1['Masculino'].color} radius={[4, 4, 0, 0]}>
+            <Bar
+              dataKey="Masculino"
+              stackId="a"
+              fill={chartConfig1['Masculino'].color}
+              radius={[2, 2, 0, 0]}
+            >
               <LabelList
-                dataKey="Masculino"
+                dataKey="MasculinoPercent"
                 position="insideTop"
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
-                formatter={(value: number) => value > 0 ? value : ''}
+                fontSize={isMobile ? 6 : 12}
+                className="font-bold font-Roboto"
+                formatter={(val) => `${val.toFixed(0)}%`}
               />
             </Bar>
           )}
         </BarChart>
       </ChartContainer>
+
       <Dialog open={dialog} onClose={toggleDialog}>
         <DialogTitle id="alert-dialog-title">Comparativo anual por sexo</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">Quantidade de ingressantes masculinos e femininos em cada ano</DialogContentText>
+          <DialogContentText id="alert-dialog-description">
+            Quantidade de ingressantes masculinos e femininos em cada ano (labels em %)
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog} autoFocus>

@@ -23,12 +23,15 @@ import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig1 } from './data';
 import { DataEntrantsSex } from '../SchemaEntrants';
 import CountUp from 'react-countup';
+import { useDeviceType } from '../../../utils/mediaQuery';
 
 type ChartMultLineSexoProps = {
   chartData?: DataEntrantsSex;
 };
 
 export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
+
+  const { isMobile } = useDeviceType();
   const originalData = chartData || [];
   const sexKeys = ['Feminino', 'Masculino'] as const;
 
@@ -59,11 +62,11 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
   const total_masc = chartData?.reduce((acc, cur) => acc + cur.Masculino, 0);
 
   return (
-    <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md">
+    <div className="w-full h-[410px] md:h-[600px] border-blue-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
-          <RiPieChart2Line size={18} />
-          <h1 className="font-semibold text-sm">Gráfico de Pizza</h1>
+          <RiPieChart2Line size={isMobile ? 10 : 18} />
+          <h1 className="font-semibold text-xs md:text-sm ">Gráfico de Pizza</h1>
         </div>
         <IconButton onClick={openDialog}>
           <FaQuestionCircle size={20} className="text-black/10" />
@@ -71,18 +74,18 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
       </div>
       <div className="flex px-4 pt-2 items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Comparativo geral por sexo</h1>
+          <h1 className="font-bold text-md md:text-xl leading-none">Comparativo <br className='block md:hidden' /> geral por sexo</h1>
         </div>
         <div className="flex items-center gap-6 ">
           <div className="flex flex-col w-fit ">
-            <h1 className="font-normal text-sm !text-[#DF536B]">Feminino</h1>
-            <h2 className=" font-black text-3xl leading-none !text-[#da3f59] ">
+            <h1 className="font-normal text-xs md:text-sm !text-[#DF536B]">Feminino</h1>
+            <h2 className=" font-black text-md md:text-3xl leading-none !text-[#da3f59] ">
               <CountUp start={0} duration={2.75} end={total_fem ?? 0} decimal="," separator="." />
             </h2>
           </div>
           <div className="flex flex-col w-fit ">
-            <h1 className="font-normal text-sm !text-[#2297E6]">Masculino</h1>
-            <h2 className=" font-black text-3xl leading-none !text-[#116fad]">
+            <h1 className="font-normal text-xs md:text-sm !text-[#2297E6]">Masculino</h1>
+            <h2 className=" font-black text-md md:text-3xl leading-none !text-[#116fad]">
               <CountUp start={0} duration={2.75} end={total_masc ?? 0} decimal="," separator="." />
             </h2>
           </div>
@@ -90,7 +93,7 @@ export function ChartPieSexo({ chartData }: ChartMultLineSexoProps) {
       </div>
       <ChartContainer
         config={chartConfig1}
-        className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[500px] px-4 pb-2 w-full"
+        className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[300px] md:h-[475px] px-4 pb-2 w-full border-red-500"
       >
         <PieChart>
           <ChartTooltip content={<ChartTooltipContent nameKey="sexo" />} />

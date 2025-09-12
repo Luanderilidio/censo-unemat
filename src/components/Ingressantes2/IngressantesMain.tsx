@@ -1,7 +1,8 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { FaQuestionCircle } from 'react-icons/fa';
 import { FaChartLine } from 'react-icons/fa6';
-
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { useState } from 'react';
 import { ExpandMore } from '../../utils/ExpandMore';
 import { TiChartPie } from 'react-icons/ti';
@@ -44,6 +45,9 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const theme = useTheme(); 
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className=" bg-gray-300/40 rounded-lg shadow-md font-Roboto">
       <div className="w-full flex p-4 items-center justify-between cursor-pointer" onClick={handleExpandClick} >
@@ -58,31 +62,30 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
         </ExpandMore>
       </div>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent className="grid grid-cols-15 gap-4">
-          <div className="col-span-15 grid grid-cols-12 border-red-500 rounded-lg bg-white shadow-md">
+        <CardContent  className="grid grid-cols-15 gap-4 border border-red-500  !p-2 md:p-4">
+          <div className="col-span-15 grid grid-cols-12 border border-blue-500 rounded-lg bg-white shadow-md">
             <div className="col-span-12 border-b ">
               <div className="flex px-4 pt-4 pb-2 items-center justify-between gap-1 text-black/70">
                 <div className="flex items-center gap-1 justify-start">
-                  <FaChartLine size={18} />
-                  <h1 className="font-semibold text-sm">Gráfico de Linha</h1>
+                  <FaChartLine  size={isMobile ? 10 : 18} />
+                  <h1 className="font-semibold text-xs md:text-sm">Gráfico de Linha</h1>
                 </div>
                 <IconButton>
                   <FaQuestionCircle size={20} className="text-black/10" />
                 </IconButton>
               </div>
             </div>
-            <div className="col-span-10  border-b ">
-              <div className="flex p-4  items-center justify-between gap-1 text-black/70">
+            <div className="col-span-8 md:col-span-10  border-b ">
+              <div className="flex p-4 items-center justify-between gap-1 text-black/70">
                 <div className="flex flex-col items-start gap-1 justify-start">
-                  <h1 className="font-bold text-xl">Progressão anual dos ingressantes</h1>
-                  
+                  <h1 className="font-bold text-md md:text-xl">Progressão anual dos ingressantes</h1>
                 </div>
               </div>
             </div>
-            <div className="col-span-2 border-b border-x flex flex-col items-center justify-center  ">
+            <div className="col-span-4 md:col-span-2 border-b border-x   flex flex-col items-center justify-center  ">
               <div className="flex flex-col w-fit ">
-                <h1 className="font-normal text-sm text-black/70">Total Ingressantes</h1>
-                <h2 className=" font-black text-3xl leading-none text-black/80">
+                <h1 className="font-normal text-[.7rem] md:text-sm text-black/70">Total Ingressantes</h1>
+                <h2 className=" font-black text-2xl md:text-3xl leading-none text-black/80">
                   <CountUp
                     start={0}
                     duration={2.75}
@@ -92,14 +95,8 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                   />
                 </h2>
               </div>
-            </div>
-            {/* <div className="col-span-2 border-b flex flex-col items-center justify-center  ">
-              <div className="flex flex-col w-fit ">
-                <h1 className="font-normal text-sm text-black/70">Qtd tal tal</h1>
-                <h2 className=" font-black text-3xl leading-none text-black/80">5151551</h2>
-              </div>
-            </div> */}
-            <div className="col-span-12 border-purple-500 h-[450px]">
+            </div> 
+            <div className="col-span-12 border border-purple-500 h-[300px] md:h-[450px]">
               <ChartLineQtd chartData={data?.entrantsQtd} />
             </div>
           </div>
@@ -121,10 +118,10 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
 
           <Collapse in={expandSex} timeout="auto" className="col-span-15 " unmountOnExit>
             <div className="grid grid-cols-15 gap-4">
-              <div className="col-span-8 border-red-500">
+              <div className="col-span-15 md:col-span-8 border-red-500">
                 <StackedBarChartSexo chartData={data?.entrantsSex} />
               </div>
-              <div className="col-span-7 border-red-500">
+              <div className="col-span-15 md:col-span-7 border-red-500">
                 <ChartPieSexo chartData={data?.entrantsSex} />
               </div>
               <div className="col-span-15 border-red-500">
@@ -134,7 +131,7 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
           </Collapse>
 
           {/* 2° - Agrupamento - Idade */}
-          <div
+          {/* <div
             className="col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer"
             onClick={toggleAge}
           >
@@ -145,8 +142,8 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                 <ExpandMoreIcon />
               </ExpandMore>
             </div>
-          </div>
-          <Collapse in={expandAge} timeout="auto" className="col-span-15 " unmountOnExit>
+          </div> */}
+          {/* <Collapse in={expandAge} timeout="auto" className="col-span-15 " unmountOnExit>
           <div className="grid grid-cols-15 gap-4">
             <div className="col-span-8 border-red-500">
               <StackedBarChartIdade chartData={data?.entrantsAge} />
@@ -158,11 +155,11 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
               <ChartMultLineIdade chartData={data?.entrantsAge} />
             </div>
           </div>
-          </Collapse>
+          </Collapse> */}
 
           {/* 2° - Agrupamento - Idade */}
-          <div
-            className="col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer"
+          {/* <div
+            className=" col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer "
             onClick={toggleShift}
           >
             <h1 className=" text-3xl font-bold">Turno dos Ingressantes</h1>
@@ -185,10 +182,10 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                 <ChartMultLineTurno chartData={data?.entrantsShift} />
               </div>
             </div>
-          </Collapse>
+          </Collapse> */}
 
           {/* 5° - Agrupamento - Idade */}
-          <div
+          {/* <div
             className="col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer"
             onClick={toggleForm}
           >
@@ -212,10 +209,10 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                 <ChartMultLineForma chartData={data?.entrantsForm} />
               </div>
             </div>
-          </Collapse>
+          </Collapse> */}
 
           {/* 5° - Agrupamento - Idade */}
-          <div
+          {/* <div
             className="col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer"
             onClick={toggleColor}
           >
@@ -239,7 +236,7 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                 <ChartMultLineCor chartData={data?.entrantsColor} />
               </div>
             </div>
-          </Collapse>
+          </Collapse> */}
         </CardContent>
       </Collapse>
     </div>
