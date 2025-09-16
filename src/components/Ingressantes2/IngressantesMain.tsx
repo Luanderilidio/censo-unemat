@@ -62,8 +62,8 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
         </ExpandMore>
       </div>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent  className="grid grid-cols-15 gap-4 border border-red-500  !p-2 md:p-4">
-          <div className="col-span-15 grid grid-cols-12 border border-blue-500 rounded-lg bg-white shadow-md">
+        <CardContent  className="grid grid-cols-15 gap-4 border-red-500  !p-2 md:p-4">
+          <div className="col-span-15 grid grid-cols-12 border-blue-500 rounded-lg bg-white shadow-md">
             <div className="col-span-12 border-b ">
               <div className="flex px-4 pt-4 pb-2 items-center justify-between gap-1 text-black/70">
                 <div className="flex items-center gap-1 justify-start">
@@ -96,7 +96,7 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                 </h2>
               </div>
             </div> 
-            <div className="col-span-12 border border-purple-500 h-[300px] md:h-[450px]">
+            <div className="col-span-12 border-purple-500 h-[300px] md:h-[450px]">
               <ChartLineQtd chartData={data?.entrantsQtd} />
             </div>
           </div>

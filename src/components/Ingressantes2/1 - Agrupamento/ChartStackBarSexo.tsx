@@ -91,23 +91,6 @@ export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
             />
           </XAxis>
 
-          <YAxis
-            tickLine={true}
-            axisLine={false}
-            tickFormatter={(val) => val} // mantém valores absolutos
-            width={isMobile ? 0 : 40}
-          >
-            {!isMobile && (
-              <Label
-                value="Quantidade"
-                offset={0}
-                angle={-90}
-                position="center"
-                style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
-              />
-            )}
-          </YAxis>
-
           <ChartTooltip content={<ChartTooltipContent />} />
 
           <ChartLegend
