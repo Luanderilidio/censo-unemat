@@ -43,6 +43,20 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
 
   const [filter, setFilter] = useState<'Todos' | 'Masculino' | 'Feminino'>('Todos');
 
+  const SimpleDot = ({ cx, cy, fill, stroke, r = 10, isActive = false }: any) => {
+    if (cx === undefined || cy === undefined) return null;
+    return (
+      <circle
+        cx={cx}
+        cy={cy}
+        r={isActive ? r + 5 : r} // cresce quando ativo
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={isActive ? 0 : 8}
+      />
+    );
+  };
+
   const CustomDot = ({ cx, cy, value, stroke, fill, r = 20, isActive = false }: any) => {
     if (cx === undefined || cy === undefined) return null;
     return (
@@ -168,12 +182,30 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
               strokeWidth={3}
               dot={
                 isMobile
-                  ? (props) => <CustomDot {...props} fill={chartConfig1['Feminino'].color} />
-                  : { fill: chartConfig1['Feminino'].color }
+                  ? (props) => (
+                      <CustomDot
+                        {...props}
+                        fill={chartConfig1['Feminino'].color}
+                        stroke={chartConfig1['Feminino'].color}
+                      />
+                    )
+                  : (props) => (
+                      <SimpleDot
+                        {...props}
+                        fill={chartConfig1['Feminino'].color}
+                        stroke={chartConfig1['Feminino'].color}
+                      />
+                    )
               }
-              activeDot={(props) => (
-                <CustomDot {...props} fill={chartConfig1['Feminino'].color} isActive />
-              )}
+              activeDot={
+                isMobile
+                  ? (props) => (
+                      <CustomDot {...props} fill={chartConfig1['Feminino'].color} isActive />
+                    )
+                  : (props) => (
+                      <SimpleDot {...props} fill={chartConfig1['Feminino'].color} isActive />
+                    )
+              }
             >
               {!isMobile && (
                 <LabelList
@@ -181,7 +213,7 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
                   offset={15}
                   fill={chartConfig1['Feminino'].color}
                   fontSize={15}
-                  fontWeight={'bold'}
+                  fontWeight="bold"
                 />
               )}
             </Line>
@@ -194,12 +226,30 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
               strokeWidth={3}
               dot={
                 isMobile
-                  ? (props) => <CustomDot {...props} fill={chartConfig1['Masculino'].color} />
-                  : { fill: chartConfig1['Masculino'].color }
+                  ? (props) => (
+                      <CustomDot
+                        {...props}
+                        fill={chartConfig1['Masculino'].color}
+                        stroke={chartConfig1['Masculino'].color}
+                      />
+                    )
+                  : (props) => (
+                      <SimpleDot
+                        {...props}
+                        fill={chartConfig1['Masculino'].color}
+                        stroke={chartConfig1['Masculino'].color}
+                      />
+                    )
               }
-              activeDot={(props) => (
-                <CustomDot {...props} fill={chartConfig1['Masculino'].color} isActive />
-              )}
+              activeDot={
+                isMobile
+                  ? (props) => (
+                      <CustomDot {...props} fill={chartConfig1['Masculino'].color} isActive />
+                    )
+                  : (props) => (
+                      <SimpleDot {...props} fill={chartConfig1['Masculino'].color} isActive />
+                    )
+              }
             >
               {!isMobile && (
                 <LabelList
@@ -207,7 +257,7 @@ export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
                   offset={15}
                   fill={chartConfig1['Masculino'].color}
                   fontSize={15}
-                  fontWeight={'bold'}
+                  fontWeight="bold"
                 />
               )}
             </Line>

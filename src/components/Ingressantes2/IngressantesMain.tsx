@@ -75,7 +75,7 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                 </IconButton>
               </div>
             </div>
-            <div className="col-span-8 md:col-span-10  border-b ">
+            <div className="col-span-8 md:col-span-10 border-b">
               <div className="flex p-4 items-center justify-between gap-1 text-black/70">
                 <div className="flex flex-col items-start gap-1 justify-start">
                   <h1 className="font-bold text-md md:text-xl">Progressão anual dos ingressantes</h1>
