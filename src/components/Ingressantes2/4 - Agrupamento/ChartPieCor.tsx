@@ -1,11 +1,9 @@
-import { Pie, PieChart, Label, LabelList, Cell } from 'recharts';
+import { Pie, PieChart, Cell } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
 import { faker } from '@faker-js/faker';
-import {
-  ChartConfig,
+import { 
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
+  ChartLegend, 
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';
@@ -22,12 +20,14 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig4 } from './data';
 import { DataEntrantsColor } from '../SchemaEntrants';
+import { useDeviceType } from '../../../utils/mediaQuery';
 
 type ChartPieCorProps = {
   chartData?: DataEntrantsColor;
 };
 
 export function ChartPieCor({ chartData }: ChartPieCorProps) {
+  const { isMobile } = useDeviceType();
   const originalData = chartData || [];
   const colorKeys = ['Branca', 'Preta', 'Parda', 'Amarela', 'Indigena', 'Indefinido'] as const;
 
@@ -95,7 +95,7 @@ export function ChartPieCor({ chartData }: ChartPieCorProps) {
   };
 
   return (
-    <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md">
+    <div className="w-full h-[400px] md:h-[600px] border-blue-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
           <RiPieChart2Line size={18} />
@@ -107,12 +107,12 @@ export function ChartPieCor({ chartData }: ChartPieCorProps) {
       </div>
       <div className="flex px-4 pt-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Distribuição total por cor/raça</h1>
+          <h1 className="font-bold text-sm md:text-xl leading-none">Distribuição total por cor/raça</h1>
         </div>
       </div>
       <ChartContainer
         config={chartConfig4}
-        className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[500px] px-4 pb-2 w-full"
+        className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[320px] md:h-[475px] px-2   w-full border-red-500"
       >
         <PieChart>
           <ChartTooltip content={<ChartTooltipContent nameKey="idade" />} />
@@ -167,18 +167,18 @@ export function ChartPieCor({ chartData }: ChartPieCorProps) {
           <ChartLegend
             verticalAlign="top"
             content={() => (
-              <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2 mt-3">
+              <div className="w-full flex items-center justify-center leading-none flex-wrap mt-3">
                 {Object.entries(chartConfig4).map(([key, conf]) => (
-                  <div key={key} className="flex items-center gap-1">
+                  <div key={key} className="flex items-center gap-[2px] md:gap-1 ml-2 mb-[3px]">
                     <span
-                      className="w-2 h-2 rounded-full"
+                      className="w-[6px] md:w-2 h-[6px] md:h-2 rounded-full"
                       style={{ backgroundColor: conf?.color ?? '#999' }}
                     />
                     <span
                       style={{
                         color: conf?.color ?? '#999',
                         fontWeight: 'bold',
-                        fontSize: 11,
+                        fontSize: isMobile ? 9 : 11
                       }}
                     >
                       {conf?.label ?? key}

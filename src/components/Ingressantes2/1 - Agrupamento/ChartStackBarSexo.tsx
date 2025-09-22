@@ -21,7 +21,7 @@ import { DataEntrantsSex } from '../SchemaEntrants';
 import { useDeviceType } from '../../../utils/mediaQuery';
 
 type ChartMultLineSexoProps = {
-  // NOTE: seu DataEntrantsSex já é um array (conforme seu uso anterior)
+
   chartData?: DataEntrantsSex;
 };
 
@@ -30,8 +30,6 @@ export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
   const [filter, setFilter] = useState<'Todos' | 'Masculino' | 'Feminino'>('Todos');
 
-  // Formatter robusto: tenta extrair a linha correta (dataEntry) de várias formas,
-  // e retorna '' se não conseguir calcular ou total for 0.
   const chartDataWithPercent = chartData?.map((d) => {
     const total = d.Masculino + d.Feminino;
     return {
@@ -103,7 +101,7 @@ export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: chartConfig1[entry.value].color }}
                     />
-                    <span style={{ color: chartConfig1[entry.value].color, fontWeight: 'bold' }}>
+                    <span style={{ color: chartConfig1[entry.value].color, fontWeight: 'bold', fontSize: isMobile ? 9 : 11 }}>
                       {chartConfig1[entry.value].label}
                     </span>
                   </div>
@@ -120,12 +118,14 @@ export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
               radius={[0, 0, 0, 0]}
             >
               <LabelList
-                dataKey="FemininoPercent"
+                dataKey={filter === 'Todos' ? 'FemininoPercent' : 'Feminino'}
                 position="insideTop"
                 fill="#FFF"
                 fontSize={isMobile ? 6 : 12}
                 className="font-bold font-Roboto"
-                formatter={(val) => `${val.toFixed(0)}%`}
+                formatter={(val: number) =>
+                  filter === 'Todos' ? `${val.toFixed(0)}%` : val.toLocaleString()
+                }
               />
             </Bar>
           )}
@@ -138,12 +138,14 @@ export function StackedBarChartSexo({ chartData }: ChartMultLineSexoProps) {
               radius={[2, 2, 0, 0]}
             >
               <LabelList
-                dataKey="MasculinoPercent"
+                dataKey={filter === 'Todos' ? 'MasculinoPercent' : 'Masculino'}
                 position="insideTop"
                 fill="#FFF"
                 fontSize={isMobile ? 6 : 12}
-                className="font-bold font-Roboto"
-                formatter={(val) => `${val.toFixed(0)}%`}
+                className="font-bold font-Roboto text-[.35rem] md:text-sm"
+                formatter={(val: number) =>
+                  filter === 'Todos' ? `${val.toFixed(0)}%` : val.toLocaleString()
+                }
               />
             </Bar>
           )}

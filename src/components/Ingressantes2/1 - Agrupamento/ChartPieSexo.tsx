@@ -1,11 +1,7 @@
 import { Pie, PieChart, Label, LabelList, Cell } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
-import { faker } from '@faker-js/faker';
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
+import { 
+  ChartContainer, 
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';

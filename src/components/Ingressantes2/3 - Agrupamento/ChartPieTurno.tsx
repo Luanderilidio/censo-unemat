@@ -1,11 +1,7 @@
 import { Pie, PieChart, Label, LabelList, Cell } from 'recharts';
 import { RiPieChart2Line } from 'react-icons/ri';
-import { faker } from '@faker-js/faker';
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
+import { 
+  ChartContainer, 
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';
@@ -50,8 +46,7 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
     .filter(key => totals[key] > 0)
     .map((key) => ({
       turno: key,
-      quantidade: totals[key],
-      fill: faker.color.rgb({ casing: 'upper' }),
+      quantidade: totals[key]
     }));
 
   const total = chartDataFomated.reduce((acc, cur) => acc + cur.quantidade, 0);
@@ -68,7 +63,7 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   return (
-    <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md">
+    <div className="w-full h-[410px] md:h-[600px]  border-blue-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
           <RiPieChart2Line size={18} />
@@ -80,12 +75,12 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
       </div>
       <div className="flex px-4 pt-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Distribuição total por turno</h1>
+          <h1 className="font-bold text-md md:text-xl leading-none">Distribuição total por turno</h1>
         </div>
       </div>
       <ChartContainer
         config={chartConfig3}
-        className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[500px] px-4 pb-2 w-full"
+        className="[&_.recharts-pie-label-text]:fill-foreground  mx-auto aspect-square h-[300px] md:h-[475px] px-4  w-full border-red-500"
       >
         <PieChart>
           <ChartTooltip content={<ChartTooltipContent nameKey="turno" />} />
@@ -100,10 +95,10 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
               const radius = outerRadius + 20;
               const x = cx + radius * Math.cos(-midAngle * RADIAN);
               const y = cy + radius * Math.sin(-midAngle * RADIAN);
-              
+
               // Verificar se há dados para evitar erros
               if (!chartDataFomated[index]) return null;
-              
+
               return (
                 <text
                   x={x}
@@ -133,7 +128,7 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
             />
           </Pie>
 
-          <ChartLegend
+          {/* <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
               <div className="flex items-center justify-center flex-wrap gap-2">
@@ -153,7 +148,7 @@ export function ChartPieTurno({ chartData }: ChartPieTurnoProps) {
                 })}
               </div>
             )}
-          />
+          /> */}
         </PieChart>
       </ChartContainer>
       <Dialog open={dialog} onClose={toggleDialog}>

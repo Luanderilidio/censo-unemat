@@ -1,14 +1,8 @@
-'use client';
-
-import { TrendingUp } from 'lucide-react';
 import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { faker } from '@faker-js/faker';
 
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';
@@ -30,6 +24,7 @@ import { FaChartLine, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig2 } from './data';
 import { DataEntrantsAge } from '../SchemaEntrants';
+import { useDeviceType } from '../../../utils/mediaQuery';
 
 export const description = 'A line chart with a label';
 
@@ -38,6 +33,7 @@ type ChartMultLineIdadeProps = {
 };
 
 export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
+  const { isMobile } = useDeviceType();
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
@@ -52,8 +48,50 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
     | 'Ing_60_mais'
   >('Ing_0_17');
 
+  const SimpleDot = ({ cx, cy, fill, stroke, r = 10, isActive = false }: any) => {
+    if (cx === undefined || cy === undefined) return null;
+    return (
+      <circle
+        cx={cx}
+        cy={cy}
+        r={isActive ? r + 5 : r} // cresce quando ativo
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={isActive ? 0 : 8}
+      />
+    );
+  };
+
+  const CustomDot = ({ cx, cy, value, stroke, fill, r = 20, isActive = false }: any) => {
+    if (cx === undefined || cy === undefined) return null;
+    return (
+      <g>
+        {/* bolinha */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={isActive ? r + 10 : r} // cresce quando ativo
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={isActive ? 0 : 8}
+        />
+        {/* texto dentro */}
+        <text
+          x={cx}
+          y={cy + 2}
+          textAnchor="middle"
+          fill="#fff"
+          fontSize={isActive ? 10 : 5}
+          fontWeight="bold"
+        >
+          {value}
+        </text>
+      </g>
+    );
+  };
+
   return (
-    <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
+    <div className="md:!h-[600px] border-red-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
           <FaChartLine size={18} />
@@ -65,7 +103,7 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
       </div>
       <div className="flex px-4 pt-4 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Evolução das faixas etárias dos ingressantes</h1>
+          <h1 className="font-bold text-sm md:text-xl leading-none">Evolução das faixas etárias dos ingressantes</h1>
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -82,7 +120,7 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig2} className="h-[460px] p-4 w-full">
+      <ChartContainer config={chartConfig2} className="h-[300px] md:h-[460px] px-1 pb-2 w-full">
         <LineChart
           accessibilityLayer
           data={chartData}
@@ -128,17 +166,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 ">
+              <div className="flex items-center justify-center flex-wrap gap-[4px] md:gap-3 mb-3 ">
                 {payload?.map((entry, index) => {
                   const conf = chartConfig2[entry.value as keyof typeof chartConfig2];
-
                   return (
-                    <div key={index} className="flex items-center gap-2">
+                    <div key={index} className="flex items-center gap-1">
                       <span
-                        className="w-3 h-3 rounded-full"
+                        className="w-2 h-2 rounded-full"
                         style={{ backgroundColor: conf?.color ?? '#999' }}
                       />
-                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold', fontSize: isMobile ? 9 : 11 }}>
                         {conf?.label ?? entry.value}
                       </span>
                     </div>
@@ -155,10 +192,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
               type="linear"
               stroke={chartConfig2['Ing_0_17'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig2['Ing_0_17'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig2['Ing_0_17'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig2['Ing_0_17'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig2['Ing_0_17'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -175,10 +218,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
               type="linear"
               stroke={chartConfig2['Ing_18_24'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig2['Ing_18_24'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig2['Ing_18_24'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig2['Ing_18_24'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig2['Ing_18_24'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -195,10 +244,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
               type="linear"
               stroke={chartConfig2['Ing_25_29'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig2['Ing_25_29'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig2['Ing_25_29'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig2['Ing_25_29'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig2['Ing_25_29'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -215,10 +270,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
               type="linear"
               stroke={chartConfig2['Ing_30_34'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig2['Ing_30_34'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig2['Ing_30_34'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig2['Ing_30_34'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig2['Ing_30_34'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -235,10 +296,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
               type="linear"
               stroke={chartConfig2['Ing_35_39'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig2['Ing_35_39'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig2['Ing_35_39'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig2['Ing_35_39'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig2['Ing_35_39'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -255,10 +322,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
               type="linear"
               stroke={chartConfig2['Ing_40_49'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig2['Ing_40_49'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig2['Ing_40_49'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig2['Ing_40_49'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig2['Ing_40_49'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -275,10 +348,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
               type="linear"
               stroke={chartConfig2['Ing_50_59'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig2['Ing_50_59'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig2['Ing_50_59'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig2['Ing_50_59'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig2['Ing_50_59'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -295,10 +374,16 @@ export function ChartMultLineIdade({ chartData }: ChartMultLineIdadeProps) {
               type="linear"
               stroke={chartConfig2['Ing_60_mais'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig2['Ing_60_mais'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig2['Ing_60_mais'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig2['Ing_60_mais'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig2['Ing_60_mais'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}

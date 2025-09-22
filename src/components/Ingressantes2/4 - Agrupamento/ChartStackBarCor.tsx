@@ -2,12 +2,11 @@
 
 import { useState } from 'react';
 import { Bar, BarChart, Label, LabelList, XAxis, YAxis } from 'recharts';
-import { 
+import {
   ChartContainer,
-  ChartTooltip, 
+  ChartTooltip,
   ChartLegend,
-} from '../../ui/chart';
-import { faker } from '@faker-js/faker';
+} from '../../ui/chart'; 
 import {
   Button,
   Dialog,
@@ -25,11 +24,13 @@ import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig4 } from './data';
 import { DataEntrantsColor } from '../SchemaEntrants';
+import { useDeviceType } from '../../../utils/mediaQuery';
 
 type StackedBarChartProps = {
   chartData?: DataEntrantsColor;
 };
 export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
+  const { isMobile } = useDeviceType();
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
@@ -41,7 +42,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
 
     return {
       year: d.year,
-      total, 
+      total,
       Branca: filter === 'Todos' ? (d.Branca / total) * 100 : d.Branca,
       Preta: filter === 'Todos' ? (d.Preta / total) * 100 : d.Preta,
       Parda: filter === 'Todos' ? (d.Parda / total) * 100 : d.Parda,
@@ -60,7 +61,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
   });
 
   return (
-    <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
+    <div className="h-[430px] md:!h-[600px] border rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
           <FaChartBar size={18} />
@@ -72,7 +73,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
       </div>
       <div className="flex px-4 pt-2 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Comparativo anual por cor/raça</h1>
+          <h1 className="font-bold text-sm md:text-xl leading-none">Comparativo anual por cor/raça</h1>
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -87,7 +88,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig4} className="h-[450px] px-4 pb-2 w-full">
+      <ChartContainer config={chartConfig4} className="h-[300px] md:h-[450px] px-4 pb-2 w-full">
         <BarChart accessibilityLayer data={formatedData}>
           <XAxis
             dataKey="year"
@@ -109,17 +110,18 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
             tickLine={true} // remove os traços dos ticks, opcional
             axisLine={false} // exibe a linha do eixo
             tick={false}
-            // tick={{ fontSize: 12, fontWeight: 'bold', fill: '#333' }}  // estilo do texto
             tickFormatter={(val) => val} // formata os números se quiser (ex: 1k, 2k)
-            width={20} // largura reservada para os números
+            width={isMobile ? 0 : 20}// largura reservada para os números
           >
-            <Label
-              value="Quantidade"
-              offset={0}
-              angle={-90}
-              position="center"
-              style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
-            />
+            {!isMobile && (
+              <Label
+                value="Quantidade"
+                offset={0}
+                angle={-90}
+                position={filter === 'Todos' ? 'center' : 'insideTop'}
+                style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
+              />
+            )}
           </YAxis>
           <ChartTooltip
             content={({ payload }) => {
@@ -150,16 +152,16 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-4 mb-4 ">
+              <div className="flex items-center justify-center flex-wrap mb-2 border-red-500">
                 {payload?.map((entry, index) => {
                   const conf = chartConfig4[entry.value as keyof typeof chartConfig4];
                   return (
-                    <div key={index} className="flex items-center gap-2">
+                    <div key={index} className="flex items-center  gap-[2px] md:gap-1 ml-[6px] md:ml-2  leading-tight md:leading-normal">
                       <span
-                        className="w-3 h-3 rounded-full"
+                        className="w-[6px] md:w-2 h-[6px] md:h-2 rounded-full"
                         style={{ backgroundColor: conf?.color ?? '#999' }}
                       />
-                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold', fontSize: isMobile ? 9 : 11 }}>
                         {conf?.label ?? entry.value}
                       </span>
                     </div>
@@ -197,7 +199,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 7 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -237,7 +239,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 7 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -277,7 +279,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 7 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -317,7 +319,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 7 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -357,7 +359,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 7 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -397,7 +399,7 @@ export function StackedBarChartCor({ chartData }: StackedBarChartProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 7 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}

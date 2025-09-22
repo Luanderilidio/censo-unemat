@@ -1,7 +1,6 @@
 'use client';
 
-import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { faker } from '@faker-js/faker';
+import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts'; 
 
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '../../ui/chart';
 import { useState } from 'react';
@@ -22,6 +21,7 @@ import { FaChartLine, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig5 } from './data';
 import { DataEntrantsForm } from '../SchemaEntrants';
+import { useDeviceType } from '../../../utils/mediaQuery';
 
 export const description = 'A line chart with a label';
 
@@ -30,6 +30,7 @@ type ChartMultLineFormaProps = {
 };
 
 export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
+  const { isMobile } = useDeviceType();
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
@@ -44,10 +45,52 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
     | 'Vaga_Remanescente'
     | 'Programa_Especial'
     | 'Outra_Forma'
-  >('Vestibular');
+  >('Todos');
+
+  const SimpleDot = ({ cx, cy, fill, stroke, r = 10, isActive = false }: any) => {
+    if (cx === undefined || cy === undefined) return null;
+    return (
+      <circle
+        cx={cx}
+        cy={cy}
+        r={isActive ? r + 5 : r} // cresce quando ativo
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={isActive ? 0 : 8}
+      />
+    );
+  };
+
+  const CustomDot = ({ cx, cy, value, stroke, fill, r = 20, isActive = false }: any) => {
+    if (cx === undefined || cy === undefined) return null;
+    return (
+      <g>
+        {/* bolinha */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={isActive ? r + 10 : r} // cresce quando ativo
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={isActive ? 0 : 8}
+        />
+        {/* texto dentro */}
+        <text
+          x={cx}
+          y={cy + 2}
+          textAnchor="middle"
+          fill="#fff"
+          fontSize={isActive ? 10 : 5}
+          fontWeight="bold"
+        >
+          {value}
+        </text>
+      </g>
+    );
+  };
 
   return (
-    <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
+   <div className="md:!h-[600px] border-red-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
           <FaChartLine size={18} />
@@ -59,7 +102,7 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
       </div>
       <div className="flex px-4 pt-4 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Evolução das formas de ingresso</h1>
+          <h1 className="font-bold text-sm md:text-xl leading-none">Evolução das formas de ingresso</h1>
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -78,7 +121,7 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig5} className="h-[460px] p-4 w-full">
+      <ChartContainer config={chartConfig5} className="h-[300px] md:h-[460px] px-1 pb-2 w-full">
         <LineChart
           accessibilityLayer
           data={chartData}
@@ -123,25 +166,22 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
           </YAxis>
           <ChartLegend
             verticalAlign="top"
-            content={() => (
-              <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2 mt-3">
-                {Object.entries(chartConfig5).map(([key, conf]) => (
-                  <div key={key} className="flex items-center gap-1">
-                    <span
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: conf?.color ?? '#999' }}
-                    />
-                    <span
-                      style={{
-                        color: conf?.color ?? '#999',
-                        fontWeight: 'bold',
-                        fontSize: 11,
-                      }}
-                    >
-                      {conf?.label ?? key}
-                    </span>
-                  </div>
-                ))}
+            content={({ payload }) => (
+              <div className="flex items-center justify-center flex-wrap md:gap-3 mb-3 ">
+                {payload?.map((entry, index) => {
+                  const conf = chartConfig5[entry.value as keyof typeof chartConfig5];
+                  return (
+                    <div key={index} className="flex items-center ml-[6px] gap-1 leading-tight">
+                      <span
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: conf?.color ?? '#999' }}
+                      />
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold', fontSize: isMobile ? 9 : 11 }}>
+                        {conf?.label ?? entry.value}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             )}
           />
@@ -153,16 +193,24 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Vestibular'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Vestibular'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Vestibular'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Vestibular'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Vestibular'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              <LabelList
-                position="top"
-                offset={15}
-                fill={chartConfig5['Vestibular'].color}
-                fontSize={15}
-                fontWeight={'bold'}
-              />
+              {filter !== 'Todos' && !isMobile && (
+                <LabelList
+                  position="top"
+                  offset={15}
+                  fill={chartConfig5['Vestibular'].color}
+                  fontSize={15}
+                  fontWeight={'bold'}
+                />
+              )}
             </Line>
           )}
           {(filter === 'Todos' || filter === 'Enem') && (
@@ -171,16 +219,24 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Enem'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Enem'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Enem'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Enem'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Enem'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              <LabelList
-                position="top"
-                offset={10}
-                fill={chartConfig5['Enem'].color}
-                fontSize={15}
-                fontWeight={'bold'}
-              />
+              {filter !== 'Todos' && !isMobile && (
+                <LabelList
+                  position="top"
+                  offset={15}
+                  fill={chartConfig5['Enem'].color}
+                  fontSize={15}
+                  fontWeight={'bold'}
+                />
+              )}
             </Line>
           )}
           {(filter === 'Todos' || filter === 'Avaliacao_Seriada') && (
@@ -189,10 +245,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Avaliacao_Seriada'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Avaliacao_Seriada'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Avaliacao_Seriada'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Avaliacao_Seriada'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Avaliacao_Seriada'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -209,10 +271,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Selecao_Simplificada'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Selecao_Simplificada'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Selecao_Simplificada'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Selecao_Simplificada'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Selecao_Simplificada'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -229,10 +297,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['EGR'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['EGR'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['EGR'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['EGR'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['EGR'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -249,10 +323,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Outro_Tipo_Selecao'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Outro_Tipo_Selecao'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Outro_Tipo_Selecao'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Outro_Tipo_Selecao'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Outro_Tipo_Selecao'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -269,10 +349,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Processo_Seletivo'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Processo_Seletivo'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Processo_Seletivo'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Processo_Seletivo'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Processo_Seletivo'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -290,10 +376,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Vaga_Remanescente'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Vaga_Remanescente'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Vaga_Remanescente'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Vaga_Remanescente'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Vaga_Remanescente'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -310,10 +402,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Programa_Especial'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Programa_Especial'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Programa_Especial'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Programa_Especial'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Programa_Especial'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}
@@ -330,10 +428,16 @@ export function ChartMultLineForma({ chartData }: ChartMultLineFormaProps) {
               type="linear"
               stroke={chartConfig5['Outra_Forma'].color}
               strokeWidth={2}
-              dot={{ fill: chartConfig5['Outra_Forma'].color }}
+              dot={
+                filter === 'Todos'
+                  ? { fill: chartConfig5['Outra_Forma'].color } // dot simples
+                  : isMobile
+                    ? (props) => <CustomDot {...props} fill={chartConfig5['Outra_Forma'].color} /> // mobile = dot customizado
+                    : (props) => <SimpleDot {...props} fill={chartConfig5['Outra_Forma'].color} /> // desktop = dot normal
+              }
               activeDot={{ r: 6 }}
             >
-              {filter !== 'Todos' && (
+              {filter !== 'Todos' && !isMobile && (
                 <LabelList
                   position="top"
                   offset={15}

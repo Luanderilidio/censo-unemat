@@ -20,7 +20,7 @@ import { ChartPieTurno } from './3 - Agrupamento/ChartPieTurno';
 import { ChartMultLineCor } from './4 - Agrupamento/ChartMultLineCor';
 import { ChartPieCor } from './4 - Agrupamento/ChartPieCor';
 import { StackedBarChartCor } from './4 - Agrupamento/ChartStackBarCor';
-import { StackedBarChartForma } from './5 - Agrupamento/ChartStackBarForma'; 
+import { StackedBarChartForma } from './5 - Agrupamento/ChartStackBarForma';
 import { ChartMultLineForma } from './5 - Agrupamento/ChartMultLineForma';
 import { EntrantsData } from './SchemaEntrants';
 import CountUp from 'react-countup';
@@ -46,14 +46,14 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
     setExpanded(!expanded);
   };
 
-  const theme = useTheme(); 
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <div className=" bg-gray-300/40 rounded-lg shadow-md font-Roboto">
       <div className="w-full flex p-4 items-center justify-between cursor-pointer" onClick={handleExpandClick} >
         <div className="flex items-center justify-start gap-2 text-black/60">
           <TiChartPie size={50} />
-          <h1 className="text-4xl font-semibold ">Ingressantes</h1>
+          <h1 className="text-2xl md:text-4xl font-semibold ">Ingressantes</h1>
         </div>
         <ExpandMore
           expand={expanded}
@@ -62,12 +62,12 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
         </ExpandMore>
       </div>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent  className="grid grid-cols-15 gap-4 border-red-500  !p-2 md:p-4">
+        <CardContent className="grid grid-cols-15 gap-4 border-red-500  !p-2 md:p-4">
           <div className="col-span-15 grid grid-cols-12 border-blue-500 rounded-lg bg-white shadow-md">
             <div className="col-span-12 border-b ">
               <div className="flex px-4 pt-4 pb-2 items-center justify-between gap-1 text-black/70">
                 <div className="flex items-center gap-1 justify-start">
-                  <FaChartLine  size={isMobile ? 10 : 18} />
+                  <FaChartLine size={isMobile ? 10 : 18} />
                   <h1 className="font-semibold text-xs md:text-sm">Gráfico de Linha</h1>
                 </div>
                 <IconButton>
@@ -95,7 +95,7 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
                   />
                 </h2>
               </div>
-            </div> 
+            </div>
             <div className="col-span-12 border-purple-500 h-[300px] md:h-[450px]">
               <ChartLineQtd chartData={data?.entrantsQtd} />
             </div>
@@ -107,9 +107,9 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
             className="col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer"
             onClick={toggleSex}
           >
-            <h1 className=" text-3xl font-bold">Sexo</h1>
+            <h1 className=" text-2xl md:text-3xl font-bold leading-none">Sexo dos Ingressantes</h1>
             <div className="flex items-center justify-center gap-1">
-              <h1 className=" text-sm font-bold">1° Agrupamento </h1>
+              <h1 className=" text-sm font-bold whitespace-nowrap">1° Agrupamento </h1>
               <ExpandMore expand={expandSex}>
                 <ExpandMoreIcon />
               </ExpandMore>
@@ -131,40 +131,41 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
           </Collapse>
 
           {/* 2° - Agrupamento - Idade */}
-          {/* <div
+          <div
             className="col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer"
             onClick={toggleAge}
           >
-            <h1 className=" text-3xl font-bold">Idade dos Ingressantes</h1>
+            <h1 className=" text-2xl md:text-3xl font-bold leading-none">Idade dos Ingressantes</h1>
             <div className="flex items-center justify-center gap-1">
-              <h1 className=" text-sm font-bold">2° Agrupamento </h1>
+              <h1 className=" text-sm font-bold leading-none whitespace-nowrap">2° Agrupamento </h1>
               <ExpandMore expand={expandAge}>
                 <ExpandMoreIcon />
               </ExpandMore>
             </div>
-          </div> */}
-          {/* <Collapse in={expandAge} timeout="auto" className="col-span-15 " unmountOnExit>
-          <div className="grid grid-cols-15 gap-4">
-            <div className="col-span-8 border-red-500">
-              <StackedBarChartIdade chartData={data?.entrantsAge} />
-            </div>
-            <div className="col-span-7 border-red-500">
-              <ChartPieIdade chartData={data?.entrantsAge} />
-            </div>
-            <div className="col-span-15 border-red-500">
-              <ChartMultLineIdade chartData={data?.entrantsAge} />
-            </div>
           </div>
-          </Collapse> */}
 
-          {/* 2° - Agrupamento - Idade */}
-          {/* <div
+          <Collapse in={expandAge} timeout="auto" className="col-span-15 " unmountOnExit>
+            <div className="grid grid-cols-15 gap-4">
+              <div className="col-span-15 md:col-span-8 border-red-500">
+                <StackedBarChartIdade chartData={data?.entrantsAge} />
+              </div>
+              <div className="col-span-15 md:col-span-7 border-red-500">
+                <ChartPieIdade chartData={data?.entrantsAge} />
+              </div>
+              <div className="col-span-15 border-red-500">
+                <ChartMultLineIdade chartData={data?.entrantsAge} />
+              </div>
+            </div>
+          </Collapse>
+
+          {/* 2° - Agrupamento - Turno */}
+          <div
             className=" col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer "
             onClick={toggleShift}
           >
-            <h1 className=" text-3xl font-bold">Turno dos Ingressantes</h1>
+            <h1 className=" text-2xl md:text-3xl font-bold leading-none">Turno dos Ingressantes</h1>
             <div className="flex items-center justify-center gap-1">
-              <h1 className=" text-sm font-bold">3° Agrupamento </h1>
+              <h1 className=" text-sm font-bold leading-none whitespace-nowrap">3° Agrupamento </h1>
               <ExpandMore expand={expandShift}>
                 <ExpandMoreIcon />
               </ExpandMore>
@@ -172,26 +173,26 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
           </div>
           <Collapse in={expandShift} timeout="auto" className="col-span-15 " unmountOnExit>
             <div className="grid grid-cols-15 gap-4">
-              <div className="col-span-8 border-red-500">
+              <div className="col-span-15 md:col-span-8 border-red-500">
                 <StackedBarChartTurno chartData={data?.entrantsShift} />
               </div>
-              <div className="col-span-7 border-red-500">
+              <div className="col-span-15 md:col-span-7 border-red-500">
                 <ChartPieTurno chartData={data?.entrantsShift} />
               </div>
               <div className="col-span-15 border-red-500">
                 <ChartMultLineTurno chartData={data?.entrantsShift} />
               </div>
             </div>
-          </Collapse> */}
+          </Collapse>
 
-          {/* 5° - Agrupamento - Idade */}
-          {/* <div
+          {/* 5° - Agrupamento - Formas */}
+          <div
             className="col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer"
             onClick={toggleForm}
           >
-            <h1 className=" text-3xl font-bold">Forma de Ingresso</h1>
+            <h1 className=" text-2xl md:text-3xl font-bold leading-none">Forma de Ingresso</h1>
             <div className="flex items-center justify-center gap-1">
-              <h1 className=" text-sm font-bold">4° Agrupamento </h1>
+              <h1 className=" text-sm font-bold leading-none whitespace-nowrap">4° Agrupamento </h1>
               <ExpandMore expand={expandForm}>
                 <ExpandMoreIcon />
               </ExpandMore>
@@ -199,26 +200,26 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
           </div>
           <Collapse in={expandForm} timeout="auto" className="col-span-15 " unmountOnExit>
             <div className="grid grid-cols-15 gap-4">
-              <div className="col-span-8 border-red-500">
+              <div className="col-span-15 md:col-span-8 border-red-500">
                 <StackedBarChartForma chartData={data?.entrantsForm} />
               </div>
-              <div className="col-span-7 border-red-500">
+              <div className="col-span-15 md:col-span-7 border-red-500">
                 <ChartPieForma chartData={data?.entrantsForm} />
               </div>
               <div className="col-span-15 border-red-500">
                 <ChartMultLineForma chartData={data?.entrantsForm} />
               </div>
             </div>
-          </Collapse> */}
+          </Collapse>
 
           {/* 5° - Agrupamento - Idade */}
-          {/* <div
+          <div
             className="col-span-15 flex items-center justify-between mt-10 text-black/50 cursor-pointer"
             onClick={toggleColor}
           >
-            <h1 className=" text-3xl font-bold">Cor dos Ingressantes</h1>
+            <h1 className=" text-2xl md:text-3xl font-bold leading-none">Cor dos Ingressantes</h1>
             <div className="flex items-center justify-center gap-1">
-              <h1 className=" text-sm font-bold">5° Agrupamento </h1>
+              <h1 className=" text-sm font-bold leading-none whitespace-nowrap">5° Agrupamento </h1>
               <ExpandMore expand={expandColor}>
                 <ExpandMoreIcon />
               </ExpandMore>
@@ -226,17 +227,17 @@ export default function IngressantesMain({ data }: IngressantesMainProps) {
           </div>
           <Collapse in={expandColor} timeout="auto" className="col-span-15 " unmountOnExit>
             <div className="grid grid-cols-15 gap-4">
-              <div className="col-span-8 border-red-500">
+              <div className="col-span-15 md:col-span-8 border-red-500">
                 <StackedBarChartCor chartData={data?.entrantsColor} />
               </div>
-              <div className="col-span-7 border-red-500">
+              <div className="col-span-15 md:col-span-7 border-red-500">
                 <ChartPieCor chartData={data?.entrantsColor} />
               </div>
               <div className="col-span-15 border-red-500">
                 <ChartMultLineCor chartData={data?.entrantsColor} />
               </div>
             </div>
-          </Collapse> */}
+          </Collapse>
         </CardContent>
       </Collapse>
     </div>

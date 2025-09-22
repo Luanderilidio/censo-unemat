@@ -1,15 +1,10 @@
-'use client';
-
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Bar, BarChart, Label, LabelList, XAxis, YAxis } from 'recharts';
-import {
-  ChartConfig,
+import { 
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
+  ChartTooltip, 
   ChartLegend,
-} from '../../ui/chart';
-import { faker } from '@faker-js/faker';
+} from '../../ui/chart'; 
 import {
   Button,
   Dialog,
@@ -27,12 +22,15 @@ import { FaChartBar, FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig2 } from './data';
 import { DataEntrantsAge } from '../SchemaEntrants';
+import { useDeviceType } from '../../../utils/mediaQuery';
 
 type StackedBarChartIdadeProps = {
   chartData?: DataEntrantsAge;
 };
 
 export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
+  const { isMobile } = useDeviceType();
+
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
 
   const [filter, setFilter] = useState<
@@ -84,7 +82,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
   });
 
   return (
-    <div className="!h-[600px] boder  border-red-500 rounded-lg bg-white shadow-md">
+    <div className="h-[430px] md:!h-[600px] border rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
           <FaChartBar size={18} />
@@ -96,7 +94,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
       </div>
       <div className="flex px-4 pt-2 pb-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Distribuição anual por faixa etária</h1> 
+          <h1 className="font-bold text-sm md:text-xl leading-none">Distribuição anual por faixa etária</h1>
         </div>
         <FormControl size="small" className="w-40">
           <InputLabel>Filtro</InputLabel>
@@ -113,7 +111,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
           </Select>
         </FormControl>
       </div>
-      <ChartContainer config={chartConfig2} className="h-[450px] px-4 pb-2 w-full">
+      <ChartContainer config={chartConfig2} className="h-[300px] md:h-[450px] px-4 pb-2 w-full">
         <BarChart accessibilityLayer data={formatedData}>
           <XAxis
             dataKey="year"
@@ -132,20 +130,21 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
           </XAxis>
           <YAxis
             domain={filter === 'Todos' ? [0, 100] : [0, 'auto']}
-            tickLine={true} // remove os traços dos ticks, opcional
-            axisLine={false} // exibe a linha do eixo
+            tickLine={true}
+            axisLine={false}
             tick={false}
-            // tick={{ fontSize: 12, fontWeight: 'bold', fill: '#333' }}  // estilo do texto
-            tickFormatter={(val) => val} // formata os números se quiser (ex: 1k, 2k)
-            width={20} // largura reservada para os números
+            tickFormatter={(val) => val}
+            width={isMobile ? 0 : 20}
           >
-            <Label
-              value="Quantidade"
-              offset={0}
-              angle={-90}
-              position={filter === 'Todos' ? 'center' : 'insideTop'}
-              style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
-            />
+            {!isMobile && (
+              <Label
+                value="Quantidade"
+                offset={0}
+                angle={-90}
+                position={filter === 'Todos' ? 'center' : 'insideTop'}
+                style={{ textAnchor: 'middle', fontWeight: 'bold', fontSize: 14 }}
+              />
+            )}
           </YAxis>
           <ChartTooltip
             content={({ payload }) => {
@@ -176,16 +175,16 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
           <ChartLegend
             verticalAlign="top"
             content={({ payload }) => (
-              <div className="flex items-center justify-center flex-wrap gap-3 mb-3">
+              <div className="flex items-center justify-center flex-wrap mb-1 border-red-500">
                 {payload?.map((entry, index) => {
                   const conf = chartConfig2[entry.value as keyof typeof chartConfig2];
                   return (
-                    <div key={index} className="flex items-center gap-1">
+                    <div key={index} className="flex items-center  gap-[2px] md:gap-1 ml-[6px] md:ml-2  leading-tight md:leading-normal">
                       <span
-                        className="w-2 h-2 rounded-full"
+                        className="w-[6px] md:w-2 h-[6px] md:h-2 rounded-full"
                         style={{ backgroundColor: conf?.color ?? '#999' }}
                       />
-                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold' }}>
+                      <span style={{ color: conf?.color ?? '#999', fontWeight: 'bold', fontSize: isMobile ? 9 : 11 }}>
                         {conf?.label ?? entry.value}
                       </span>
                     </div>
@@ -205,7 +204,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                 dataKey="Ing_0_17"
                 position={filter === 'Todos' ? 'center' : 'insideTop'}
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
+                className="font-bold text-[.35rem] md:text-xs font-Roboto"
                 content={(props) => {
                   const { x, y, width, height, value } = props;
                   const numericValue = Number(value ?? 0);
@@ -223,7 +222,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 8 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -245,7 +244,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                 dataKey="Ing_18_24"
                 position={filter === 'Todos' ? 'center' : 'insideTop'}
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
+                className="font-bold text-[.35rem] md:text-xs font-Roboto"
                 content={(props) => {
                   const { x, y, width, height, value } = props;
                   const numericValue = Number(value ?? 0);
@@ -263,7 +262,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 8 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -285,7 +284,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                 dataKey="Ing_25_29"
                 position={filter === 'Todos' ? 'center' : 'insideTop'}
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
+                className="font-bold text-[.35rem] md:text-xs font-Roboto"
                 content={(props) => {
                   const { x, y, width, height, value } = props;
                   const numericValue = Number(value ?? 0);
@@ -303,7 +302,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 8 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -325,7 +324,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                 dataKey="Ing_30_34"
                 position={filter === 'Todos' ? 'center' : 'insideTop'}
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
+                className="font-bold text-[.35rem] md:text-xs font-Roboto"
                 content={(props) => {
                   const { x, y, width, height, value } = props;
                   const numericValue = Number(value ?? 0);
@@ -343,7 +342,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 8 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)} {filter === 'Todos' && '% '}
@@ -364,7 +363,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                 dataKey="Ing_35_39"
                 position={filter === 'Todos' ? 'center' : 'insideTop'}
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
+                className="font-bold text-[.35rem] md:text-xs font-Roboto"
                 content={(props) => {
                   const { x, y, width, height, value } = props;
                   const numericValue = Number(value ?? 0);
@@ -382,7 +381,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 8 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -404,7 +403,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                 dataKey="Ing_40_49"
                 position={filter === 'Todos' ? 'center' : 'insideTop'}
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
+                className="font-bold text-[.35rem] md:text-xs font-Roboto"
                 content={(props) => {
                   const { x, y, width, height, value } = props;
                   const numericValue = Number(value ?? 0);
@@ -422,7 +421,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 8 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -444,7 +443,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                 dataKey="Ing_50_59"
                 position={filter === 'Todos' ? 'center' : 'insideTop'}
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
+                className="font-bold text-[.35rem] md:text-xs font-Roboto"
                 content={(props) => {
                   const { x, y, width, height, value } = props;
                   const numericValue = Number(value ?? 0);
@@ -462,7 +461,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 8 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
@@ -484,7 +483,7 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                 dataKey="Ing_60_mais"
                 position={filter === 'Todos' ? 'center' : 'insideTop'}
                 fill="#FFF"
-                className="font-bold text-xs font-Roboto"
+                className="font-bold text-[.35rem] md:text-xs font-Roboto"
                 content={(props) => {
                   const { x, y, width, height, value } = props;
                   const numericValue = Number(value ?? 0);
@@ -502,11 +501,11 @@ export function StackedBarChartIdade({ chartData }: StackedBarChartIdadeProps) {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill="#FFF"
-                      fontSize={12}
+                      fontSize={isMobile ? 8 : 12}
                       fontWeight="bold"
                     >
                       {numericValue.toFixed(0)}
-                      {filter === 'Todos' && '% '}
+                      {filter === 'Todos' && '%'}
                     </text>
                   );
                 }}

@@ -1,13 +1,7 @@
-'use client';
-
-import { TrendingUp } from 'lucide-react';
-import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { faker } from '@faker-js/faker';
-
+import { CartesianGrid, Label, LabelList, Line, LineChart, XAxis, YAxis } from 'recharts'; 
 import {
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
+  ChartLegend, 
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart';
@@ -38,11 +32,11 @@ type ChartMultLineSexoProps = {
 };
 
 export function ChartMultLineSexo({ chartData }: ChartMultLineSexoProps) {
-  const { isMobile } = useDeviceType();
   const [dialog, openDialog, closeDialog, toggleDialog] = useBoolean();
-
+  
   const [filter, setFilter] = useState<'Todos' | 'Masculino' | 'Feminino'>('Todos');
-
+  
+  const { isMobile } = useDeviceType();
   const SimpleDot = ({ cx, cy, fill, stroke, r = 10, isActive = false }: any) => {
     if (cx === undefined || cy === undefined) return null;
     return (

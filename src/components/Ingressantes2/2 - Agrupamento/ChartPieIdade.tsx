@@ -1,6 +1,5 @@
-import { Pie, PieChart, LabelList, Cell } from 'recharts';
-import { RiPieChart2Line } from 'react-icons/ri';
-import { faker } from '@faker-js/faker';
+import { Pie, PieChart, Cell } from 'recharts';
+import { RiPieChart2Line } from 'react-icons/ri'; 
 import { ChartContainer, ChartLegend, ChartTooltip, ChartTooltipContent } from '../../ui/chart';
 import {
   Button,
@@ -15,12 +14,15 @@ import { FaQuestionCircle } from 'react-icons/fa';
 import { useBoolean } from 'react-hooks-shareable';
 import { chartConfig2 } from './data';
 import { DataEntrantsAge } from '../SchemaEntrants';
+import { useDeviceType } from '../../../utils/mediaQuery';
 
 type ChartMultLineIdadeProps = {
   chartData?: DataEntrantsAge;
 };
 
 export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
+  const { isMobile } = useDeviceType();
+
   const originalData = chartData || [];
 
   const ageKeys = [
@@ -101,7 +103,7 @@ export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
   };
 
   return (
-    <div className="w-full h-[600px] border-red-500 rounded-lg bg-white shadow-md">
+    <div className="w-full h-[410px] md:h-[600px] border-blue-500 rounded-lg bg-white shadow-md">
       <div className="flex px-4 pt-4 pb-2 border-b items-center justify-between gap-1 text-black/70">
         <div className="flex items-center gap-1 justify-start">
           <RiPieChart2Line size={18} />
@@ -113,12 +115,12 @@ export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
       </div>
       <div className="flex px-4 pt-2  items-center justify-between gap-1 text-black/70">
         <div className="flex flex-col items-start gap-1 justify-start">
-          <h1 className="font-bold text-xl">Proporção total por faixa etária</h1>
+          <h1 className="font-bold text-sm md:text-xl leading-none">Proporção total por faixa etária</h1>
         </div>
       </div>
       <ChartContainer
         config={chartConfig2}
-        className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[500px] px-4 pb-2 w-full"
+        className="[&_.recharts-pie-label-text]:fill-foreground mx-auto aspect-square h-[300px] md:h-[475px] px-4 pb-2 w-full border-red-500"
       >
         <PieChart>
           <ChartTooltip content={<ChartTooltipContent nameKey="idade" />} />
@@ -173,9 +175,9 @@ export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
           <ChartLegend
             verticalAlign="top"
             content={() => (
-              <div className="w-full flex items-center justify-center leading-none flex-wrap gap-2 mt-3">
+              <div className="w-full flex items-center justify-center leading-none flex-wrap mt-3">
                 {Object.entries(chartConfig2).map(([key, conf]) => (
-                  <div key={key} className="flex items-center gap-1">
+                  <div key={key} className="flex items-center gap-[2px] md:gap-1 ml-2 leading-normal">
                     <span
                       className="w-2 h-2 rounded-full"
                       style={{ backgroundColor: conf?.color ?? '#999' }}
@@ -184,7 +186,7 @@ export function ChartPieIdade({ chartData }: ChartMultLineIdadeProps) {
                       style={{
                         color: conf?.color ?? '#999',
                         fontWeight: 'bold',
-                        fontSize: 11,
+                        fontSize: isMobile ? 9 : 11
                       }}
                     >
                       {conf?.label ?? key}

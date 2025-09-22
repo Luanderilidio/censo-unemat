@@ -24,6 +24,50 @@ type ChartLineQtdProps = {
 };
 
 export function ChartLineQtd({ chartData }: ChartLineQtdProps) {
+
+  const SimpleDot = ({ cx, cy, fill, stroke, r = 10, isActive = false }: any) => {
+    if (cx === undefined || cy === undefined) return null;
+    return (
+      <circle
+        cx={cx}
+        cy={cy}
+        r={isActive ? r + 5 : r} // cresce quando ativo
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={isActive ? 0 : 8}
+      />
+    );
+  };
+
+  const CustomDot = ({ cx, cy, value, stroke, fill, r = 20, isActive = false }: any) => {
+    if (cx === undefined || cy === undefined) return null;
+    return (
+      <g>
+        {/* bolinha */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={isActive ? r + 10 : r} // cresce quando ativo
+          fill={fill}
+          stroke={stroke}
+          strokeWidth={isActive ? 0 : 8}
+        />
+        {/* texto dentro */}
+        <text
+          x={cx}
+          y={cy + 2}
+          textAnchor="middle"
+          fill="#fff"
+          fontSize={isActive ? 10 : 5}
+          fontWeight="bold"
+        >
+          {value}
+        </text>
+      </g>
+    );
+  };
+
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   return (
@@ -90,26 +134,46 @@ export function ChartLineQtd({ chartData }: ChartLineQtdProps) {
         />
 
         <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
+
         <Line
           dataKey="Ingressantes"
           type="linear"
-          stroke="#F54927"
-          strokeWidth={2}
-          dot={{
-            fill: '#F54927',
-          }}
-          activeDot={{
-            r: 6,
-          }}
+          stroke={chartConfig['Ingressantes'].color}
+          strokeWidth={3}
+          dot={
+            isMobile
+              ? (props) => (
+                <CustomDot
+                  {...props}
+                  fill={chartConfig['Ingressantes'].color}
+                  stroke={chartConfig['Ingressantes'].color}
+                />
+              )
+              : (props) => (
+                <SimpleDot
+                  {...props}
+                  fill={chartConfig['Ingressantes'].color}
+                  stroke={chartConfig['Ingressantes'].color}
+                />
+              )
+          }
+          activeDot={
+            isMobile
+              ? (props) => (
+                <CustomDot {...props} fill={chartConfig['Ingressantes'].color} isActive />
+              )
+              : (props) => (
+                <SimpleDot {...props} fill={chartConfig['Ingressantes'].color} isActive />
+              )
+          }
         >
-           
           {!isMobile && (
             <LabelList
               position="top"
-              offset={12}
-              fill="#F54927"
+              offset={15}
+              fill={chartConfig['Ingressantes'].color}
               fontSize={15}
-              fontWeight={'bold'}
+              fontWeight="bold"
             />
           )}
         </Line>
