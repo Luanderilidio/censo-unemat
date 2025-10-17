@@ -14,6 +14,7 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import SchoolIcon from '@mui/icons-material/School';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { TbTools } from 'react-icons/tb';
+import { HiCode } from "react-icons/hi";
 import SearchIcon from '@mui/icons-material/Search';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import WifiIcon from '@mui/icons-material/Wifi';
@@ -32,7 +33,7 @@ export default function Home2() {
   const [data, setData] = useState<EntrantsData>();
   const [expanded, setExpanded] = useState(false);
   const [expandedFilter, setExpandedFilter] = useState(false);
-  const [years, setYears] = useState<[number, number]>([2009, 2023]);
+  const [years, setYears] = useState<[number, number]>([2009, 2024]);
   const [city, setCity] = useState<string | null>(null);
   const [course, setCourse] = useState<string | null>(null);
   const [modality, setModality] = useState<string | null>(null);
@@ -237,12 +238,16 @@ export default function Home2() {
                   onChange={(_, newValue) => setDegree(newValue)}
                   renderInput={(params) => <TextField {...params} label="Grau Acadêmico" />}
                   renderOption={(props, option) => (
+
+
+
                     <li {...props} key={option}>
                       <div className="flex gap-2 items-center justify-center">
                         {option === 'BACHARELADO' && <MdWork size={15} />}
+                        {option === 'BACHARELADO E LICENCIATURA' && <TbTools size={15} />}
                         {option === 'LICENCIATURA' && <FaChalkboardTeacher size={15} />}
-                        {option === 'TECNOLOGICO' && <TbTools size={15} />}
-                        <p className={'!text-sm !font-semibold leading-none'}>{option}</p>
+                        {option === 'TECNOLOGICO' && <HiCode size={15} />}
+                        <p className={'!text-xs !font-semibold leading-none'}>{option}</p>
                       </div>
                     </li>
                   )}
@@ -261,7 +266,7 @@ export default function Home2() {
                   max={Number(anos[anos.length - 1])}
                   step={1}
                   marks={[
-                    ...Array.from({ length: 2023 - 2009 + 1 }, (_, i) => ({
+                    ...Array.from({ length: 2024 - 2009 + 1 }, (_, i) => ({
                       value: 2009 + i,
                       //   label: String(2010 + i),
                     })),
